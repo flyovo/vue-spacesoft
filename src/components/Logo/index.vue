@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import LogoImage from '@/assets/images/logo.svg';
 
 export default defineComponent({
   name: 'Logo',
@@ -8,16 +7,11 @@ export default defineComponent({
     width: { type: String, required: true },
     height: { type: String, required: true }
   }
-  //   components: {
-  //     LogoImage
-  //   }
 });
 </script>
 
 <template>
-  <!-- width="{width}" height="{height}" -->
   <a class="img-wrapper" href="/" :style="{ width: width, height: height }">
-    <!-- <LogoImage /> -->
     <img />
   </a>
 </template>
