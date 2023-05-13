@@ -144,7 +144,6 @@ export default defineComponent({
                   color: '#6c7780',
                   fontSize: '14px'
                 }">
-                <user-outlined />
                 {{ child.label }}
               </a-menu-item>
             </a-sub-menu>
