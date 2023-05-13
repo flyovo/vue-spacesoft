@@ -88,7 +88,9 @@ export default defineComponent({
             color: '#f0f4fc',
             borderBottom: 'unset',
             fontSize: '15px',
-            marginLeft: '34px'
+            marginLeft: '34px',
+            height: '100%',
+            padding: '10px 0'
           }">
           <a-menu-item
             v-for="menu in headerMenu"
@@ -124,7 +126,7 @@ export default defineComponent({
               <component
                 v-if="menu.icon"
                 :is="menu.icon"
-                :style="{ marginRight: '10px' }"></component>
+                :style="{ marginRight: '10px' }" />
               <router-link :to="menu.key">{{ menu.label }}</router-link>
             </a-menu-item>
             <a-sub-menu v-else :key="menu.key">
@@ -132,7 +134,7 @@ export default defineComponent({
                 <component
                   v-if="menu.icon"
                   :is="menu.icon"
-                  :style="{ marginRight: '10px' }"></component>
+                  :style="{ marginRight: '10px' }" />
                 {{ menu.label }}
               </template>
               <a-menu-item
@@ -191,6 +193,7 @@ export default defineComponent({
 
       a {
         color: #f0f4fc;
+        display: flex;
       }
       &.ant-menu-item-selected a {
         color: #004c8d;
@@ -225,4 +228,26 @@ export default defineComponent({
     border-bottom: 0;
   }
 }
+
+.ant-layout-sider {
+  .ant-menu-item {
+    a {
+      display: inline-block;
+      width: calc(100% - 14px - 10px);
+    }
+  }
+}
 </style>
+
+<!-- 
+.ant-layout-sider {
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    padding: 0 !important;
+    a {
+      display: inline-block;
+      width: calc(100% - 14px - 16px - 10px);
+    }
+  }
+} 
+-->
