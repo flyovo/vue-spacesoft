@@ -21,7 +21,7 @@ function getItem(
   label: string,
   icon?: Node,
   children?: MenuItem[],
-  type?: 'group'
+  type?: string
 ): MenuItem {
   return {
     key,
@@ -42,7 +42,7 @@ export const headerMenu: MenuProps['items'] = [
 
 export const navMenu: MenuProps['items'] = [
   {
-    key: 'sub1',
+    key: 'home',
     icon: HomeOutlined,
     label: `HOME`
   },
