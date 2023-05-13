@@ -1,51 +1,53 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from 'vue';
+import { RouterView, RouterLink } from 'vue-router';
+import HeaderLoginMenu from '@/components/Layout/HeaderLoginMenu.vue';
 import Logo from '@/components/Logo/index.vue';
-import { HEADER_HEIGHT, NAV_WIDTH, headerMenu, navMenu } from './constants.ts';
-import HeaderLoginMenu from './HeaderLoginMenu.vue';
+import { defineComponent, ref, reactive, toRefs } from 'vue';
+import {
+  HEADER_HEIGHT,
+  NAV_WIDTH,
+  headerMenu,
+  navMenu
+} from '@/components/Layout/constants';
 
 export default defineComponent({
   name: 'Layout',
   components: {
     Logo,
-    HeaderLoginMenu
+    HeaderLoginMenu,
+    RouterView,
+    RouterLink
   },
   props: {
-    role: { type: String, required: true, default: 'admin' },
-    userName: { type: String, required: true, default: '홍길동' }
+    role: { type: String, required: false, default: 'admin' },
+    userName: { type: String, required: false, default: '홍길동' }
   },
   setup() {
-    console.log(navMenu);
-
+    console.log('headerMenu ::: ', headerMenu);
     const state = reactive({
       rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-      openHeaderMenuKeys: ['sub1'],
-      selectedHeaderMenuKeys: ['sub1'],
+      selectedHeaderMenuKeys: [],
       openSideMenuKeys: [],
-      selectedSideMenuKeys: []
+      selectedSideMenuKeys: [],
+      headerMenu,
+      navMenu
     });
 
-    const onOpenChange = (openSideMenuKeys: string[]) => {
-      console.log('openSideMenuKeys ::: ', openSideMenuKeys);
-      const latestOpenKey = openSideMenuKeys.find(
-        (key) => state.openSideMenuKeys.indexOf(key) === -1
-      );
-      if (state.rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-        state.openSideMenuKeys = openSideMenuKeys;
-      } else {
-        state.openSideMenuKeys = latestOpenKey ? [latestOpenKey] : [];
-      }
+    const handleHeaderMenuClick = (e: any) => {
+      state.selectedSideMenuKeys = [];
+    };
+
+    const handleSideMenuClick = (e: any) => {
+      state.selectedHeaderMenuKeys = [];
     };
 
     return {
       HEADER_HEIGHT: `${HEADER_HEIGHT}px`,
       NAV_WIDTH: NAV_WIDTH,
-      headerMenu: headerMenu,
-      navMenu: navMenu,
-      onOpenChange,
       ...toRefs(state),
+      handleHeaderMenuClick,
+      handleSideMenuClick,
       // selectedHeaderMenuKeys: ref(['1']),
-      // selectedSideMenuKeys: ref(['1']),
       collapsed: ref(false)
     };
   },
@@ -76,8 +78,8 @@ export default defineComponent({
         }">
         <a-menu
           mode="horizontal"
+          @click="handleHeaderMenuClick"
           v-model:selectedKeys="selectedHeaderMenuKeys"
-          v-model:openKeys="openHeaderMenuKeys"
           :style="{
             display: 'flex',
             flex: 1,
@@ -90,15 +92,13 @@ export default defineComponent({
           }">
           <a-menu-item
             v-for="menu in headerMenu"
-            :key="menu.key"
+            :key="menu?.key"
             :data-type="menu.type">
             <a-divider
-              v-if="menu.key % 2 === 0"
+              v-if="menu?.key % 2 === 0"
               type="vertical"
               :style="{ margin: '0 10px', borderLeft: '1px solid #fff' }" />
-            <span v-else>
-              {{ menu.label }}
-            </span>
+            <router-link v-else :to="menu.key">{{ menu.label }}</router-link>
           </a-menu-item>
         </a-menu>
         <HeaderLoginMenu :role="role" :userName="userName" />
@@ -110,7 +110,7 @@ export default defineComponent({
         :style="{ borderRight: '1px solid #adbecc' }">
         <a-menu
           mode="inline"
-          @openChange="onOpenChange"
+          @click="handleSideMenuClick"
           v-model:selectedKeys="selectedSideMenuKeys"
           v-model:openKeys="openSideMenuKeys"
           :style="{
@@ -120,13 +120,19 @@ export default defineComponent({
             fontSize: '14px'
           }">
           <template v-for="menu in navMenu" :key="menu.key">
-            <a-menu-item v-if="!menu.children" :key="menu.key">
-              <component v-if="menu.icon" :is="menu.icon"></component>
-              {{ menu.label }}
+            <a-menu-item v-if="!menu?.children">
+              <component
+                v-if="menu.icon"
+                :is="menu.icon"
+                :style="{ marginRight: '10px' }"></component>
+              <router-link :to="menu.key">{{ menu.label }}</router-link>
             </a-menu-item>
             <a-sub-menu v-else :key="menu.key">
               <template #title>
-                <component v-if="menu.icon" :is="menu.icon"></component>
+                <component
+                  v-if="menu.icon"
+                  :is="menu.icon"
+                  :style="{ marginRight: '10px' }"></component>
                 {{ menu.label }}
               </template>
               <a-menu-item
@@ -156,7 +162,7 @@ export default defineComponent({
             minHeight: 280,
             backgroundColor: '#e8edf0'
           }">
-          <slot></slot>
+          <router-view />
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -167,7 +173,7 @@ export default defineComponent({
 .ant-layout-header {
   .ant-menu {
     height: 26px;
-    .ant-menu-item {
+    li.ant-menu-item {
       display: flex;
       align-items: center;
       height: 100%;
@@ -181,6 +187,16 @@ export default defineComponent({
           color: #f0f4fc !important;
           background-color: transparent !important;
         }
+      }
+
+      a {
+        color: #f0f4fc;
+      }
+      &.ant-menu-item-selected a {
+        color: #004c8d;
+      }
+      &.ant-menu-item-active a {
+        color: #004c8d;
       }
     }
     .ant-menu-item-divider {
@@ -197,7 +213,7 @@ export default defineComponent({
     ),
   .ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected,
   .ant-menu-light.ant-menu-horizontal > .ant-menu-item:hover::after {
-    color: #004c8d;
+    color: transparent;
     background-color: #f0f4fc;
   }
 
