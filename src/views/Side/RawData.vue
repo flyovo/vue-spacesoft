@@ -63,10 +63,12 @@ export default defineComponent({
 
       if (button.value !== 'all') {
         this.columns = statisticsColumns;
+        this.dataSource = statisticsSourceData;
         return;
       }
 
       this.columns = rawDataColumns;
+      this.dataSource = rawDataSourceData;
     }
   }
 });
@@ -93,16 +95,6 @@ export default defineComponent({
             @click="handleDurationButtonClick(button)">
             {{ button.label }}
           </a-button>
-          <!-- <a-button :value="'all'">전체 날짜</a-button>
-          <a-button :value="'thisMonth'">당월</a-button>
-          <a-button :value="'oneMonth'">1 개월</a-button>
-          <a-button :value="'twoMonth'">2 개월</a-button>
-          <a-button :value="'threeMonth'">3 개월</a-button>
-          <a-button :value="'yearly'">연간 조회</a-button>
-          <a-button :value="'custom'">기간 조회</a-button> -->
-          <!-- <a-button :value="'calendar'"
-            >달력..2022년 07월 29일 ~ 2023 03월 31일</a-button
-          > -->
         </a-button-group>
       </div>
 
@@ -116,9 +108,6 @@ export default defineComponent({
             @click="handleTypeButtonClick(button)">
             {{ button.label }}
           </a-button>
-          <!-- <a-button :value="'all'">수납 전체</a-button>
-          <a-button :value="'outpatient'">외래 수납</a-button>
-          <a-button :value="'interim'">중간금/퇴원 수납</a-button> -->
         </a-button-group>
       </div>
     </div>
