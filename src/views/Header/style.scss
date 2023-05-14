@@ -14,3 +14,27 @@
   margin: 14px 0;
   border: 0.5px solid #adbecc;
 }
+
+.header-ant-button {
+  border: solid 1px #2f3942;
+  background-color: #36424d;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.38;
+  text-align: center;
+  color: #fff;
+
+  :not(:disabled):hover {
+    border: solid 1px #2f3942;
+    background-color: #36424d;
+    color: #fff;
+    font-weight: 400;
+  }
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    border-color: #2f3942;
+    background: #36424d;
+  }
+}

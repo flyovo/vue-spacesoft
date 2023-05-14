@@ -1,24 +1,38 @@
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, reactive, ref, toRefs } from 'vue';
 import { deviceColumn, deviceDataSource } from './constants';
+import GroupManagementModal from '@/components/Modal/GroupManagementModal.vue';
 
 export default defineComponent({
   name: 'DeviceManagement',
   props: {
     title: { type: String, required: false, default: '기기관리' }
   },
+  components: {
+    GroupManagementModal
+  },
   setup() {
+    const visible = ref<boolean>(false);
     const state = reactive({
+      visible: visible,
       deviceColumn: deviceColumn,
       deviceDataSource: deviceDataSource
     });
 
-    const handleClickGroupManegement = (e: any) => {};
+    const handleShowGroupManegement = (e: any) => {
+      visible.value = true;
+    };
 
     return {
       ...toRefs(state),
-      handleClickGroupManegement
+      // handleCancel,
+      handleShowGroupManegement
     };
+  },
+  methods: {
+    handleCancel() {
+      this.visible = false;
+    }
   }
 });
 </script>
@@ -30,7 +44,7 @@ export default defineComponent({
       <a-button
         class="antd-styled-button"
         :style="{ height: '34px' }"
-        @click="handleClickGroupManegement">
+        @click="handleShowGroupManegement">
         그룹 관리
       </a-button>
       <a-button class="antd-styled-button" :style="{ height: '34px' }">
@@ -46,6 +60,7 @@ export default defineComponent({
       :showHeader="true"
       :pagination="false" />
   </section>
+  <GroupManagementModal :visible="visible" :closeModal="handleCancel" />
 </template>
 
 <style scoped lang="scss">
