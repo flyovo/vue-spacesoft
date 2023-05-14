@@ -50,13 +50,23 @@ export const navMenu: MenuProps['items'] = [
     key: 'sub2',
     icon: MedicineBoxOutlined,
     label: `수납기`,
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = j + 1;
-      return {
-        key: `sub2-${subKey}`,
-        label: `sub2-${subKey}`
-      };
-    })
+    children: [
+      {
+        key: 'raw-data',
+        label: 'Raw 데이터',
+        children: [
+          {
+            key: '1',
+            label: '본관',
+            children: [{ key: 'raw-data', label: '내분비내과' }]
+          },
+          {
+            key: '2',
+            label: '신관'
+          }
+        ]
+      }
+    ]
   },
   {
     key: 'sub3',

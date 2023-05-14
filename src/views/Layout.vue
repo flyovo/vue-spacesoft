@@ -23,7 +23,6 @@ export default defineComponent({
     userName: { type: String, required: false, default: '홍길동' }
   },
   setup() {
-    console.log('headerMenu ::: ', headerMenu);
     const state = reactive({
       rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
       selectedHeaderMenuKeys: [],
@@ -47,7 +46,6 @@ export default defineComponent({
       ...toRefs(state),
       handleHeaderMenuClick,
       handleSideMenuClick,
-      // selectedHeaderMenuKeys: ref(['1']),
       collapsed: ref(false)
     };
   },
@@ -59,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-layout :style="{ width: '100vw', height: '100vh' }">
+  <a-layout :style="{ width: '100vw' }">
     <a-layout-header
       :style="{
         display: 'flex',
@@ -137,25 +135,70 @@ export default defineComponent({
                   :style="{ marginRight: '10px' }" />
                 {{ menu.label }}
               </template>
-              <a-menu-item
+              <!-- <a-menu-item
                 v-for="child in menu.children"
                 :key="child.key"
                 :style="{
                   color: '#6c7780',
                   fontSize: '14px'
                 }">
-                {{ child.label }}
-              </a-menu-item>
+                <router-link :to="child.key">{{ child.label }}</router-link>
+              </a-menu-item> -->
+              <a-sub-menu
+                v-for="child in menu.children"
+                :key="child.key"
+                :style="{
+                  color: '#6c7780',
+                  fontSize: '14px'
+                }">
+                <template #title>
+                  <component
+                    v-if="child.icon"
+                    :is="child.icon"
+                    :style="{ marginRight: '10px' }" />
+                  {{ child.label }}
+                </template>
+                <!-- <a-menu-item
+                  v-for="child1 in child.children"
+                  :key="child1.key"
+                  :style="{
+                    color: '#6c7780',
+                    fontSize: '14px'
+                  }">
+                  <router-link :to="child1.key">{{ child1.label }}</router-link>
+                </a-menu-item> -->
+                <a-sub-menu
+                  v-for="child1 in child.children"
+                  :key="child1.key"
+                  :style="{
+                    color: '#6c7780',
+                    fontSize: '14px'
+                  }">
+                  <template #title>
+                    <component
+                      v-if="child1.icon"
+                      :is="child1.icon"
+                      :style="{ marginRight: '10px' }" />
+                    {{ child1.label }}
+                  </template>
+                  <a-menu-item
+                    v-for="child2 in child1.children"
+                    :key="child2.key"
+                    :style="{
+                      color: '#6c7780',
+                      fontSize: '14px'
+                    }">
+                    <router-link :to="child2.key">{{
+                      child2.label
+                    }}</router-link>
+                  </a-menu-item>
+                </a-sub-menu>
+              </a-sub-menu>
             </a-sub-menu>
           </template>
         </a-menu>
       </a-layout-sider>
       <a-layout>
-        <!-- <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
-        </a-breadcrumb> -->
         <a-layout-content
           :style="{
             padding: '24px 41px',
@@ -229,6 +272,15 @@ export default defineComponent({
 }
 
 .ant-layout-sider {
+  .ant-menu-sub {
+    .ant-menu-item {
+      a {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+
   .ant-menu-item {
     a {
       display: inline-block;
