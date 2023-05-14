@@ -6,6 +6,7 @@ import {
   AutoShutdownSettings,
   ManagingAccounts
 } from '../views/Header';
+import { RawData } from '../views/Side';
 import Layout from '../views/Layout.vue';
 
 const router = createRouter({
@@ -35,6 +36,10 @@ const router = createRouter({
         {
           path: '/managing-accounts',
           component: ManagingAccounts
+        },
+        {
+          path: '/raw-data',
+          component: RawData
         }
       ]
     }
