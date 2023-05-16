@@ -189,7 +189,7 @@ export const statisticsColumns = [
     title: '수납관련 사항',
     children: [
       {
-        title: '외래수납',
+        title: '외래 수납',
         children: [
           {
             title: '수납건수',
