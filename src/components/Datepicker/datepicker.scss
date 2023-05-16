@@ -1,0 +1,22 @@
+.v-calendar .input-field input {
+  padding-left: 26px;
+  height: 32px;
+
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6c7780;
+
+  border-radius: 3px;
+  border: solid 1px #dadde6;
+
+  background-color: #f7f9fc;
+}
+
+.v-calendar .input-field.long {
+  min-width: 245px;
+
+  --v-calendar-datepicker-icon-color: #6c7780;
+}
+.v-calendar .content {
+  top: unset;
+}

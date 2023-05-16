@@ -7,12 +7,14 @@ import {
   statisticsColumns,
   statisticsSourceData
 } from './constants';
-import { throwStatement } from '@babel/types';
+import VueDatepickerUi from 'vue-datepicker-ui';
+import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 
 export default defineComponent({
   name: 'RawData',
   components: {
-    CalendarTwoTone
+    CalendarTwoTone,
+    Datepicker: VueDatepickerUi
   },
   props: {
     pos1: {
@@ -28,6 +30,10 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
+      selectedDate: [
+        new Date(),
+        new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000)
+      ],
       dataSource: rawDataSourceData,
       columns: rawDataColumns,
       // currentPage: 1,
@@ -51,7 +57,25 @@ export default defineComponent({
     const selectedDuration = ref('all');
     const selectedType = ref('all');
 
-    return { ...toRefs(state), selectedDuration, selectedType };
+    const pageSizeOptions = ref<string[]>(['15', '30', '50']);
+    const current = ref(1);
+    const pageSizeRef = ref(15);
+    const total = ref(state.dataSource.length);
+    const onShowSizeChange = (current: number, pageSize: number) => {
+      console.log(pageSize);
+      pageSizeRef.value = pageSize;
+    };
+
+    return {
+      ...toRefs(state),
+      selectedDuration,
+      selectedType,
+      pageSizeOptions,
+      current,
+      pageSize: pageSizeRef,
+      total,
+      onShowSizeChange
+    };
   },
   methods: {
     handleDurationButtonClick(button: any) {
@@ -96,6 +120,7 @@ export default defineComponent({
             {{ button.label }}
           </a-button>
         </a-button-group>
+        <Datepicker range v-model="selectedDate" lang="ko" />
       </div>
 
       <div class="button-group" :style="{ marginBottom: '18px' }">
@@ -112,7 +137,7 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="content-header-title">
+    <div class="content-position-title">
       <span class="pos1">{{ pos1 }}&nbsp;</span>
       <!-- &nbsp; -->
       <span class="pos2">{{ pos2 }}</span>
@@ -128,9 +153,51 @@ export default defineComponent({
     </span>
   </div>
 
-  <a-table :columns="columns" :dataSource="dataSource" bordered size="middle" />
+  <a-table
+    :class="
+      selectedType === 'all'
+        ? `ant-table-striped-raw-data`
+        : `ant-table-striped-statistics`
+    "
+    :columns="columns"
+    :dataSource="dataSource"
+    size="middle"
+    bordered
+    :rowClassName="
+      (record, index) => (index % 2 === 1 ? 'table-striped' : null)
+    " />
+
+  <a-pagination
+    size="small"
+    v-model:current="current"
+    :page-size-options="pageSizeOptions"
+    :total="total"
+    show-size-changer
+    :page-size="pageSize"
+    @showSizeChange="onShowSizeChange">
+    <template #buildOptionText="props">
+      <span>{{ props.value }}개씩</span>
+      <!-- <span v-if="props.value !== '50'">{{ props.value }}개씩</span>
+        <span v-else>全部</span> -->
+    </template>
+  </a-pagination>
 </template>
 
+<style lang="scss">
+@import 'src/components/Datepicker/datepicker.scss';
+@import 'src/components/Table/table.scss';
+.content-header {
+  .ant-btn {
+    background-color: #f7f9fc;
+    > span {
+      font-family: SpoqaHanSansNeo;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #6c7780;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 main {
   width: 100vw;
@@ -147,12 +214,22 @@ main {
       gap: 18px;
       align-items: center;
     }
+
+    .ant-btn-group > .ant-btn:first-child:not(:last-child),
+    .ant-btn-group > span:first-child:not(:last-child) > .ant-btn {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+    .ant-btn-group > .ant-btn:last-child:not(:first-child),
+    .ant-btn-group > span:last-child:not(:first-child) > .ant-btn {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
   }
-  .content-header-title {
+  .content-position-title {
     font-family: 'SpoqaHanSansNeo';
     font-size: 42px;
     font-weight: 500;
-    line-height: 0.67;
     text-align: right;
     .pos1 {
       color: #004c8d;
@@ -160,6 +237,17 @@ main {
     .pos2 {
       color: #1d2226;
     }
+  }
+}
+
+.ant-table-striped {
+  :deep(.table-striped) td {
+    background-color: #f7fafc;
+  }
+
+  td {
+    font-size: 14px;
+    color: #3d464d;
   }
 }
 </style>
