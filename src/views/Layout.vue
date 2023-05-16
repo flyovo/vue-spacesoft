@@ -104,7 +104,7 @@ export default defineComponent({
         <HeaderLoginMenu :role="role" :userName="userName" />
       </div>
     </a-layout-header>
-    <a-layout>
+    <a-layout :style="{ height: 'fit-content', overflow: 'scroll' }">
       <a-layout-sider
         :width="`${NAV_WIDTH + 1}px`"
         :style="{ borderRight: '1px solid #adbecc' }">
