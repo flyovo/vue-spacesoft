@@ -17,37 +17,44 @@ export const rawDataColumns = [
       {
         title: '날짜',
         dataIndex: '날짜',
-        key: '날짜'
+        key: '날짜',
+        align: 'center'
       },
       {
         title: '센터',
         dataIndex: '건물',
-        key: '건물'
+        key: '건물',
+        align: 'center'
       },
       {
         title: '층',
         dataIndex: '층',
-        key: '층'
+        key: '층',
+        align: 'center'
       },
       {
         title: '구역',
         dataIndex: '위치',
-        key: '위치'
+        key: '위치',
+        align: 'center'
       },
       {
         title: '설명',
         dataIndex: '설명',
-        key: '설명'
+        key: '설명',
+        align: 'center'
       },
       {
         title: 'WISDOM ID',
         dataIndex: 'wisdom_id',
-        key: 'wisdom_id'
+        key: 'wisdom_id',
+        align: 'center'
       },
       {
         title: '장비모델',
         dataIndex: 'dev_model',
-        key: 'dev_model'
+        key: 'dev_model',
+        align: 'center'
       }
     ]
   },
@@ -57,27 +64,32 @@ export const rawDataColumns = [
       {
         title: '수납타입',
         dataIndex: '수납타입',
-        key: '수납타입'
+        key: '수납타입',
+        align: 'center'
       },
       {
         title: '등록번호',
         dataIndex: '등록번호',
-        key: '등록번호'
+        key: '등록번호',
+        align: 'center'
       },
       {
         title: '수납건수',
         dataIndex: '수납건수',
-        key: '수납건수'
+        key: '수납건수',
+        align: 'center'
       },
       {
         title: '수납 불가건수',
         dataIndex: '수납불가',
-        key: '수납불가'
+        key: '수납불가',
+        align: 'center'
       },
       {
         title: '수납 금액',
         dataIndex: '수납금액',
-        key: '수납금액'
+        key: '수납금액',
+        align: 'center'
       }
     ]
   },
@@ -87,18 +99,21 @@ export const rawDataColumns = [
       {
         title: '처방전 발행건수',
         dataIndex: '처방전 발급 건수',
-        key: '처방전 발급 건수'
+        key: '처방전 발급 건수',
+        align: 'center'
       },
       {
         title: '약국전송',
         dataIndex: '약국전송',
         key: '약국전송',
+        align: 'center',
         customRender: () => '약국전송'
       },
       {
         title: '번호표발행',
         dataIndex: '번호표발행',
         key: '번호표발행',
+        align: 'center',
         customRender: () => '번호표발행'
       }
     ]
@@ -141,27 +156,32 @@ export const statisticsColumns = [
       {
         title: '날짜',
         dataIndex: '날짜',
-        key: '날짜'
+        key: '날짜',
+        align: 'center'
       },
       {
         title: '센터',
         dataIndex: '건물',
-        key: '건물'
+        key: '건물',
+        align: 'center'
       },
       {
         title: '층',
         dataIndex: '층',
-        key: '층'
+        key: '층',
+        align: 'center'
       },
       {
         title: '구역',
         dataIndex: '위치',
-        key: '위치'
+        key: '위치',
+        align: 'center'
       },
       {
         title: '대수',
         dataIndex: '대수',
-        key: '대수'
+        key: '대수',
+        align: 'center'
       }
     ]
   },
@@ -174,17 +194,20 @@ export const statisticsColumns = [
           {
             title: '수납건수',
             dataIndex: '외래수납-수납건수',
-            key: '외래수납-수납건수'
+            key: '외래수납-수납건수',
+            align: 'center'
           },
           {
             title: '수납 불가건수',
             dataIndex: '외래수납-수납불가',
-            key: '외래수납-수납불가'
+            key: '외래수납-수납불가',
+            align: 'center'
           },
           {
             title: '수납 금액',
             dataIndex: '외래수납-수납금액',
-            key: '외래수납-수납금액'
+            key: '외래수납-수납금액',
+            align: 'center'
           }
         ]
       },
@@ -197,17 +220,20 @@ export const statisticsColumns = [
               {
                 title: '수납건수',
                 dataIndex: '중간수납-수납건수',
-                key: '중간수납-수납건수'
+                key: '중간수납-수납건수',
+                align: 'center'
               },
               {
                 title: '수납 불가건수',
                 dataIndex: '중간수납-수납불가',
-                key: '중간수납-수납불가'
+                key: '중간수납-수납불가',
+                align: 'center'
               },
               {
                 title: '수납 금액',
                 dataIndex: '중간수납-수납금액',
-                key: '중간수납-수납금액'
+                key: '중간수납-수납금액',
+                align: 'center'
               }
             ]
           },
@@ -217,17 +243,20 @@ export const statisticsColumns = [
               {
                 title: '수납건수',
                 dataIndex: '퇴원수납-수납건수',
-                key: '퇴원수납-수납건수'
+                key: '퇴원수납-수납건수',
+                align: 'center'
               },
               {
                 title: '수납 불가건수',
                 dataIndex: '퇴원수납-수납불가',
-                key: '퇴원수납-수납불가'
+                key: '퇴원수납-수납불가',
+                align: 'center'
               },
               {
                 title: '수납 금액',
                 dataIndex: '퇴원수납-수납금액',
-                key: '퇴원수납-수납금액'
+                key: '퇴원수납-수납금액',
+                align: 'center'
               }
             ]
           }
@@ -241,18 +270,21 @@ export const statisticsColumns = [
       {
         title: '처방전 발행건수',
         dataIndex: '처방전 발급 건수',
-        key: '처방전 발급 건수'
+        key: '처방전 발급 건수',
+        align: 'center'
       },
       {
         title: '약국전송',
         dataIndex: '약국전송',
         key: '약국전송',
+        align: 'center',
         customRender: () => '약국전송'
       },
       {
         title: '번호표발행',
         dataIndex: '번호표발행',
         key: '번호표발행',
+        align: 'center',
         customRender: () => '번호표발행'
       }
     ]
