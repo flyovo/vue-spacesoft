@@ -9,12 +9,15 @@ import {
 } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
+import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
 
 export default defineComponent({
   name: 'RawData',
   components: {
     CalendarTwoTone,
-    Datepicker: VueDatepickerUi
+    Datepicker: VueDatepickerUi,
+    PageSizeChanger,
+    ButtonGroup
   },
   props: {
     pos1: {
@@ -30,14 +33,11 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
+      pageSizeOptions: [15, 30, 50],
       selectedDate: [
         new Date(),
         new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000)
       ],
-      dataSource: rawDataSourceData,
-      columns: rawDataColumns,
-      // currentPage: 1,
-      // pageSize: 10
       durationButtons: [
         { value: 'all', label: '전체 날짜' },
         { value: 'thisMonth', label: '당월' },
@@ -54,28 +54,45 @@ export default defineComponent({
       ]
     });
 
+    const dataSource = rawDataSourceData;
+    const columns = rawDataColumns;
+
     const selectedDuration = ref('all');
     const selectedType = ref('all');
 
-    const pageSizeOptions = ref<string[]>(['15', '30', '50']);
     const current = ref(1);
-    const pageSizeRef = ref(15);
-    const total = ref(state.dataSource.length);
-    const onShowSizeChange = (current: number, pageSize: number) => {
-      console.log(pageSize);
-      pageSizeRef.value = pageSize;
-    };
+    const total = ref(dataSource.length);
 
     return {
       ...toRefs(state),
       selectedDuration,
       selectedType,
-      pageSizeOptions,
-      current,
-      pageSize: pageSizeRef,
+
+      dataSource,
+      columns,
+
       total,
-      onShowSizeChange
+      current,
+      pageSize: state.pageSizeOptions[0]
     };
+  },
+  data() {
+    return {
+      selectIndex: 0,
+      paginationConfig: {
+        showSizeChanger: false, // hide the page size selector
+        size: 'small',
+        current: this.current,
+        total: this.dataSource.length,
+        pageSizeOptions: this.pageSizeOptions
+      }
+    };
+  },
+  watch: {
+    selectIndex(newValue: number) {
+      this.pageSize = this.pageSizeOptions[newValue];
+      this.paginationConfig.current = 1;
+    }
   },
   methods: {
     handleDurationButtonClick(button: any) {
@@ -85,14 +102,20 @@ export default defineComponent({
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
 
+      console.log('handleTypeButtonClick ::: ', button.value, this.dataSource);
+
       if (button.value !== 'all') {
         this.columns = statisticsColumns;
         this.dataSource = statisticsSourceData;
-        return;
+      } else {
+        this.columns = rawDataColumns;
+        this.dataSource = rawDataSourceData;
       }
-
-      this.columns = rawDataColumns;
-      this.dataSource = rawDataSourceData;
+      this.paginationConfig.total = this.dataSource.length;
+      this.paginationConfig.current = 1;
+    },
+    handlePaginationChange(pageNumber: number, pageSize: number) {
+      this.paginationConfig.current = pageNumber;
     }
   }
 });
@@ -139,21 +162,37 @@ export default defineComponent({
 
     <div class="content-position-title">
       <span class="pos1">{{ pos1 }}&nbsp;</span>
-      <!-- &nbsp; -->
       <span class="pos2">{{ pos2 }}</span>
     </div>
   </div>
 
   <hr class="vertical-hr" />
 
-  <div :style="{ margin: '25px 0' }">
-    <span :style="{ color: '#6b7082' }">
-      <CalendarTwoTone twoToneColor="#6b7082" />
-      2022년 07월 29일 ~ 2023 03월 31일
-    </span>
+  <div :style="{ margin: '20px 0 18px' }">
+    <a-row justify="space-between" align="middle">
+      <a-col>
+        <span :style="{ color: '#6b7082' }">
+          <CalendarTwoTone twoToneColor="#6b7082" />
+          2022년 07월 29일 ~ 2023 03월 31일
+        </span>
+      </a-col>
+      <a-col>
+        <a-row :gutter="[8, 0]" align="middle">
+          <a-col>
+            <PageSizeChanger
+              :pageSizeOptions="pageSizeOptions"
+              v-model="selectIndex" />
+          </a-col>
+          <a-col>
+            <ButtonGroup :dataSource="dataSource" />
+          </a-col>
+        </a-row>
+      </a-col>
+    </a-row>
   </div>
 
   <a-table
+    v-model="selectIndex"
     :class="
       selectedType === 'all'
         ? `ant-table-striped-raw-data`
@@ -161,31 +200,41 @@ export default defineComponent({
     "
     :columns="columns"
     :dataSource="dataSource"
+    :rowClassName="(record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
     size="middle"
-    bordered
-    :rowClassName="
-      (record, index) => (index % 2 === 1 ? 'table-striped' : null)
-    " />
+    :pagination="{ ...paginationConfig, pageSize: pageSize }"
+    bordered>
+  </a-table>
 
-  <a-pagination
-    size="small"
-    v-model:current="current"
-    :page-size-options="pageSizeOptions"
-    :total="total"
-    show-size-changer
-    :page-size="pageSize"
-    @showSizeChange="onShowSizeChange">
-    <template #buildOptionText="props">
-      <span>{{ props.value }}개씩</span>
-      <!-- <span v-if="props.value !== '50'">{{ props.value }}개씩</span>
-        <span v-else>全部</span> -->
-    </template>
-  </a-pagination>
+  <a-row
+    :gutter="[8, 0]"
+    justify="center"
+    align="middle"
+    :style="{ margin: '14px 0' }">
+    <a-pagination
+      size="small"
+      v-model="selectIndex"
+      :pageSize="pageSize"
+      :current="paginationConfig.current"
+      :total="paginationConfig.total"
+      :show-size-changer="paginationConfig.showSizeChanger"
+      :page-size-options="pageSizeOptions"
+      @change="handlePaginationChange" />
+    <a-col>
+      <PageSizeChanger
+        :pageSizeOptions="pageSizeOptions"
+        v-model="selectIndex" />
+    </a-col>
+    <a-col>
+      <ButtonGroup :dataSource="dataSource" />
+    </a-col>
+  </a-row>
 </template>
 
 <style lang="scss">
 @import 'src/components/Datepicker/datepicker.scss';
 @import 'src/components/Table/table.scss';
+
 .content-header {
   .ant-btn {
     background-color: #f7f9fc;
@@ -195,6 +244,12 @@ export default defineComponent({
       line-height: 1.5;
       color: #6c7780;
     }
+  }
+}
+
+div[class*='ant-table-striped-'] {
+  .ant-pagination {
+    display: none;
   }
 }
 </style>
