@@ -316,7 +316,7 @@ export const statisticsSourceData = [...Array(100)].map((_, i) => ({
   '퇴원수납-수납금액': 0,
   '처방전 발급 건수': 0,
 
-  설명: i + 1,
+  대수: i + 1,
 
   Model: 'i80s',
   등록번호: '990273879',
