@@ -18,57 +18,41 @@
           }
         }
       }
-
-      //   &:nth-child(1) {
-      //     th:not(:last-child) {
-      //       border-right: 5px solid #fff !important;
-      //     }
-      //   }
-      //   &:nth-child(2) {
-      //     th:nth-child(7),
-      //     th:nth-child(12) {
-      //       border-right: 5px solid #fff !important;
-      //     }
-      //   }
     }
   }
-  //   tbody {
-  //     td:nth-child(7),
-  //     td:nth-child(12) {
-  //       border-right: 5px solid #fff !important;
-  //     }
-  //   }
 }
 
 .ant-table-striped-statistics {
-  tr {
-    &:nth-child(2) {
-      th {
-        margin-top: 6px;
-      }
-    }
-
-    &:not(:nth-child(1)) {
-      color: #ffffff;
-      th {
-        border-bottom: none !important;
-        color: inherit !important;
-
-        &:nth-child(2n-1),
-        &[rowspan='2'][colstart='6'],
-        &[colspan='3'][colstart='8'],
-        &[colstart='11'][colend='11'],
-        &[colstart='13'][colend='13'] {
-          background-color: #0a5fa7 !important;
-          border-right: 1px solid #0a5fa7 !important;
+  thead {
+    tr {
+      &:nth-child(2) {
+        th {
+          margin-top: 6px;
         }
+      }
 
-        &:nth-child(2n),
-        &[colspan='3'][colstart='11'],
-        &[colstart='8'][colend='8'],
-        &[colstart='10'][colend='10'] {
-          background-color: #1f80c6 !important;
-          border-right: 1px solid #1f80c6 !important;
+      &:not(:nth-child(1)) {
+        color: #ffffff;
+        th {
+          border-bottom: none !important;
+          color: inherit !important;
+
+          &:nth-child(2n-1),
+          &[rowspan='2'][colstart='6'],
+          &[colspan='3'][colstart='8'],
+          &[colstart='11'][colend='11'],
+          &[colstart='13'][colend='13'] {
+            background-color: #0a5fa7 !important;
+            border-right: 1px solid #0a5fa7 !important;
+          }
+
+          &:nth-child(2n),
+          &[colspan='3'][colstart='11'],
+          &[colstart='8'][colend='8'],
+          &[colstart='10'][colend='10'] {
+            background-color: #1f80c6 !important;
+            border-right: 1px solid #1f80c6 !important;
+          }
         }
       }
     }
