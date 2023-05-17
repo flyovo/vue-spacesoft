@@ -13,12 +13,6 @@ interface FormState {
 
 export default defineComponent({
   name: 'LoginForm',
-  props: {
-    name: {
-      type: String,
-      required: true
-    }
-  },
   components: { Logo },
   setup() {
     const formRef = ref();
@@ -65,6 +59,10 @@ export default defineComponent({
     const resetForm = () => {
       formRef.value.resetFields();
     };
+
+    const handleChange = () => {
+      console.log('handleChange');
+    };
     return {
       formState,
       formRef,
@@ -72,7 +70,8 @@ export default defineComponent({
       layout,
       handleFinishFailed,
       handleFinish,
-      resetForm
+      resetForm,
+      handleChange
     };
   }
 });
@@ -80,6 +79,7 @@ export default defineComponent({
 
 <template>
   <a-form
+    class="login-form"
     name="login"
     ref="formRef"
     :model="formState"
@@ -125,7 +125,7 @@ export default defineComponent({
           placeholder="PASSWORD" />
       </a-form-item>
 
-      <a-checkbox :onChange="{ handleChange }" :style="{ color: '#3d464d' }">
+      <a-checkbox @change="handleChange" :style="{ color: '#3d464d' }">
         아이디 기억하기
       </a-checkbox>
     </a-row>
@@ -148,17 +148,20 @@ export default defineComponent({
   </a-form>
 </template>
 
-<style scoped>
-.ant-form-item {
-  margin-bottom: 1.6rem;
-}
+<style lang="scss">
+.login-form {
+  .ant-form-item {
+    margin-bottom: 1.6rem;
+  }
 
-.ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #4ca7db !important;
-  border-color: #4ca7db !important;
-  border-radius: 2px;
-}
-.ant-checkbox-checked:after {
-  border: 2px solid #4ca7db !important;
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #4ca7db !important;
+    border-color: #4ca7db !important;
+    border-radius: 2px;
+  }
+
+  .ant-checkbox-checked:after {
+    border: 2px solid #4ca7db !important;
+  }
 }
 </style>
