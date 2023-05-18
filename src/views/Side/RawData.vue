@@ -95,10 +95,6 @@ export default defineComponent({
     }
   },
   methods: {
-    handleDurationButtonClick(button: any) {
-      this.selectedDuration = button.value;
-      // Perform action on button click
-    },
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
 
@@ -134,29 +130,29 @@ export default defineComponent({
     <div class="button-group-wrapper">
       <div class="button-group" :style="{ marginBottom: '10px' }">
         <a-typography>기간 선택</a-typography>
-        <a-button-group v-model="selectedDuration">
-          <a-button
+        <a-radio-group v-model:value="selectedDuration" button-style="solid">
+          <a-radio-button
             v-for="(button, index) in durationButtons"
             :key="index"
-            :value="button.value"
-            @click="handleDurationButtonClick(button)">
+            :value="button.value">
             {{ button.label }}
-          </a-button>
-        </a-button-group>
+          </a-radio-button>
+        </a-radio-group>
+
         <Datepicker range v-model="selectedDate" lang="ko" />
       </div>
 
       <div class="button-group" :style="{ marginBottom: '18px' }">
         <a-typography>수납 타입 선택</a-typography>
-        <a-button-group v-model="selectedType">
-          <a-button
+        <a-radio-group v-model:value="selectedType" button-style="solid">
+          <a-radio-button
             v-for="(button, index) in typeButtons"
             :key="index"
             :value="button.value"
             @click="handleTypeButtonClick(button)">
             {{ button.label }}
-          </a-button>
-        </a-button-group>
+          </a-radio-button>
+        </a-radio-group>
       </div>
     </div>
 
@@ -244,6 +240,12 @@ export default defineComponent({
       line-height: 1.5;
       color: #6c7780;
     }
+  }
+
+  .ant-radio-group-solid
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    background: #4ca7db;
+    border-color: #dee3e6;
   }
 }
 
