@@ -40,7 +40,16 @@ export default defineComponent({
 
     const chartOptions = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
+      height: '100%',
+      layout: {
+        padding: {
+          left: 25,
+          top: 25,
+          right: 25,
+          bottom: 25
+        }
+      },
       rotation: -90,
       circumference: 180,
       plugins: {

@@ -53,6 +53,13 @@ export default defineComponent({
       responsive: true,
       maintainAspectRatio: true,
       height: '100%',
+      layout: {
+        padding: {
+          left: 32,
+          right: 36,
+          bottom: 32
+        }
+      },
       plugins: {
         legend: {
           position: 'top',

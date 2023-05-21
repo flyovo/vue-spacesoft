@@ -51,7 +51,15 @@ export default defineComponent({
     const chartOptions = {
       indexAxis: 'y',
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
+      height: '100%',
+      layout: {
+        padding: {
+          left: 40,
+          top: 45,
+          right: 29
+        }
+      },
       plugins: {
         legend: {
           display: false // Hide the legend
@@ -104,7 +112,8 @@ export default defineComponent({
 .legend-group {
   display: flex;
   gap: 30px;
-  margin-bottom: 40px;
+  padding-top: 10px;
+  padding-left: 25px;
   .legend-circle {
     &:before {
       content: '';

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import {
   VerticalBarChart,
   HorizontalBarChart,
@@ -16,6 +16,21 @@ export default defineComponent({
     LineChart,
     HalfDoughnutChart,
     DoughnutChart
+  },
+  setup() {
+    const selectedDuration = ref('all');
+
+    return {
+      selectedDuration,
+      durationButtons: [
+        { value: 'all', label: '전체 날짜' },
+        { value: 'thisMonth', label: '수납기' },
+        { value: 'oneMonth', label: '제증명' },
+        { value: 'twoMonth', label: '순번발권' },
+        { value: 'threeMonth', label: '도착확인' },
+        { value: 'yearly', label: '신체계측' }
+      ]
+    };
   }
 });
 </script>
@@ -24,7 +39,16 @@ export default defineComponent({
   <div class="dashboard-wrapper column">
     <a-row :gutter="[0, 10]">
       <a-col :span="24" class="dashboard-box">
-        <div class="dashboard-box-title">M</div>
+        <div class="dashboard-box-title">
+          <a-radio-group v-model:value="selectedDuration" button-style="solid">
+            <a-radio-button
+              v-for="(button, index) in durationButtons"
+              :key="index"
+              :value="button.value">
+              {{ button.label }}
+            </a-radio-button>
+          </a-radio-group>
+        </div>
         <VerticalBarChart class="row-first" />
       </a-col>
     </a-row>
@@ -67,14 +91,32 @@ export default defineComponent({
         <div class="dashboard-box">
           <div class="dashboard-box-title">키오스크 기기 현황</div>
           <a-row :gutter="[48, 0]">
-            <a-col :span="8">
-              <DoughnutChart class="row-last" />
+            <a-col :span="8" class="row-last">
+              <DoughnutChart
+                :title="'유형별'"
+                :labels="[
+                  '진료대기',
+                  '제증명',
+                  '복합기',
+                  '도착확인',
+                  '번호표'
+                ]" />
             </a-col>
-            <a-col :span="8">
-              <DoughnutChart class="row-last" />
+            <a-col :span="8" class="row-last">
+              <DoughnutChart
+                :title="'층별'"
+                :labels="['5층', '4층', '3층', '2층', '1층']" />
             </a-col>
-            <a-col :span="8">
-              <DoughnutChart class="row-last" />
+            <a-col :span="8" class="row-last">
+              <DoughnutChart
+                :title="'구역별'"
+                :labels="[
+                  '진단의학과',
+                  '융복합',
+                  '채혈실',
+                  '간호과',
+                  '원무과'
+                ]" />
             </a-col>
           </a-row>
         </div>
@@ -94,18 +136,14 @@ export default defineComponent({
 .dashboard-box {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   background-color: #fff;
-  > .row-first {
+  .row-first {
     height: 540px;
   }
-  > .row-middle {
+  .row-middle {
     height: 345px;
   }
-  > .row-last {
-    height: 355px;
-  }
-
-  > div:nth-child(2) {
-    padding: 10px 24px 24px 24px;
+  .row-last {
+    //height: 355px;
   }
 }
 .dashboard-box-title {
