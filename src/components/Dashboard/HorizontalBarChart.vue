@@ -1,11 +1,13 @@
 <template>
   <!-- <BarChart v-bind="barChartProps" /> -->
-  <div class="legend-group">
-    <span class="legend-circle max"> 최다</span>
-    <span class="legend-circle smooth"> 원활</span>
-    <span class="legend-circle min"> 최소</span>
+  <div>
+    <div class="legend-group">
+      <span class="legend-circle max"> 최다</span>
+      <span class="legend-circle smooth"> 원활</span>
+      <span class="legend-circle min"> 최소</span>
+    </div>
+    <BarChart :chart-data="chartData" :options="chartOptions" />
   </div>
-  <BarChart :chart-data="chartData" :options="chartOptions" />
 </template>
 
 <script lang="ts">
@@ -102,6 +104,7 @@ export default defineComponent({
 .legend-group {
   display: flex;
   gap: 30px;
+  margin-bottom: 40px;
   .legend-circle {
     &:before {
       content: '';

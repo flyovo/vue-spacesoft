@@ -21,49 +21,106 @@ export default defineComponent({
 </script>
 
 <template>
-  <a-row :gutter="[20, 0]">
-    <a-col>
-      <a-row class="dashboard-box">
-        <a-col :span="24">
-          <VerticalBarChart />
-        </a-col>
-      </a-row>
+  <div class="dashboard-wrapper column">
+    <a-row :gutter="[0, 10]">
+      <a-col :span="24" class="dashboard-box">
+        <div class="dashboard-box-title">M</div>
+        <VerticalBarChart class="row-first" />
+      </a-col>
+    </a-row>
 
-      <a-row :gutter="[0, 10]" class="dashboard-box">
-        <a-col :span="4">
-          <HorizontalBarChart />
-        </a-col>
-        <a-col :span="4">
-          <HalfDoughnutChart :color="'#78bcee'" />
-        </a-col>
-        <a-col :span="4">
-          <HalfDoughnutChart :color="'#f1da80'" />
-        </a-col>
-        <a-col :span="12">
-          <LineChart />
-        </a-col>
-      </a-row>
+    <a-row
+      :gutter="[10, 10]"
+      style="
+         {
+          height: '345px';
+        }
+      ">
+      <a-col :span="5">
+        <div class="dashboard-box">
+          <div class="dashboard-box-title">월 평균 수납 건수</div>
+          <HorizontalBarChart class="row-middle" />
+        </div>
+      </a-col>
+      <a-col :span="5">
+        <div class="dashboard-box">
+          <div class="dashboard-box-title">일 평균 대기시간</div>
+          <HalfDoughnutChart :color="'#78bcee'" class="row-middle" />
+        </div>
+      </a-col>
+      <a-col :span="5">
+        <div class="dashboard-box">
+          <div class="dashboard-box-title">일 평균 대기인수</div>
+          <HalfDoughnutChart :color="'#f1da80'" class="row-middle" />
+        </div>
+      </a-col>
+      <a-col :span="9">
+        <div class="dashboard-box">
+          <div class="dashboard-box-title">외래</div>
+          <LineChart class="row-middle" />
+        </div>
+      </a-col>
+    </a-row>
 
-      <div class="dashboard-box">
-        <a-row :gutter="[0, 24]">
-          <a-col :span="8">
-            <DoughnutChart />
-          </a-col>
-          <a-col :span="8">
-            <DoughnutChart />
-          </a-col>
-          <a-col :span="8">
-            <DoughnutChart />
-          </a-col>
-        </a-row>
-      </div>
-    </a-col>
-  </a-row>
+    <a-row :gutter="[0, 10]">
+      <a-col :span="24">
+        <div class="dashboard-box">
+          <div class="dashboard-box-title">키오스크 기기 현황</div>
+          <a-row :gutter="[48, 0]">
+            <a-col :span="8">
+              <DoughnutChart class="row-last" />
+            </a-col>
+            <a-col :span="8">
+              <DoughnutChart class="row-last" />
+            </a-col>
+            <a-col :span="8">
+              <DoughnutChart class="row-last" />
+            </a-col>
+          </a-row>
+        </div>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.dashboard-wrapper {
+  display: flex;
+  gap: 10px;
+  &.column {
+    flex-flow: column;
+  }
+}
 .dashboard-box {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   background-color: #fff;
+  > .row-first {
+    height: 540px;
+  }
+  > .row-middle {
+    height: 345px;
+  }
+  > .row-last {
+    height: 355px;
+  }
+
+  > div:nth-child(2) {
+    padding: 10px 24px 24px 24px;
+  }
+}
+.dashboard-box-title {
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  background-color: #fafcfc;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.13;
+  color: #3d464d;
+}
+
+.dashboard-color {
+  background-color: #000;
+  color: #fff;
 }
 </style>

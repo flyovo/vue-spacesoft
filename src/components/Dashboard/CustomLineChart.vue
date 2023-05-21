@@ -12,6 +12,7 @@ Chart.register(...registerables);
 export default defineComponent({
   name: 'CustomLineChart',
   components: { LineChart },
+  data() {},
   setup() {
     const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     const data1 = [300, 370, 400, 420, 450, 460, 470, 480, 490, 500, 510, 520];
@@ -50,11 +51,17 @@ export default defineComponent({
 
     const chartOptions = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
+      height: '100%',
       plugins: {
         legend: {
           position: 'top',
-          align: 'start'
+          align: 'start',
+          labels: {
+            usePointStyle: true,
+            pointStyleWidth: 10,
+            maxHeight: 10
+          }
         }
       },
       scales: {
@@ -77,3 +84,5 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss"></style>
