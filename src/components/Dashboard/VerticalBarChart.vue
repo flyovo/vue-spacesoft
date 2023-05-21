@@ -1,5 +1,5 @@
 <template>
-  <BarChart v-bind="barChartProps" />
+  <BarChart v-bind="barChartProps" :options="chartOptions" />
 </template>
 
 <script lang="ts">
@@ -34,11 +34,23 @@ export default defineComponent({
       ]
     }));
 
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          align: 'start',
+          fullSize: true
+        }
+      }
+    };
+
     const { barChartProps, barChartRef } = useBarChart({
       chartData
     });
 
-    return { barChartProps, barChartRef };
+    return { barChartProps, barChartRef, chartOptions };
   }
 });
 </script>

@@ -51,6 +51,12 @@ export default defineComponent({
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          align: 'start'
+        }
+      },
       scales: {
         x: {
           border: {

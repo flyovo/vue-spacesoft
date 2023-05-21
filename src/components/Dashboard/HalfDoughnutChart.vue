@@ -46,7 +46,7 @@ export default defineComponent({
       plugins: {
         legend: {
           position: 'bottom',
-          align: 'left',
+          align: 'start',
           fullSize: true
         }
       }

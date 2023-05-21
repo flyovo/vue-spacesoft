@@ -1,5 +1,5 @@
 <template>
-  <DoughnutChart :chartData="chartData" />
+  <DoughnutChart :chartData="chartData" :options="chartOptions" />
 </template>
 
 <script lang="ts">
@@ -29,7 +29,17 @@ export default defineComponent({
       ]
     };
 
-    return { chartData };
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false // Hide the legend
+        }
+      }
+    };
+
+    return { chartData, chartOptions };
   }
 });
 </script>
