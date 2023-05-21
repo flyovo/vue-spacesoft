@@ -13,20 +13,23 @@ export default defineComponent({
   name: 'VerticalBarChart',
   components: { BarChart },
   setup() {
-    const data = ref([30, 40, 60, 70, 5]);
-
+    const data1 = ref([30, 40, 60, 70, 5]);
+    const data2 = ref([34, 20, 80, 20, 21]);
+    const data3 = ref([4, 31, 46, 94, 45]);
     const chartData = computed(() => ({
-      labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+      labels: ['수납기', '제증명', '순번발권', '도착확인', '신체계측'],
       datasets: [
         {
-          data: data.value,
-          backgroundColor: [
-            '#77CEFF',
-            '#0079AF',
-            '#123E6B',
-            '#97B0C4',
-            '#A5C8ED'
-          ]
+          label: '2022 12월',
+          data: data1.value,
+          backgroundColor: '#ff8db0'
+        },
+
+        { label: '2023 1월', data: data2.value, backgroundColor: '#78bcee' },
+        {
+          label: '2023 2월',
+          data: data3.value,
+          backgroundColor: '#f8df7c'
         }
       ]
     }));
