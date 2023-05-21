@@ -1,10 +1,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { VerticalBarChart, DoughnutChart } from '@/components/Dashboard';
+import {
+  VerticalBarChart,
+  HorizontalBarChart,
+  LineChart,
+  HalfDoughnutChart,
+  DoughnutChart
+} from '@/components/Dashboard';
 
 export default defineComponent({
   name: 'Home',
-  components: { VerticalBarChart, DoughnutChart }
+  components: {
+    VerticalBarChart,
+    HorizontalBarChart,
+    LineChart,
+    HalfDoughnutChart,
+    DoughnutChart
+  }
 });
 </script>
 
@@ -18,10 +30,18 @@ export default defineComponent({
       </a-row>
 
       <a-row :gutter="[0, 10]" class="dashboard-box">
-        <a-col :span="4" />
-        <a-col :span="4" />
-        <a-col :span="4" />
-        <a-col :span="12" />
+        <a-col :span="4">
+          <HorizontalBarChart />
+        </a-col>
+        <a-col :span="4">
+          <HalfDoughnutChart :color="'#78bcee'" />
+        </a-col>
+        <a-col :span="4">
+          <HalfDoughnutChart :color="'#f1da80'" />
+        </a-col>
+        <a-col :span="12">
+          <LineChart />
+        </a-col>
       </a-row>
 
       <div class="dashboard-box">
