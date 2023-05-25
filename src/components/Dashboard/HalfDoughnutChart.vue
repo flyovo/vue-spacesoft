@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
 
@@ -12,31 +12,37 @@ Chart.register(...registerables);
 export default defineComponent({
   name: 'HalfDoughnutChart',
   props: {
-    color: { type: String, required: false, default: '#78bcee' }
+    color: { type: String, required: false, default: '#78bcee' },
+    dataSource: { type: Object, required: true, dafault: () => [] }
   },
   components: { DoughnutChart },
   setup(props) {
-    const data = [30, 40, 17];
-    const chartData = {
-      labels: [
-        '1층 원무과 수납 키오스크',
-        '2층 채혈실 수납 키오스크',
-        '1층 제증명'
-      ],
-      datasets: [
-        {
-          data,
-          backgroundColor: function (context: any) {
-            if (context.dataIndex === data.length - 1) {
-              return '#e8edf0';
-            }
-            return props.color;
-          },
-          borderWidth: 0,
-          borderSkipped: 'end'
-        }
-      ]
-    };
+    const color = props.color.toString(); // Convert color to a string
+    const chartData = ref([]); // Initialize chartData as null
+
+    // Wait for the dataSource Promise to resolve
+    watchEffect(async () => {
+      const resolvedDataSource = await props.dataSource;
+      const data = resolvedDataSource.map((data: { value: string }) => {
+        return Number(data.value);
+      });
+
+      chartData.value = {
+        labels: [
+          ...resolvedDataSource.map((data: { label: string }) => data.label)
+        ],
+        datasets: [
+          {
+            data,
+            backgroundColor: props.dataSource.map((data, index) =>
+              index === data.length - 1 ? '#e8edf0' : color
+            ),
+            borderWidth: 0,
+            borderSkipped: 'end'
+          }
+        ]
+      };
+    });
 
     const chartOptions = {
       responsive: true,

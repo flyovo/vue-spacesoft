@@ -5,6 +5,7 @@ import {
   ValidateErrorEntity
 } from 'ant-design-vue/es/form/interface';
 import Logo from '../Logo/index.vue';
+import { useStore } from 'vuex';
 
 interface FormState {
   id: string;
@@ -15,6 +16,7 @@ export default defineComponent({
   name: 'LoginForm',
   components: { Logo },
   setup() {
+    const store = useStore();
     const formRef = ref();
     const formState: UnwrapRef<FormState> = reactive({
       id: '',

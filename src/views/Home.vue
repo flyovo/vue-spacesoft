@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import {
   VerticalBarChart,
   HorizontalBarChart,
@@ -7,6 +8,8 @@ import {
   HalfDoughnutChart,
   DoughnutChart
 } from '@/components/Dashboard';
+import { DashboardStoreModule } from '@/store/modules/dashboard/store';
+import { QsWaitAvgTime, QsWaitAvgCount } from '../store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'Home',
@@ -18,7 +21,54 @@ export default defineComponent({
     DoughnutChart
   },
   setup() {
+    const store = useStore();
+    let qswaitavgtime = ref([]);
+    let qswaitavgcnt = ref([]);
+
     const selectedDuration = ref('all');
+
+    const valueInfo = (data: QsWaitAvgTime | QsWaitAvgCount) => {
+      if (data.hasOwnProperty('평균대기인수')) {
+        return data.평균대기인수;
+      }
+      if (data.hasOwnProperty('평균대기시간')) {
+        return data.평균대기시간;
+      }
+    };
+
+    // Fetch the data and update the reactive properties
+    const fetchData = async (type: string) => {
+      try {
+        const result = await DashboardStoreModule.getDashboard({
+          type: type,
+          date: new Date()
+        });
+
+        const dataResult = result?.map(
+          (data: QsWaitAvgTime | QsWaitAvgCount) => {
+            return {
+              ...data,
+              label: `${data.pos_1} ${data.pos_2} ${data.pos_4}`,
+              value: valueInfo(data)
+            };
+          }
+        );
+
+        if (type === 'qswaitavgtime') {
+          qswaitavgtime.value = dataResult;
+        } else if (type === 'qswaitavgcnt') {
+          qswaitavgcnt.value = dataResult;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch the data on component mount
+    onMounted(() => {
+      fetchData('qswaitavgtime');
+      fetchData('qswaitavgcnt');
+    });
 
     return {
       selectedDuration,
@@ -29,9 +79,13 @@ export default defineComponent({
         { value: 'twoMonth', label: '순번발권' },
         { value: 'threeMonth', label: '도착확인' },
         { value: 'yearly', label: '신체계측' }
-      ]
+      ],
+      date: new Date(),
+      qswaitavgtime,
+      qswaitavgcnt
     };
-  }
+  },
+  methods: {}
 });
 </script>
 
@@ -69,13 +123,19 @@ export default defineComponent({
       <a-col :span="5">
         <div class="dashboard-box">
           <div class="dashboard-box-title">일 평균 대기시간</div>
-          <HalfDoughnutChart :color="'#78bcee'" class="row-middle" />
+          <HalfDoughnutChart
+            :color="'#78bcee'"
+            class="row-middle"
+            :dataSource="qswaitavgtime" />
         </div>
       </a-col>
       <a-col :span="5">
         <div class="dashboard-box">
           <div class="dashboard-box-title">일 평균 대기인수</div>
-          <HalfDoughnutChart :color="'#f1da80'" class="row-middle" />
+          <HalfDoughnutChart
+            :color="'#f1da80'"
+            class="row-middle"
+            :dataSource="qswaitavgcnt" />
         </div>
       </a-col>
       <a-col :span="9">

@@ -1,31 +1,9 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
+import { createStore } from 'vuex';
+import { DashboardStoreState } from './modules/dashboard/type';
 
-export default new Vuex.Store({
-  state: {
-    loading: false,
-    token: null
-  },
-  mutations: {
-    setLoading(state, value) {
-      state.loading = value;
-    }
-  },
-  actions: {
-    fetchData({ commit }) {
-      commit('setLoading', true);
-      axios
-        .get('/api/data')
-        .then((response) => {
-          // Handle successful response
-        })
-        .catch((error) => {
-          // Handle error
-        })
-        .finally(() => {
-          commit('setLoading', false);
-        });
-    }
-  }
-});
+export interface IRootState {
+  dashboardStore: DashboardStoreState;
+}
+
+// Declare empty store first, dynamically register all modules later.
+export default createStore<IRootState>({});
