@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../views/Login.vue';
-import Home from '../views/Home.vue';
+import Home from '../views/Dashboard/Home.vue';
 import {
   DeviceManagement,
   AutoShutdownSettings,

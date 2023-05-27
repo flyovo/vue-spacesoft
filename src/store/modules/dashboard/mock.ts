@@ -1,4 +1,9 @@
-import { QsIssueCount, QsWaitAvgCount, QsWaitAvgTime } from './type';
+import {
+  QsIssueCount,
+  QsWaitAvgCount,
+  QsWaitAvgTime,
+  ChartDataByMonth
+} from './type';
 
 const QS_ISSUE_COUNT: QsIssueCount[] = [
   {
@@ -199,11 +204,111 @@ const QS_WAIT_AVG_TIME: QsWaitAvgTime[] = [
 ];
 
 type MockType = {
-  [key: string]: QsIssueCount[] | QsWaitAvgCount[] | QsWaitAvgTime[];
+  [key: string]:
+    | QsIssueCount[]
+    | QsWaitAvgCount[]
+    | QsWaitAvgTime[]
+    | ChartDataByMonth[];
 };
 
+// 수납기 월사용량
+const SUNAP_MONTHLY_COUNT: ChartDataByMonth[] = [
+  {
+    '0': 51072,
+    '-1': 62173,
+    '-2': 450,
+    '-3': 0,
+    '-4': 0,
+    '-5': 0,
+    '-6': 0,
+    '-7': 0,
+    '-8': 0,
+    '-9': 0,
+    '-10': 0,
+    '-11': 0
+  }
+];
+
+// 제증명 월사용량
+const CERT_MONTHLY_COUNT_CERT: ChartDataByMonth[] = [
+  {
+    '0': 51072,
+    '-1': 62173,
+    '-2': 450,
+    '-3': 0,
+    '-4': 0,
+    '-5': 0,
+    '-6': 0,
+    '-7': 0,
+    '-8': 0,
+    '-9': 0,
+    '-10': 0,
+    '-11': 0
+  }
+];
+
+// 순번발권 월사용량
+const QS_MONTHLY_COUNT: ChartDataByMonth[] = [
+  {
+    '0': 51072,
+    '-1': 62173,
+    '-2': 450,
+    '-3': 0,
+    '-4': 0,
+    '-5': 0,
+    '-6': 0,
+    '-7': 0,
+    '-8': 0,
+    '-9': 0,
+    '-10': 0,
+    '-11': 0
+  }
+];
+
+// 도착확인 월사용량
+const ARRIVE_MONTHLY_COUNT: ChartDataByMonth[] = [
+  {
+    '0': 51072,
+    '-1': 62173,
+    '-2': 450,
+    '-3': 0,
+    '-4': 0,
+    '-5': 0,
+    '-6': 0,
+    '-7': 0,
+    '-8': 0,
+    '-9': 0,
+    '-10': 0,
+    '-11': 0
+  }
+];
+
+// 신체계측 월사용량
+const PHY_MONTHLY_COUNT: ChartDataByMonth[] = [
+  {
+    '0': 51072,
+    '-1': 62173,
+    '-2': 450,
+    '-3': 0,
+    '-4': 0,
+    '-5': 0,
+    '-6': 0,
+    '-7': 0,
+    '-8': 0,
+    '-9': 0,
+    '-10': 0,
+    '-11': 0
+  }
+];
+
 export const QS_MOCK: MockType = {
-  qsissuecnt: QS_ISSUE_COUNT,
-  qswaitavgcnt: QS_WAIT_AVG_COUNT,
-  qswaitavgtime: QS_WAIT_AVG_TIME
+  sunap_monthly_cnt: SUNAP_MONTHLY_COUNT,
+  cert_monthly_cnt: CERT_MONTHLY_COUNT_CERT,
+  qs_monthly_cnt: QS_MONTHLY_COUNT,
+  arrive_monthly_cnt: ARRIVE_MONTHLY_COUNT,
+  phy_monthly_cnt: PHY_MONTHLY_COUNT,
+
+  qs_issue_cnt: QS_ISSUE_COUNT,
+  qs_wait_avg_cnt: QS_WAIT_AVG_COUNT,
+  qs_wait_avg_time: QS_WAIT_AVG_TIME
 };

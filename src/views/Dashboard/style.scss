@@ -1,0 +1,35 @@
+.dashboard-wrapper {
+  display: flex;
+  gap: 10px;
+  &.column {
+    flex-flow: column;
+  }
+}
+.dashboard-box {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  .row-first {
+    height: 540px;
+  }
+  .row-middle {
+    height: 345px;
+  }
+  .row-last {
+    //height: 355px;
+  }
+}
+.dashboard-box-title {
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  background-color: #fafcfc;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.13;
+  color: #3d464d;
+}
+
+.dashboard-color {
+  background-color: #000;
+  color: #fff;
+}
