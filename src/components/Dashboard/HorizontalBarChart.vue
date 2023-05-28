@@ -1,5 +1,4 @@
 <template>
-  <!-- <BarChart v-bind="barChartProps" /> -->
   <div>
     <div class="legend-group">
       <span class="legend-circle max"> 최다</span>
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import { BarChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
 
@@ -20,35 +19,25 @@ Chart.register(...registerables);
 export default defineComponent({
   name: 'HorizontalBarChart',
   components: { BarChart },
-  setup() {
-    const data1 = ref([30, 40, 60, 70, 5, 17]);
-    const chartData = computed(() => ({
-      labels: ['월', '화', '수', '목', '금', '토'],
-      datasets: [
-        {
-          label: 'data',
-          data: data1.value,
-          backgroundColor: function (context: any) {
-            if (context.raw >= 60) {
-              return '#ff8787';
-            } else if (context.raw >= 17) {
-              return '#54d1cc';
-            }
-            return '#b8bdce';
-          },
-          borderColor: function (context: any) {
-            if (context.raw >= 60) {
-              return '#ff8787';
-            } else if (context.raw >= 17) {
-              return '#54d1cc';
-            }
-            return '#b8bdce';
-          }
-        }
-      ]
-    }));
+  props: {
+    dataSource: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    const setColorByTick = (context: any) => {
+      let value = props.dataSource?.data[context.tick.value];
+      return getTicksColor(value);
+    };
+    const getTicksColor = (value: number) => {
+      if (value >= 15) return '#54d1cc';
+      if (value >= 9) return '#ff8787';
+      return '#b8bdce';
+    };
 
-    const chartOptions = {
+    const chartData = ref({ labels: [], datasets: [] });
+    const chartOptions = ref({
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: true,
@@ -89,19 +78,31 @@ export default defineComponent({
             drawBorder: false
           },
           ticks: {
-            color: function (context: any) {
-              let value = data1.value[context.tick.value];
-              if (value >= 60) {
-                return '#ff8787';
-              } else if (value >= 17) {
-                return '#54d1cc';
-              }
-              return '#b8bdce';
-            }
+            color: setColorByTick
           }
         }
       }
-    };
+    });
+
+    watchEffect(async () => {
+      chartData.value = {
+        labels: props.dataSource?.labels,
+        datasets: [
+          {
+            label: 'data',
+            data: props.dataSource?.data,
+            backgroundColor: props.dataSource?.data.map((value: number) =>
+              getTicksColor(value)
+            ),
+            borderColor: props.dataSource?.data.map((value: number) =>
+              getTicksColor(value)
+            )
+          }
+        ]
+      };
+
+      chartOptions.value.scales.y.ticks.color = setColorByTick;
+    });
 
     return { chartData, chartOptions };
   }

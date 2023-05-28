@@ -11,7 +11,7 @@ import request from '@/utils/request';
   qs_wait_avg_cnt : 평균 대기인수
   qs_wait_avg_time : 평균 대기시간
 */
-export const getDashboardChartData = (data: any) =>
+export const getDashboardData = (data: any) =>
   request({
     url: `/dashboard/${data.type}`,
     method: 'get',

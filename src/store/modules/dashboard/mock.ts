@@ -301,7 +301,7 @@ const PHY_MONTHLY_COUNT: ChartDataByMonth[] = [
   }
 ];
 
-export const QS_MOCK: MockType = {
+export const DASHBOARD_MOCK: MockType = {
   sunap_monthly_cnt: SUNAP_MONTHLY_COUNT,
   cert_monthly_cnt: CERT_MONTHLY_COUNT_CERT,
   qs_monthly_cnt: QS_MONTHLY_COUNT,

@@ -45,7 +45,7 @@ export default defineComponent({
 
         dataSource.value.labels = [...labels].reverse();
         dataSource.value.data = [[...data].reverse()];
-        dataSource.value.title = labelByType[props.type];
+        dataSource.value.title = [labelByType[props.type]];
       } catch (error) {
         console.error(error);
       }

@@ -1,6 +1,6 @@
 import store from '@/store';
 import { login, logout } from '@/api/user-api';
-import { getDashboardChartData } from '@/api/dashboard-api';
+import { getDashboardData } from '@/api/dashboard-api';
 import {
   VuexModule,
   Module,
@@ -10,8 +10,7 @@ import {
 } from 'vuex-module-decorators';
 import { DashboardStoreState } from './type';
 import { cloneDeep } from 'lodash';
-import { QS_MOCK } from './mock';
-import dayjs from 'dayjs';
+import { DASHBOARD_MOCK } from './mock';
 
 @Module({ dynamic: true, store, name: 'dashboardStore', namespaced: true })
 class DashboardStore extends VuexModule implements DashboardStoreState {
@@ -34,8 +33,8 @@ class DashboardStore extends VuexModule implements DashboardStoreState {
 
   @Action({ rawError: true })
   public getDashboard(payload: { type: string; date: Date }) {
-    const data = cloneDeep(QS_MOCK[payload.type]);
-    // const data = getDashboardChartData(payload.type);
+    const data = cloneDeep(DASHBOARD_MOCK[payload.type]);
+    // const data = getDashboardData(payload.type);
 
     // this.SET_CHANGE_VALUE({
     //   key: `dashboard_${payload.type}`,

@@ -9,11 +9,6 @@ import {
   DoughnutChart
 } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
-import {
-  QsWaitAvgTime,
-  QsWaitAvgCount,
-  ChartDataByMonth
-} from '../../store/modules/dashboard/type';
 import SolutionByOverall from '@/views/Dashboard/SolutionByOverall.vue';
 import SolutionByOthers from '@/views/Dashboard/SolutionByOthers.vue';
 import DailyAvgCnt from '@/views/Dashboard/DailyAvgCnt.vue';
@@ -45,26 +40,10 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-
     const selectedDuration = ref('all');
 
-    // Fetch the data and update the reactive properties
-    const fetchWholeChart = async (type: string) => {
-      try {
-        const result = await DashboardStoreModule.getDashboard({
-          type: type,
-          date: new Date()
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     // Fetch the data on component mount
-    onMounted(() => {
-      if (selectedDuration.value === 'all') {
-      }
-    });
+    onMounted(() => {});
 
     return {
       selectedDuration,
@@ -123,8 +102,7 @@ export default defineComponent({
       <a-col :span="9">
         <div class="dashboard-box">
           <div class="dashboard-box-title">외래</div>
-          <!-- <LineChart class="row-middle" /> -->
-          <!-- <Outpatient class="row-middle" /> -->
+          <Outpatient class="row-middle" />
         </div>
       </a-col>
     </a-row>

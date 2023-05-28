@@ -13,12 +13,12 @@ export default defineComponent({
   name: 'HalfDoughnutChart',
   props: {
     color: { type: String, required: false, default: '#78bcee' },
-    dataSource: { type: Object, required: true, dafault: () => [] }
+    dataSource: { type: Object, required: true, default: () => [] }
   },
   components: { DoughnutChart },
   setup(props) {
     const color = props.color.toString(); // Convert color to a string
-    const chartData = ref([]); // Initialize chartData as null
+    const chartData = ref([]); // Initialize chartData as an empty array
 
     // Wait for the dataSource Promise to resolve
     watchEffect(async () => {
@@ -28,9 +28,7 @@ export default defineComponent({
       });
 
       chartData.value = {
-        labels: [
-          ...resolvedDataSource.map((data: { label: string }) => data.label)
-        ],
+        labels: resolvedDataSource.map((data: { label: string }) => data.label),
         datasets: [
           {
             data,

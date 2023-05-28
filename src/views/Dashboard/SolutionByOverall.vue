@@ -50,7 +50,7 @@ export default defineComponent({
           label: Array.from(Array(totalMonthCount), (_, index) =>
             dayjs(new Date())
               .subtract(totalMonthCount - 1 - index, 'month')
-              .format('YYYY년 MM월')
+              .format('YY년 MM월')
           ),
           data: {
             twoMonthAgo: [

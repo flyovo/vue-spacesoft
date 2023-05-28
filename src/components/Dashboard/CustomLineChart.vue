@@ -16,7 +16,7 @@ export default defineComponent({
     dataSource: {
       type: Object,
       required: true,
-      dafault: { labels: [], data: [] }
+      dafault: { labels: [], data: [], title: [] }
     }
   },
   data() {},
@@ -33,7 +33,7 @@ export default defineComponent({
         labels: props.dataSource?.labels,
         datasets: props.dataSource?.data?.map((data: [], index: number) => {
           return {
-            label: props.dataSource?.title,
+            label: props.dataSource?.title[index],
             data: data,
             borderWidth: 1,
             pointRadius: 4,
