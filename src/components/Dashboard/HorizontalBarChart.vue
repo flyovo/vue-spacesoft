@@ -6,7 +6,7 @@
       <span class="legend-circle smooth"> 원활</span>
       <span class="legend-circle min"> 최소</span>
     </div>
-    <BarChart :chart-data="chartData" :options="chartOptions" />
+    <BarChart :chartData="chartData" :options="chartOptions" />
   </div>
 </template>
 

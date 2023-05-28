@@ -3,7 +3,6 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { VerticalBarChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
-import { ChartDataByMonth } from '../../store/modules/dashboard/type';
 import dayjs from 'dayjs';
 
 export default defineComponent({
@@ -13,6 +12,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+
     const totalMonthCount = 3;
 
     const overall_data = ref([]);
@@ -89,7 +89,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <VerticalBarChart class="row-first" :dataSource="overall_data" />
+  <VerticalBarChart :dataSource="overall_data" />
 </template>
 
 <style lang="scss" scoped>

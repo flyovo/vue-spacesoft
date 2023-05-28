@@ -214,9 +214,9 @@ type MockType = {
 // 수납기 월사용량
 const SUNAP_MONTHLY_COUNT: ChartDataByMonth[] = [
   {
-    '0': 51072,
-    '-1': 62173,
-    '-2': 450,
+    '0': 1072,
+    '-1': 6173,
+    '-2': 5450,
     '-3': 0,
     '-4': 0,
     '-5': 0,
@@ -232,9 +232,9 @@ const SUNAP_MONTHLY_COUNT: ChartDataByMonth[] = [
 // 제증명 월사용량
 const CERT_MONTHLY_COUNT_CERT: ChartDataByMonth[] = [
   {
-    '0': 51072,
-    '-1': 62173,
-    '-2': 450,
+    '0': 572,
+    '-1': 173,
+    '-2': 45410,
     '-3': 0,
     '-4': 0,
     '-5': 0,
@@ -252,8 +252,8 @@ const QS_MONTHLY_COUNT: ChartDataByMonth[] = [
   {
     '0': 51072,
     '-1': 62173,
-    '-2': 450,
-    '-3': 0,
+    '-2': 1450,
+    '-3': 1435,
     '-4': 0,
     '-5': 0,
     '-6': 0,
@@ -268,10 +268,10 @@ const QS_MONTHLY_COUNT: ChartDataByMonth[] = [
 // 도착확인 월사용량
 const ARRIVE_MONTHLY_COUNT: ChartDataByMonth[] = [
   {
-    '0': 51072,
+    '0': 5172,
     '-1': 62173,
     '-2': 450,
-    '-3': 0,
+    '-3': 100,
     '-4': 0,
     '-5': 0,
     '-6': 0,
@@ -287,9 +287,9 @@ const ARRIVE_MONTHLY_COUNT: ChartDataByMonth[] = [
 const PHY_MONTHLY_COUNT: ChartDataByMonth[] = [
   {
     '0': 51072,
-    '-1': 62173,
-    '-2': 450,
-    '-3': 0,
+    '-1': 6173,
+    '-2': 4520,
+    '-3': 34568,
     '-4': 0,
     '-5': 0,
     '-6': 0,

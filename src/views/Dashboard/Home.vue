@@ -19,6 +19,7 @@ import SolutionByOthers from '@/views/Dashboard/SolutionByOthers.vue';
 import DailyAvgCnt from '@/views/Dashboard/DailyAvgCnt.vue';
 import DailyAvgWaitTime from '@/views/Dashboard/DailyAvgWaitTime.vue';
 import DailyAvgWaitCnt from '@/views/Dashboard/DailyAvgWaitCnt.vue';
+import Outpatient from '@/views/Dashboard/Outpatient.vue';
 import KioskByType from '@/views/Dashboard/KioskByType.vue';
 import KioskByFloor from '@/views/Dashboard/KioskByFloor.vue';
 import KioskByArea from '@/views/Dashboard/KioskByArea.vue';
@@ -31,6 +32,7 @@ export default defineComponent({
     DailyAvgCnt,
     DailyAvgWaitTime,
     DailyAvgWaitCnt,
+    Outpatient,
     KioskByType,
     KioskByFloor,
     KioskByArea,
@@ -95,8 +97,10 @@ export default defineComponent({
             </a-radio-button>
           </a-radio-group>
         </div>
-        <SolutionByOverall v-if="selectedDuration === 'all'" />
-        <SolutionByOthers v-else :type="selectedDuration" />
+        <SolutionByOverall
+          class="row-first"
+          v-if="selectedDuration === 'all'" />
+        <SolutionByOthers class="row-first" v-else :type="selectedDuration" />
       </a-col>
     </a-row>
 
@@ -119,7 +123,8 @@ export default defineComponent({
       <a-col :span="9">
         <div class="dashboard-box">
           <div class="dashboard-box-title">외래</div>
-          <LineChart class="row-middle" />
+          <!-- <LineChart class="row-middle" /> -->
+          <!-- <Outpatient class="row-middle" /> -->
         </div>
       </a-col>
     </a-row>
