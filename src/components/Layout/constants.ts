@@ -14,7 +14,7 @@ import { Key } from 'ant-design-vue/lib/_util/type';
 export const HEADER_HEIGHT = 80;
 export const NAV_WIDTH = 248;
 
-type MenuItem = Required<MenuProps>['items'][number];
+export type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
   key: Key,
@@ -47,61 +47,154 @@ export const navMenu: MenuProps['items'] = [
     label: `HOME`
   },
   {
-    key: 'sub2',
+    key: 'sunap',
     icon: MedicineBoxOutlined,
     label: `수납기`,
     children: [
-      {
-        key: 'raw-data',
-        label: 'Raw 데이터',
-        children: [
-          {
-            key: '1',
-            label: '본관',
-            children: [{ key: 'raw-data', label: '내분비내과' }]
-          },
-          {
-            key: '2',
-            label: '신관'
-          }
-        ]
-      }
+      // {
+      //   key: 'A동',
+      //   label: 'A동',
+      //   children: [
+      //     {
+      //       key: '1층',
+      //       label: '1층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // },
+      // {
+      //   key: 'R동',
+      //   label: 'R동',
+      //   children: [
+      //     {
+      //       key: '2층',
+      //       label: '2층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // },
+      // {
+      //   key: 'B동',
+      //   label: 'B동',
+      //   children: [
+      //     {
+      //       key: '1층',
+      //       label: '1층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     },
+      //     {
+      //       key: '2층',
+      //       label: '2층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     },
+      //     {
+      //       key: '3층',
+      //       label: '3층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     },
+      //     {
+      //       key: '4층',
+      //       label: '4층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     },
+      //     {
+      //       key: '5층',
+      //       label: '5층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     },
+      //     {
+      //       key: '6층',
+      //       label: '6층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // },
+      // {
+      //   key: 'C동',
+      //   label: 'C동',
+      //   children: [
+      //     {
+      //       key: '1층',
+      //       label: '1층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // }
+      // {
+      //   key: 'raw-data',
+      //   label: 'Raw 데이터',
+      //   children: [
+      //     {
+      //       key: '1',
+      //       label: '본관',
+      //       children: [{ key: 'raw-data', label: '내분비내과' }]
+      //     },
+      //     {
+      //       key: '2',
+      //       label: '신관'
+      //     }
+      //   ]
+      // }
+    ]
+  },
+  // {
+  //   key: 'sub3',
+  //   icon: PrinterFilled,
+  //   label: `순번기`,
+  //   children: []
+  // },
+  {
+    key: 'cert',
+    icon: FileFilled,
+    label: `제증명`,
+    children: [
+      // {
+      //   key: 'B동',
+      //   label: 'B동',
+      //   children: [
+      //     {
+      //       key: '1층',
+      //       label: '1층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // }
     ]
   },
   {
-    key: 'sub3',
-    icon: PrinterFilled,
-    label: `순번기`,
-    children: []
-  },
-  {
-    key: 'sub4',
-    icon: FileFilled,
-    label: `제증명`,
-    children: []
-  },
-  {
-    key: 'sub5',
+    key: 'arrive',
     icon: CheckSquareOutlined,
     label: `도착확인`,
     children: []
   },
   {
-    key: 'sub6',
+    key: 'phy',
     icon: UserSwitchOutlined,
     label: `신체계측`,
-    children: []
-  },
-  {
-    key: 'sub7',
-    icon: SettingFilled,
-    label: `기기관리`,
-    children: []
-  },
-  {
-    key: 'sub8',
-    icon: TeamOutlined,
-    label: `회원관리`,
-    children: []
+    children: [
+      // {
+      //   key: 'C동',
+      //   label: 'C동',
+      //   children: [
+      //     {
+      //       key: '5층',
+      //       label: '5층',
+      //       children: [{ key: '원무과', label: '원무과' }]
+      //     }
+      //   ]
+      // }
+    ]
   }
+  // {
+  //   key: 'sub7',
+  //   icon: SettingFilled,
+  //   label: `기기관리`,
+  //   children: []
+  // },
+  // {
+  //   key: 'sub8',
+  //   icon: TeamOutlined,
+  //   label: `회원관리`,
+  //   children: []
+  // }
 ];

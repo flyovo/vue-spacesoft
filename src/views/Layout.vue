@@ -2,13 +2,23 @@
 import { RouterView, RouterLink } from 'vue-router';
 import HeaderLoginMenu from '@/components/Layout/HeaderLoginMenu.vue';
 import Logo from '@/components/Logo/index.vue';
-import { defineComponent, ref, reactive, toRefs } from 'vue';
+import { defineComponent, ref, reactive, toRefs, onMounted } from 'vue';
 import {
   HEADER_HEIGHT,
   NAV_WIDTH,
   headerMenu,
-  navMenu
+  navMenu,
+  MenuItem
 } from '@/components/Layout/constants';
+import { WisdomStoreModule } from '@/store/modules/wisdom/store';
+import { NavTree } from '@/store/modules/wisdom/type';
+import {
+  MedicineBoxOutlined,
+  FileFilled,
+  CheckSquareOutlined,
+  UserSwitchOutlined,
+  HomeOutlined
+} from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'Layout',
@@ -24,13 +34,14 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
-      rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
       selectedHeaderMenuKeys: [],
       openSideMenuKeys: [],
       selectedSideMenuKeys: [],
       headerMenu,
       navMenu
     });
+
+    const customNavMenu = ref([]);
 
     const handleHeaderMenuClick = (e: any) => {
       state.selectedSideMenuKeys = [];
@@ -40,13 +51,83 @@ export default defineComponent({
       state.selectedHeaderMenuKeys = [];
     };
 
+    function parseNavTree(pos: string, navTree: any): any[] {
+      return Object.keys(navTree)
+        .filter((key: string) => key !== 'All')
+        .map((key: string) => {
+          let item = navTree[key];
+          if (pos === 'root') item = item[0];
+
+          const pos_1 = item?.pos_1;
+          const pos_2 = item?.pos_2;
+          const pos_4 = item?.pos_4;
+          let children = [];
+
+          if (pos_4) {
+            children = pos_4.map((posItem: any) => {
+              return {
+                key: posItem.name,
+                label: posItem.name
+              };
+            });
+          } else if (pos_2) {
+            children = parseNavTree('pos_2', pos_2);
+          } else if (pos_1) {
+            children = parseNavTree('pos_1', pos_1);
+          }
+
+          const tree = {
+            key: item.name,
+            label: item.name,
+            children
+          };
+
+          if (pos_1) {
+            tree.key = key;
+            tree.label = key;
+          }
+
+          return tree;
+        });
+    }
+
+    // Fetch the data and update the reactive properties
+    const fetchData = async (type: string) => {
+      try {
+        const result = await WisdomStoreModule.getWisdom({
+          type: type,
+          date: new Date()
+        });
+
+        const parseNavMenu = parseNavTree('root', result);
+
+        customNavMenu.value = navMenu?.map((menu: MenuItem) => {
+          return {
+            ...menu,
+            children: parseNavMenu.find((c) => {
+              return menu?.key === c.key;
+            })?.children
+          };
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch the data on component mount
+    onMounted(() => {
+      fetchData('get_nav_tree');
+    });
+
     return {
       HEADER_HEIGHT: `${HEADER_HEIGHT}px`,
       NAV_WIDTH: NAV_WIDTH,
       ...toRefs(state),
       handleHeaderMenuClick,
       handleSideMenuClick,
-      collapsed: ref(false)
+      collapsed: ref(false),
+      navMenu,
+      customNavMenu
     };
   },
   emits: {},
@@ -119,7 +200,8 @@ export default defineComponent({
             color: '#6c7780',
             fontSize: '14px'
           }">
-          <template v-for="menu in navMenu" :key="menu.key">
+          <!-- <template v-for="menu in navMenu" :key="menu.key"> -->
+          <template v-for="menu in customNavMenu" :key="menu.key">
             <a-menu-item v-if="!menu?.children">
               <component
                 v-if="menu.icon"
