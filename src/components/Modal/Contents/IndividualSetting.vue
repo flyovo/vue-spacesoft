@@ -93,7 +93,7 @@ export default defineComponent({
 </style>
 
 <style scoped lang="scss">
-@import 'src/views/Header/style.scss';
+@import 'src/views/HeaderContent/style.scss';
 .setting-wrapper {
   flex: 1 0 28%;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);

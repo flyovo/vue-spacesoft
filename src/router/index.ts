@@ -5,8 +5,8 @@ import {
   DeviceManagement,
   AutoShutdownSettings,
   ManagingAccounts
-} from '../views/Header';
-import { RawData } from '../views/Side';
+} from '../views/HeaderContent';
+import { RawData } from '../views/Content';
 import Layout from '../views/Layout.vue';
 
 const router = createRouter({
