@@ -2,7 +2,7 @@ export interface WisdomStoreState {
   wisdom_navtree: NavTree;
 }
 
-type NavTreeNode = {
+export type NavTreeNode = {
   name: string;
   pos_2?: NavTreeNode[];
   pos_4?: NavTreeNode[];

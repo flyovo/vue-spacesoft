@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { MenuItem, navMenu } from '@/components/Layout/constants';
 import { WisdomStoreModule } from '@/store/modules/wisdom/store';
+import { NavTreeNode } from '@/store/modules/wisdom/type';
 
 export default defineComponent({
   name: 'SideNavMenu',
@@ -13,7 +14,7 @@ export default defineComponent({
       return Object.keys(navTree)
         .filter((key: string) => key !== 'All')
         .map((key: string) => {
-          let item = navTree[key];
+          let item = navTree[key] as NavTreeNode[];
           if (pos === 'root') item = item[0];
 
           const pos_1 = item?.pos_1;
