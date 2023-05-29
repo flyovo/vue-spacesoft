@@ -171,10 +171,7 @@ export default defineComponent({
             height: '100%',
             padding: '10px 0'
           }">
-          <a-menu-item
-            v-for="menu in headerMenu"
-            :key="menu?.key"
-            :data-type="menu.type">
+          <a-menu-item v-for="menu in headerMenu" :key="menu?.key">
             <a-divider
               v-if="menu?.key % 2 === 0"
               type="vertical"
