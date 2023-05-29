@@ -1,7 +1,10 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue';
-import { deviceColumn, deviceDataSource } from './constants';
+import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { DeviceStoreModule } from '@/store/modules/device/store';
+import { deviceColumn } from './constants';
 import GroupManagementModal from '@/components/Modal/GroupManagementModal.vue';
+import { Device } from './types';
 
 export default defineComponent({
   name: 'DeviceManagement',
@@ -12,21 +15,42 @@ export default defineComponent({
     GroupManagementModal
   },
   setup() {
+    const store = useStore();
+    const deviceDataSource = ref([]);
+
     const visible = ref<boolean>(false);
     const state = reactive({
       visible: visible,
-      deviceColumn: deviceColumn,
-      deviceDataSource: deviceDataSource
+      deviceColumn: deviceColumn
     });
 
     const handleShowGroupManegement = (e: any) => {
       visible.value = true;
     };
 
+    // Fetch the data and update the reactive properties
+    const fetchData = async (type: string) => {
+      try {
+        const result = await DeviceStoreModule.getDevice({
+          type: type,
+          date: new Date()
+        });
+
+        deviceDataSource.value = result;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch the data on component mount
+    onMounted(() => {
+      fetchData('list');
+    });
+
     return {
       ...toRefs(state),
-      // handleCancel,
-      handleShowGroupManegement
+      handleShowGroupManegement,
+      deviceDataSource
     };
   },
   methods: {

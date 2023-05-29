@@ -1,5 +1,5 @@
 export interface WisdomStoreState {
-  wisdom_navtree: NavTree | undefined;
+  wisdom_navtree: NavTree;
 }
 
 type NavTreeNode = {

@@ -4,7 +4,7 @@ import request from '@/utils/request';
     list : 장비 리스트
     site_pos_list : 사이트 관리 리스트
 */
-export const rawData = (data: any) =>
+export const getDevice = (data: any) =>
   request({
     url: `/dev/${data.type}`,
     method: 'get',
@@ -17,7 +17,7 @@ export const rawData = (data: any) =>
     saveDev : 기기설정 화면 추가 및 수정
     delDev : 기기정보 삭제
 */
-export const updateRawData = (data: any) =>
+export const updateDevice = (data: any) =>
   request({
     url: `/dev/${data.type}`,
     method: 'post',
