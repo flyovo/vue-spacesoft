@@ -98,8 +98,6 @@ export default defineComponent({
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
 
-      console.log('handleTypeButtonClick ::: ', button.value, this.dataSource);
-
       if (button.value !== 'all') {
         this.columns = statisticsColumns;
         this.dataSource = statisticsSourceData;
