@@ -54,15 +54,13 @@ export default defineComponent({
     };
 
     const handleFinish = (values: FormState) => {
-      console.log(values, formState);
       UserStoreModule.Login(values).then(async (resolve: any) => {
         if (resolve === 200) {
-          console.log('rememberId ::: ', rememberId.value);
           if (rememberId.value) {
             sessionStorage.setItem('spacesoft-rememberId', values.user_id);
           }
 
-          router.push(`/`);
+          router.push(`/home`);
         }
       });
     };
@@ -97,6 +95,11 @@ export default defineComponent({
       resetForm
       // handleChange
     };
+  },
+  mounted() {
+    if (sessionStorage.getItem('spacesoft-userState')) {
+      router.push(`/home`);
+    }
   }
 });
 </script>

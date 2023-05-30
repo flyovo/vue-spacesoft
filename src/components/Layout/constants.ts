@@ -9,7 +9,14 @@ import {
   TeamOutlined
 } from '@ant-design/icons-vue';
 import type { MenuProps } from 'antd';
-import { Key } from 'ant-design-vue/lib/_util/type';
+import type { Key } from 'ant-design-vue/lib/_util/type';
+import type { Auth } from '@/store/modules/user/type';
+
+export const authType: { [key in Auth]: string } = {
+  A: '병원 총괄 관리자',
+  P: '기관 / 부서 관리자',
+  S: 'Super Admin'
+};
 
 export const HEADER_HEIGHT = 80;
 export const NAV_WIDTH = 248;

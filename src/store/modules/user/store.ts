@@ -7,7 +7,7 @@ import {
   Mutation,
   getModule
 } from 'vuex-module-decorators';
-import { UserStoreState } from './type';
+import type { UserStoreState } from './type';
 import { cloneDeep } from 'lodash';
 import { USER_MOCK } from './mock';
 
@@ -58,7 +58,12 @@ class UserStore extends VuexModule implements UserStoreState {
 
     sessionStorage.setItem(
       'spacesoft-userState',
-      JSON.stringify({ pos_1: data.POS_1, pos_4: data.POS_4 })
+      JSON.stringify({
+        authority: data.AUTHORITY,
+        user_name: data.USER_NM,
+        pos_1: data.POS_1,
+        pos_4: data.POS_4
+      })
     );
     // if (resultCd === 200) {
     return new Promise((resolve) => {

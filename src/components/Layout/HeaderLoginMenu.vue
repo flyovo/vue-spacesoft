@@ -1,6 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { UserOutlined, PoweroffOutlined } from '@ant-design/icons-vue';
+import router from '@/router';
+import { authType } from './constants';
+import type { Auth } from '@/store/modules/user/type';
 
 export default defineComponent({
   name: 'HeaderLoginMenu',
@@ -9,23 +12,19 @@ export default defineComponent({
     PoweroffOutlined
   },
   props: {
-    role: { type: String, required: true },
+    role: { type: String as () => Auth, required: true },
     userName: { type: String, required: true }
   },
-  setup(props) {
-    let role = '';
-    switch (props.role) {
-      case 'admin':
-        role = '관리자';
-        break;
-      default:
-        role = '관리자';
-        break;
+  methods: {
+    handleLogout() {
+      sessionStorage.removeItem('spacesoft-userState');
+      router.push(`/login`);
     }
-
-    return {
-      role: role
-    };
+  },
+  computed: {
+    roleLabel() {
+      return authType[this.role] || '';
+    }
   }
 });
 </script>
@@ -34,9 +33,10 @@ export default defineComponent({
   <div class="header-account">
     <div class="header-account-info">
       <UserOutlined :style="{ fontSize: '20px', color: '#e6edf2' }" />
-      {{ role }} {{ userName }}
+      {{ roleLabel }} {{ userName }}
     </div>
     <a-button
+      @click="handleLogout"
       :style="{
         width: '45px',
         height: '100%',

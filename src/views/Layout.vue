@@ -3,7 +3,7 @@ import { RouterView, RouterLink } from 'vue-router';
 import HeaderLoginMenu from '@/components/Layout/HeaderLoginMenu.vue';
 import Logo from '@/components/Logo/index.vue';
 import SideNavMenu from '@/components/Layout/SideNavMenu.vue';
-import { defineComponent, ref, reactive, toRefs, onMounted } from 'vue';
+import { defineComponent, ref, reactive, toRefs } from 'vue';
 import {
   HEADER_HEIGHT,
   NAV_WIDTH,
@@ -21,11 +21,11 @@ export default defineComponent({
     RouterLink,
     SideNavMenu
   },
-  props: {
-    role: { type: String, required: false, default: 'admin' },
-    userName: { type: String, required: false, default: '홍길동' }
-  },
   setup() {
+    const userStateString = sessionStorage.getItem('spacesoft-userState');
+    const userState =
+      userStateString !== null ? JSON.parse(userStateString) : null;
+
     const state = reactive({
       selectedHeaderMenuKeys: [],
       openSideMenuKeys: [],
@@ -43,6 +43,7 @@ export default defineComponent({
     };
 
     return {
+      userState,
       HEADER_HEIGHT: `${HEADER_HEIGHT}px`,
       NAV_WIDTH: NAV_WIDTH,
       ...toRefs(state),
@@ -56,10 +57,14 @@ export default defineComponent({
     onSubmit() {}
   },
   mounted() {
-    if (sessionStorage.getItem('spacesoft-userState')) {
-      router.push(`/home`);
-    } else {
+    if (!sessionStorage.getItem('spacesoft-userState')) {
       router.push(`/login`);
+      return;
+    }
+
+    if (router.currentRoute.value.path === '/') {
+      router.push(`/home`);
+      return;
     }
   }
 });
@@ -107,7 +112,9 @@ export default defineComponent({
             <router-link v-else :to="menu.key">{{ menu.label }}</router-link>
           </a-menu-item>
         </a-menu>
-        <HeaderLoginMenu :role="role" :userName="userName" />
+        <HeaderLoginMenu
+          :role="userState?.authority"
+          :userName="userState?.user_name" />
       </div>
     </a-layout-header>
     <a-layout :style="{ height: 'fit-content', overflow: 'scroll' }">
