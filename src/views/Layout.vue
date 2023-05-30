@@ -10,6 +10,7 @@ import {
   headerMenu,
   navMenu
 } from '@/components/Layout/constants';
+import router from '@/router';
 
 export default defineComponent({
   name: 'Layout',
@@ -53,6 +54,13 @@ export default defineComponent({
   emits: {},
   methods: {
     onSubmit() {}
+  },
+  mounted() {
+    if (sessionStorage.getItem('spacesoft-userState')) {
+      router.push(`/home`);
+    } else {
+      router.push(`/login`);
+    }
   }
 });
 </script>
