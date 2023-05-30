@@ -1,20 +1,10 @@
 {
-  // "files": [],
-  // "references": [
-  //   {
-  //     "path": "./tsconfig.node.json"
-  //   },
-  //   {
-  //     "path": "./tsconfig.app.json"
-  //   }
-  // ],
   "compilerOptions": {
+    "composite": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*" // set path `@/*` as alias of `src/*`
-      ]
+      "@/*": ["./src/*"]
     },
     "target": "es5",
     "types": ["vite/client"],
