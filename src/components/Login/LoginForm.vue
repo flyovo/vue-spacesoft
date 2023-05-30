@@ -1,15 +1,17 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, UnwrapRef } from 'vue';
+import { defineComponent, reactive, ref, UnwrapRef, onMounted } from 'vue';
 import {
   RuleObject,
   ValidateErrorEntity
 } from 'ant-design-vue/es/form/interface';
 import Logo from '../Logo/index.vue';
 import { useStore } from 'vuex';
+import { UserStoreModule } from '@/store/modules/user/store';
+import router from '@/router';
 
 interface FormState {
-  id: string;
-  password: string;
+  user_id: string;
+  user_pwd: string;
 }
 
 export default defineComponent({
@@ -17,10 +19,12 @@ export default defineComponent({
   components: { Logo },
   setup() {
     const store = useStore();
+    const sessionRememberId = sessionStorage.getItem('spacesoft-rememberId');
+    const rememberId = ref(!!sessionRememberId);
     const formRef = ref();
     const formState: UnwrapRef<FormState> = reactive({
-      id: '',
-      password: ''
+      user_id: sessionRememberId ?? '',
+      user_pwd: ''
     });
 
     let validateID = async (rule: RuleObject, value: string) => {
@@ -28,8 +32,8 @@ export default defineComponent({
         return Promise.reject('Please input the ID');
       }
       // else {
-      //   if (formState.id !== '') {
-      //     formRef.value.validateFields('id');
+      //   if (formState.user_id !== '') {
+      //     formRef.value.validateFields('user_id');
       //   }
       //   return Promise.resolve();
       // }
@@ -37,7 +41,7 @@ export default defineComponent({
     let validatePW = async (rule: RuleObject, value: string) => {
       if (value === '') {
         // return Promise.reject('Please input the ID');
-        // } else if (value !== formState.password) {
+        // } else if (value !== formState.user_pwd) {
         return Promise.reject('Please input the password');
       } else {
         return Promise.resolve();
@@ -45,35 +49,53 @@ export default defineComponent({
     };
 
     const rules = {
-      id: [{ required: true, validator: validateID, trigger: 'change' }],
-      password: [{ validator: validatePW, trigger: 'change' }]
+      user_id: [{ required: true, validator: validateID, trigger: 'change' }],
+      user_pwd: [{ validator: validatePW, trigger: 'change' }]
     };
-    const layout = {
-      // labelCol: { span: 4 },
-      // wrapperCol: { span: 14 }
-    };
+
     const handleFinish = (values: FormState) => {
       console.log(values, formState);
+      UserStoreModule.Login(values).then(async (resolve: any) => {
+        if (resolve === 200) {
+          console.log('rememberId ::: ', rememberId.value);
+          if (rememberId.value) {
+            sessionStorage.setItem('spacesoft-rememberId', values.user_id);
+          }
+
+          router.push(`/`);
+        }
+      });
     };
     const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
       console.log(errors);
     };
+
     const resetForm = () => {
       formRef.value.resetFields();
     };
 
-    const handleChange = () => {
-      console.log('handleChange');
-    };
+    // const handleChange = () => {
+    //   console.log('handleChange');
+    // };
+
+    onMounted(() => {
+      if (sessionStorage.getItem('spacesoft-rememberId')) {
+        rememberId.value = true;
+        formRef.value.user_id = sessionStorage.getItem('spacesoft-rememberId');
+      } else {
+        sessionStorage.removeItem('spacesoft-rememberId');
+      }
+    });
+
     return {
       formState,
       formRef,
       rules,
-      layout,
+      rememberId,
       handleFinishFailed,
       handleFinish,
-      resetForm,
-      handleChange
+      resetForm
+      // handleChange
     };
   }
 });
@@ -86,7 +108,6 @@ export default defineComponent({
     ref="formRef"
     :model="formState"
     :rules="rules"
-    v-bind="layout"
     :style="{
       width: '360px',
       height: '337px',
@@ -105,29 +126,28 @@ export default defineComponent({
       }">
       <a-form-item
         has-feedback
-        name="id"
+        name="user_id"
         initialValue=""
         :style="{ width: '100%', marginBottom: '15px' }">
         <a-input
-          v-model:value="formState.id"
+          v-model:value="formState.user_id"
           autocomplete="off"
           placeholder="ID" />
       </a-form-item>
 
       <a-form-item
         has-feedback
-        name="password"
+        name="user_pwd"
         initialValue=""
         :style="{ width: '100%', marginBottom: '15px' }">
         <a-input
-          v-model:value="formState.password"
-          id="password"
+          v-model:value="formState.user_pwd"
           type="password"
           autocomplete="off"
           placeholder="PASSWORD" />
       </a-form-item>
 
-      <a-checkbox @change="handleChange" :style="{ color: '#3d464d' }">
+      <a-checkbox v-model:checked="rememberId" :style="{ color: '#3d464d' }">
         아이디 기억하기
       </a-checkbox>
     </a-row>
