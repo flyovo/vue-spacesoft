@@ -7,9 +7,8 @@ export const login = (data: any) =>
     data
   });
 
-export const logout = (data: any) =>
+export const logout = () =>
   request({
     url: '/user/logout',
-    method: 'post',
-    data
+    method: 'post'
   });
