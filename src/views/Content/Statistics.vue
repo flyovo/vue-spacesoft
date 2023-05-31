@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
-import { rawDataSourceData, rawDataColumns } from './constants';
+import { statisticsColumns, statisticsSourceData } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
 
 export default defineComponent({
-  name: 'RawData',
+  name: 'Statistics',
   components: {
     CalendarTwoTone,
     Datepicker: VueDatepickerUi,
@@ -49,8 +49,8 @@ export default defineComponent({
       ]
     });
 
-    const dataSource = rawDataSourceData;
-    const columns = rawDataColumns;
+    const dataSource = statisticsSourceData;
+    const columns = statisticsColumns;
 
     const selectedDuration = ref('all');
     const selectedType = ref('all');
@@ -174,7 +174,7 @@ export default defineComponent({
 
   <a-table
     v-model="selectIndex"
-    class="ant-table-striped-raw-data"
+    class="ant-table-striped-statistics"
     :columns="columns"
     :dataSource="dataSource"
     :rowClassName="(record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
