@@ -103,6 +103,21 @@ export default defineComponent({
           :style="{ marginRight: '10px' }" />
         {{ menu.label }}
       </template>
+      <a-menu-item :key="`${menu.key}-statistics`">
+        <router-link
+          :to="{
+            path: 'statistics',
+            query: {
+              type: menu.key
+            }
+          }"
+          :style="{
+            color: '#6c7780',
+            fontSize: '14px'
+          }"
+          >통계
+        </router-link>
+      </a-menu-item>
       <a-sub-menu
         v-for="child in menu.children"
         :key="`${menu.key}-${child.key}`"
