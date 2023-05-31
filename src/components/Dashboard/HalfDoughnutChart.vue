@@ -6,6 +6,7 @@
 import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
+import chroma from 'chroma-js';
 
 Chart.register(...registerables);
 
@@ -17,10 +18,9 @@ export default defineComponent({
   },
   components: { DoughnutChart },
   setup(props) {
-    const color = props.color.toString(); // Convert color to a string
-    const chartData = ref([]); // Initialize chartData as an empty array
+    const color = props.color.toString();
+    const chartData = ref([]);
 
-    // Wait for the dataSource Promise to resolve
     watchEffect(async () => {
       const resolvedDataSource = await props.dataSource;
       const data = resolvedDataSource.map((data: { value: string }) => {
@@ -32,9 +32,14 @@ export default defineComponent({
         datasets: [
           {
             data,
-            backgroundColor: props.dataSource.map((data, index) =>
-              index === data.length - 1 ? '#e8edf0' : color
-            ),
+            // backgroundColor: props.dataSource.map(
+            //   (data: string | any[], index: number) =>
+            //     index === data.length - 1 ? '#e8edf0' : color
+            // ),
+            backgroundColor: chroma
+              .scale([color, '#f7faff'])
+              .mode('lab')
+              .colors(5),
             borderWidth: 0,
             borderSkipped: 'end'
           }
