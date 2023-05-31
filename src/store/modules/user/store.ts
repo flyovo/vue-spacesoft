@@ -53,7 +53,7 @@ class UserStore extends VuexModule implements UserStoreState {
 
     this.SET_CHANGE_VALUE({
       key: 'userState',
-      value: { pos_1: data.POS_1, pos_4: data.POS_4 }
+      value: { site: data.site, pos_1: data.POS_1, pos_4: data.POS_4 }
     });
 
     sessionStorage.setItem(
@@ -61,6 +61,7 @@ class UserStore extends VuexModule implements UserStoreState {
       JSON.stringify({
         authority: data.AUTHORITY,
         user_name: data.USER_NM,
+        site: data.site,
         pos_1: data.POS_1,
         pos_4: data.POS_4
       })

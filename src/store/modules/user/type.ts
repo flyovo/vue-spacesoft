@@ -6,6 +6,7 @@ export interface UserState {
   AUTHORITY: Auth;
   USER_ID: string;
   USER_NM: string;
+  site: string;
   POS_1: string;
   POS_4: string;
 }
