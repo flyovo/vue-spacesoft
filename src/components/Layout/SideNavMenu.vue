@@ -2,7 +2,6 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { MenuItem, navMenu } from '@/components/Layout/constants';
 import { WisdomStoreModule } from '@/store/modules/wisdom/store';
-import { NavTreeNode } from '@/store/modules/wisdom/type';
 
 export default defineComponent({
   name: 'SideNavMenu',
@@ -14,7 +13,7 @@ export default defineComponent({
       return Object.keys(navTree)
         .filter((key: string) => key !== 'All')
         .map((key: string) => {
-          let item = navTree[key] as NavTreeNode[];
+          let item = navTree[key];
           if (pos === 'root') item = item[0];
 
           const pos_1 = item?.pos_1;
@@ -106,7 +105,7 @@ export default defineComponent({
       </template>
       <a-sub-menu
         v-for="child in menu.children"
-        :key="child.key"
+        :key="`${menu.key}-${child.key}`"
         :style="{
           color: '#6c7780',
           fontSize: '14px'
@@ -120,7 +119,7 @@ export default defineComponent({
         </template>
         <a-sub-menu
           v-for="child1 in child.children"
-          :key="child1.key"
+          :key="`${menu.key}-${child.key}-${child1.key}`"
           :style="{
             color: '#6c7780',
             fontSize: '14px'
@@ -134,12 +133,23 @@ export default defineComponent({
           </template>
           <a-menu-item
             v-for="child2 in child1.children"
-            :key="child2.key"
+            :key="`${menu.key}-${child.key}-${child1.key}-${child2.key}`"
             :style="{
               color: '#6c7780',
               fontSize: '14px'
             }">
-            <router-link :to="child2.key">{{ child2.label }}</router-link>
+            <router-link
+              :to="{
+                path: 'raw-data',
+                query: {
+                  type: menu.key,
+                  pos1: child.key,
+                  pos2: child1.key,
+                  pos4: child2.key
+                }
+              }"
+              >{{ child2.label }}
+            </router-link>
           </a-menu-item>
         </a-sub-menu>
       </a-sub-menu>
