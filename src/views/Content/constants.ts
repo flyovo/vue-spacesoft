@@ -10,9 +10,20 @@ export type TableDataType = {
   gender: string;
 };
 
-export const rawDataColumns = [
+export interface IColumn {
+  title: string;
+  dataIndex: string | string[];
+  key: string;
+  align?: 'left' | 'right' | 'center' | undefined;
+  children?: IColumn[];
+  customRender?: () => string;
+}
+
+export const rawDataColumns: IColumn[] = [
   {
     title: '구분',
+    dataIndex: '구분',
+    key: '구분',
     children: [
       {
         title: '날짜',
@@ -60,6 +71,8 @@ export const rawDataColumns = [
   },
   {
     title: '수납관련 사항',
+    dataIndex: '수납관련 사항',
+    key: '수납관련 사항',
     children: [
       {
         title: '수납타입',
@@ -95,6 +108,8 @@ export const rawDataColumns = [
   },
   {
     title: '기타사항',
+    dataIndex: '기타사항',
+    key: '기타사항',
     children: [
       {
         title: '처방전 발행건수',
@@ -120,7 +135,6 @@ export const rawDataColumns = [
   }
 ];
 
-// export const data = [...Array(100)].map((_, i) => ({
 export const rawDataSourceData = [...Array(100)].map((_, i) => ({
   key: i,
   수납타입: '외래',
@@ -149,9 +163,11 @@ export const rawDataSourceData = [...Array(100)].map((_, i) => ({
   발급건수: 1
 }));
 
-export const statisticsColumns = [
+export const statisticsColumns: IColumn[] = [
   {
     title: '구분',
+    dataIndex: '구분',
+    key: '구분',
     children: [
       {
         title: '날짜',
@@ -187,9 +203,13 @@ export const statisticsColumns = [
   },
   {
     title: '수납관련 사항',
+    dataIndex: '수납관련 사항',
+    key: '수납관련 사항',
     children: [
       {
         title: '외래 수납',
+        dataIndex: '외래 수납',
+        key: '외래 수납',
         children: [
           {
             title: '수납건수',
@@ -213,9 +233,13 @@ export const statisticsColumns = [
       },
       {
         title: '입퇴원비 수납',
+        dataIndex: '입퇴원비 수납',
+        key: '입퇴원비 수납',
         children: [
           {
             title: '중간수납',
+            dataIndex: '중간수납',
+            key: '중간수납',
             children: [
               {
                 title: '수납건수',
@@ -239,6 +263,8 @@ export const statisticsColumns = [
           },
           {
             title: '퇴원수납',
+            dataIndex: '퇴원수납',
+            key: '퇴원수납',
             children: [
               {
                 title: '수납건수',
@@ -266,6 +292,8 @@ export const statisticsColumns = [
   },
   {
     title: '기타사항',
+    dataIndex: '기타사항',
+    key: '기타사항',
     children: [
       {
         title: '처방전 발행건수',
