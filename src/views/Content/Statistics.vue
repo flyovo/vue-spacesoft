@@ -86,17 +86,17 @@ export default defineComponent({
   watch: {
     selectIndex(newValue: number) {
       this.pageSize = this.pageSizeOptions[newValue];
-      this.paginationConfig.current = 1;
+      this.paginationConfig.current = () => 1;
     }
   },
   methods: {
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
       this.paginationConfig.total = this.dataSource.length;
-      this.paginationConfig.current = 1;
+      this.paginationConfig.current = () => 1;
     },
     handlePaginationChange(pageNumber: number, pageSize: number) {
-      this.paginationConfig.current = pageNumber;
+      this.paginationConfig.current = () => pageNumber;
     }
   }
 });
@@ -165,7 +165,7 @@ export default defineComponent({
               v-model="selectIndex" />
           </a-col>
           <a-col>
-            <ButtonGroup :dataSource="dataSource" />
+            <ButtonGroup :columns="columns" :dataSource="dataSource" />
           </a-col>
         </a-row>
       </a-col>
@@ -203,7 +203,7 @@ export default defineComponent({
         v-model="selectIndex" />
     </a-col>
     <a-col>
-      <ButtonGroup :dataSource="dataSource" />
+      <ButtonGroup :columns="columns" :dataSource="dataSource" />
     </a-col>
   </a-row>
 </template>

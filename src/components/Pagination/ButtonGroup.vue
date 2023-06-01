@@ -1,8 +1,8 @@
 <script lang="ts">
 import { FileExcelFilled } from '@ant-design/icons-vue';
 import { defineComponent } from 'vue';
-// import { saveAs } from 'file-saver';
-// import XLSX from 'xlsx-style';
+import { Excel } from 'antd-table-saveas-excel';
+import { IColumn } from '@/views/Content/constants';
 
 export default defineComponent({
   name: 'ButtonGroup',
@@ -13,7 +13,7 @@ export default defineComponent({
       required: true
     },
     columns: {
-      type: Array,
+      type: Array as () => IColumn[],
       required: true
     },
     fileName: {
@@ -21,62 +21,21 @@ export default defineComponent({
       default: 'data.xlsx'
     }
   },
-  // emits: ['update:modelValue'],
-  // methods: {
-  //   handleClick(index: number) {
-  //     this.$emit('update:modelValue', index);
-  //   }
-  // }
-  methods: {
-    downloadExcel() {
-      //   const worksheet = XLSX.utils.json_to_sheet(this.dataSource, {
-      //     header: this.columns.map((column) => column.title)
-      //   });
-      //   const workbook = XLSX.utils.book_new();
-      //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-      //   // Set column widths
-      //   const ws = workbook.Sheets['Sheet1'];
-      //   const columnWidths = this.columns.map((column, index) => {
-      //     const columnName = XLSX.utils.encode_col(index);
-      //     const columnData = Object.keys(ws)
-      //       .filter((key) => key.startsWith(columnName))
-      //       .map((key) => ws[key]);
-      //     const maxContentLength = columnData.reduce(
-      //       (max, cell) =>
-      //         Math.max(max, cell.v.toString().length * 1.5, column.title.length),
-      //       column.title.length
-      //     );
-      //     return { wch: maxContentLength };
-      //   });
-      //   ws['!cols'] = columnWidths;
-      //   // Style header cells
-      //   const headerStyle = {
-      //     fill: {
-      //       fgColor: { rgb: 'D3D3D3' }
-      //     },
-      //     font: {
-      //       bold: true
-      //     }
-      //   };
-      //   const headerRange = XLSX.utils.decode_range(ws['!ref']);
-      //   for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
-      //     const headerCell = XLSX.utils.encode_cell({
-      //       r: headerRange.s.r,
-      //       c: col
-      //     });
-      //     ws[headerCell].s = headerStyle;
-      //   }
-      //   // Generate the Excel file
-      //   const excelBuffer = XLSX.write(workbook, {
-      //     bookType: 'xlsx',
-      //     type: 'array'
-      //   });
-      //   // Save the file using FileSaver.js
-      //   const excelData = new Blob([excelBuffer], {
-      //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      //   });
-      //   saveAs(excelData, this.fileName);
-    }
+  setup(props) {
+    const downloadExcel = () => {
+      const excel = new Excel();
+      excel
+        .addSheet('Sheet')
+        .addColumns(props.columns)
+        .addDataSource(props.dataSource, {
+          str2Percent: true
+        })
+        .saveAs(`${props.fileName}`);
+    };
+
+    return {
+      downloadExcel
+    };
   }
 });
 </script>
