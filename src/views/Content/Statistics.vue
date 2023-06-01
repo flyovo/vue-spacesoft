@@ -124,7 +124,11 @@ export default defineComponent({
           </a-radio-button>
         </a-radio-group>
 
-        <Datepicker range v-model="selectedDate" lang="ko" />
+        <Datepicker
+          range
+          v-model="selectedDate"
+          lang="ko"
+          :disabled="selectedDuration !== 'custom'" />
       </div>
 
       <div class="button-group" :style="{ marginBottom: '18px' }">
