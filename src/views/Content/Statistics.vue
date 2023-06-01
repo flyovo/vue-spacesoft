@@ -5,6 +5,7 @@ import { statisticsColumns, statisticsSourceData } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
+import { labelByNavType } from '@/components/Layout/constants';
 
 export default defineComponent({
   name: 'Statistics',
@@ -13,18 +14,6 @@ export default defineComponent({
     Datepicker: VueDatepickerUi,
     PageSizeChanger,
     ButtonGroup
-  },
-  props: {
-    pos1: {
-      type: String,
-      required: true,
-      default: '본관 10층'
-    },
-    pos2: {
-      type: String,
-      required: true,
-      default: '내분비내과'
-    }
   },
   setup() {
     const state = reactive({
@@ -60,6 +49,8 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      labelByNavType,
+
       selectedDuration,
       selectedType,
 
@@ -104,11 +95,18 @@ export default defineComponent({
 
 <template>
   <a-breadcrumb separator=">" :style="{ marginBottom: '24px' }">
-    <a-breadcrumb-item>Home</a-breadcrumb-item>
-    <a-breadcrumb-item>수납기</a-breadcrumb-item>
-    <a-breadcrumb-item>Raw 데이터</a-breadcrumb-item>
-    <a-breadcrumb-item>본관</a-breadcrumb-item>
-    <a-breadcrumb-item>내분비내과</a-breadcrumb-item>
+    <a-breadcrumb-item>
+      {{
+        $route.query.type?.toString() &&
+        labelByNavType[$route.query.type?.toString()]
+      }}
+    </a-breadcrumb-item>
+    <a-breadcrumb-item>통계</a-breadcrumb-item>
+    <!--     
+    <a-breadcrumb-item>{{ $route.query.pos1 }}</a-breadcrumb-item>
+    <a-breadcrumb-item>{{ $route.query.pos2 }}</a-breadcrumb-item>
+    <a-breadcrumb-item>{{ $route.query.pos4 }}</a-breadcrumb-item>
+    -->
   </a-breadcrumb>
 
   <div class="content-header">
@@ -145,10 +143,14 @@ export default defineComponent({
       </div>
     </div>
 
+    <!--
     <div class="content-position-title">
-      <span class="pos1">{{ pos1 }}&nbsp;</span>
-      <span class="pos2">{{ pos2 }}</span>
+      <span class="pos1"
+        >{{ `${$route.query.pos1} ${$route.query.pos2}` }}&nbsp;</span
+      >
+      <span class="pos2">{{ $route.query.pos4 }}</span>
     </div>
+    -->
   </div>
 
   <hr class="vertical-hr" />
