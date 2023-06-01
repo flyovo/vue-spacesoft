@@ -11,11 +11,19 @@ import {
 import type { MenuProps } from 'antd';
 import type { Key } from 'ant-design-vue/lib/_util/type';
 import type { Auth } from '@/store/modules/user/type';
+import type { NavType } from './types';
 
 export const authType: { [key in Auth]: string } = {
   A: '병원 총괄 관리자',
   P: '기관 / 부서 관리자',
   S: 'Super Admin'
+};
+
+export const labelByNavType: { [key in NavType as string]: string } = {
+  sunap: '수납기',
+  cert: '제증명',
+  arrive: '도착확인',
+  phy: '신체계측'
 };
 
 export const HEADER_HEIGHT = 80;
@@ -56,141 +64,25 @@ export const navMenu: MenuProps['items'] = [
   {
     key: 'sunap',
     icon: MedicineBoxOutlined,
-    label: `수납기`,
-    children: [
-      // {
-      //   key: 'raw-data',
-      //   label: 'Raw 데이터',
-      //   children: [
-      //     {
-      //       key: '1',
-      //       label: '본관',
-      //       children: [{ key: 'raw-data', label: '내분비내과' }]
-      //     },
-      //     {
-      //       key: '2',
-      //       label: '신관'
-      //     }
-      //   ]
-      // }
-    ]
+    label: labelByNavType['sunap'],
+    children: []
   },
-  // {
-  //   key: 'sub3',
-  //   icon: PrinterFilled,
-  //   label: `순번기`,
-  //   children: []
-  // },
   {
     key: 'cert',
     icon: FileFilled,
-    label: `제증명`,
-    children: [
-      // {
-      //   key: 'A동',
-      //   label: 'A동',
-      //   children: [
-      //     {
-      //       key: '1층',
-      //       label: '1층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     }
-      //   ]
-      // },
-      // {
-      //   key: 'R동',
-      //   label: 'R동',
-      //   children: [
-      //     {
-      //       key: '2층',
-      //       label: '2층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     }
-      //   ]
-      // },
-      // {
-      //   key: 'B동',
-      //   label: 'B동',
-      //   children: [
-      //     {
-      //       key: '1층',
-      //       label: '1층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     },
-      //     {
-      //       key: '2층',
-      //       label: '2층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     },
-      //     {
-      //       key: '3층',
-      //       label: '3층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     },
-      //     {
-      //       key: '4층',
-      //       label: '4층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     },
-      //     {
-      //       key: '5층',
-      //       label: '5층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     },
-      //     {
-      //       key: '6층',
-      //       label: '6층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     }
-      //   ]
-      // },
-      // {
-      //   key: 'C동',
-      //   label: 'C동',
-      //   children: [
-      //     {
-      //       key: '1층',
-      //       label: '1층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     }
-      //   ]
-      // }
-    ]
+    label: labelByNavType['cert'],
+    children: []
   },
   {
     key: 'arrive',
     icon: CheckSquareOutlined,
-    label: `도착확인`,
+    label: labelByNavType['arrive'],
     children: []
   },
   {
     key: 'phy',
     icon: UserSwitchOutlined,
-    label: `신체계측`,
-    children: [
-      // {
-      //   key: 'C동',
-      //   label: 'C동',
-      //   children: [
-      //     {
-      //       key: '5층',
-      //       label: '5층',
-      //       children: [{ key: '원무과', label: '원무과' }]
-      //     }
-      //   ]
-      // }
-    ]
+    label: labelByNavType['phy'],
+    children: []
   }
-  // {
-  //   key: 'sub7',
-  //   icon: SettingFilled,
-  //   label: `기기관리`,
-  //   children: []
-  // },
-  // {
-  //   key: 'sub8',
-  //   icon: TeamOutlined,
-  //   label: `회원관리`,
-  //   children: []
-  // }
 ];
