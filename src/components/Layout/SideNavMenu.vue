@@ -49,7 +49,6 @@ export default defineComponent({
         });
     }
 
-    // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       try {
         const result = await WisdomStoreModule.getWisdom({
@@ -72,7 +71,6 @@ export default defineComponent({
       }
     };
 
-    // Fetch the data on component mount
     onMounted(() => {
       fetchData('get_nav_tree');
     });
