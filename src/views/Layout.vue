@@ -174,9 +174,11 @@ export default defineComponent({
         color: #f0f4fc;
         display: flex;
       }
+
       &.ant-menu-item-selected a {
         color: #004c8d;
       }
+
       &.ant-menu-item-active a {
         color: #004c8d;
       }
@@ -190,11 +192,11 @@ export default defineComponent({
   }
 
   .ant-menu-light
-    .ant-menu-item:hover:not(.ant-menu-item-selected):not(
+    .ant-menu-item:nth-child(2n-1):hover:not(.ant-menu-item-selected):not(
       .ant-menu-submenu-selected
     ),
-  .ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected,
-  .ant-menu-light.ant-menu-horizontal > .ant-menu-item:hover::after {
+  .ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected:nth-child(2n-1),
+  .ant-menu-light.ant-menu-horizontal > .ant-menu-item:nth-child(2n-1)::after {
     color: transparent;
     background-color: #f0f4fc;
   }
