@@ -64,20 +64,25 @@ export default defineComponent({
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       try {
+        const params = {
+          site: userState.site,
+          pos_1: userState.POS_1,
+          pos_2: '',
+          pos_3: '',
+          option: '',
+          dateTerm: '',
+          startDate: '',
+          endDate: '',
+          Auth: userState.AUTHORITY
+        };
+
+        if (userState.AUTHORITY === 'A' || userState.AUTHORITY === 'P') {
+          params.pos_4 = userState.POS_4;
+        }
+
         const result = await RawDataStoreModule.getRawDataList({
           type: type,
-          params: {
-            site: userState.site,
-            pos_1: userState.POS_1,
-            pos_2: '',
-            pos_3: '',
-            pos_4: userState.POS_4,
-            option: '',
-            dateTerm: '',
-            startDate: '',
-            endDate: '',
-            Auth: userState.AUTHORITY
-          }
+          params
         });
 
         dataSource.value = result;

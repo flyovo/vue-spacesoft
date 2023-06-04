@@ -1,11 +1,14 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue';
+import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
-import { statisticsColumns, statisticsSourceData } from './constants';
+import { statisticsColumns } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
 import { labelByNavType } from '@/components/Layout/constants';
+import { useRoute } from 'vue-router';
+import { UserStoreModule } from '@/store/modules/user/store';
+import { StatisticsStoreModule } from '@/store/modules/statistics/store';
 
 export default defineComponent({
   name: 'Statistics',
@@ -16,6 +19,9 @@ export default defineComponent({
     ButtonGroup
   },
   setup() {
+    const route = useRoute();
+    const userState = UserStoreModule.userState;
+
     const state = reactive({
       pageSizeOptions: [15, 30, 50],
       selectedDate: [
@@ -38,14 +44,63 @@ export default defineComponent({
       ]
     });
 
-    const dataSource = statisticsSourceData;
+    const dataSource = ref([]);
     const columns = statisticsColumns;
 
     const selectedDuration = ref('all');
     const selectedType = ref('all');
 
     const current = ref(1);
-    const total = ref(dataSource.length);
+    const total = ref(dataSource.value.length);
+
+    const paginationConfig = ref({
+      showSizeChanger: false, // hide the page size selector
+      size: 'small',
+      current: current.value,
+      total: dataSource.value.length,
+      pageSizeOptions: state.pageSizeOptions
+    });
+
+    // Fetch the data and update the reactive properties
+    const fetchData = async (type: string) => {
+      try {
+        const params = {
+          site: userState.site,
+          pos_1: userState.POS_1,
+          pos_2: '',
+          pos_3: '',
+          option: '',
+          dateTerm: '',
+          startDate: '',
+          endDate: '',
+          Auth: userState.AUTHORITY
+        };
+
+        if (userState.AUTHORITY === 'A' || userState.AUTHORITY === 'P') {
+          params.pos_4 = userState.POS_4;
+        }
+
+        const result = await StatisticsStoreModule.getStatisticsList({
+          type: type,
+          params
+        });
+
+        dataSource.value = result;
+        total.value = dataSource.value.length;
+        paginationConfig.value.total = dataSource.value.length;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch the data on component mount
+    onMounted(() => {
+      // 동적으로 받아서 사용할 수 있도록 수정 필요
+      const type = 'outSunapCnt'.replace(/^[a-z]/, (char) =>
+        char.toUpperCase()
+      );
+      fetchData(`get${type}`);
+    });
 
     return {
       ...toRefs(state),
@@ -59,35 +114,29 @@ export default defineComponent({
 
       total,
       current,
-      pageSize: state.pageSizeOptions[0]
+      pageSize: state.pageSizeOptions[0],
+      paginationConfig
     };
   },
   data() {
     return {
-      selectIndex: 0,
-      paginationConfig: {
-        showSizeChanger: false, // hide the page size selector
-        size: 'small',
-        current: this.current,
-        total: this.dataSource.length,
-        pageSizeOptions: this.pageSizeOptions
-      }
+      selectIndex: 0
     };
   },
   watch: {
     selectIndex(newValue: number) {
       this.pageSize = this.pageSizeOptions[newValue];
-      this.paginationConfig.current = () => 1;
+      this.paginationConfig.current = 1;
     }
   },
   methods: {
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
       this.paginationConfig.total = this.dataSource.length;
-      this.paginationConfig.current = () => 1;
+      this.paginationConfig.current = 1;
     },
     handlePaginationChange(pageNumber: number, pageSize: number) {
-      this.paginationConfig.current = () => pageNumber;
+      this.paginationConfig.current = pageNumber;
     }
   }
 });
@@ -183,7 +232,7 @@ export default defineComponent({
     class="ant-table-striped-statistics"
     :columns="columns"
     :dataSource="dataSource"
-    :rowClassName="(record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
+    :rowClassName="(_record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
     size="middle"
     :pagination="{ ...paginationConfig, pageSize: pageSize }"
     bordered>

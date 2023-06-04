@@ -1,4 +1,4 @@
-import { WeekSunapCnt } from './type';
+import { SunapCnt, WeekSunapCnt } from './type';
 
 const WEEK_SUNAP_CNT: WeekSunapCnt = {
   기관: 1,
@@ -21,10 +21,63 @@ const WEEK_SUNAP_CNT: WeekSunapCnt = {
   일금액: '0'
 };
 
+const OUT_SUNAP_CNT: SunapCnt[] = [...Array(100)].map((_, i) => ({
+  건물: 1,
+  층: 2,
+  위치: '외래복합기',
+  용도: 21,
+  '외래수납 대수': 1,
+  외래수납건수: 77,
+  외래수납불가: 304,
+  외래수납금액: 21495150,
+  '처방전 발급 건수': 155,
+  '약국전송 건수': i + 1,
+  중간수납건수: '1',
+  중간수납금액: '3234600',
+  퇴원수납건수: '15',
+  퇴원수납금액: '12724620',
+  '입퇴원 수납불가건수': '146'
+}));
+
+const STATISTICS_SOURCE_DATA = [...Array(100)].map((_, i) => ({
+  key: i,
+  수납타입: '외래',
+  날짜: '2023-03-14',
+  요일: '화',
+  건물: 'B동',
+  층: '1층',
+  위치: '외래복합기',
+  부서: '원무과',
+  세부위치: 'B 왼2',
+  wisdom_id: 'test20',
+  dev_model: 'i80s',
+  chart_no: '190503776',
+  수납시간: '06:51',
+  '외래수납-수납건수': 0,
+  '외래수납-수납불가': 1,
+  '외래수납-수납금액': 0,
+  '중간수납-수납건수': 0,
+  '중간수납-수납불가': 1,
+  '중간수납-수납금액': 0,
+  '퇴원수납-수납건수': 0,
+  '퇴원수납-수납불가': 1,
+  '퇴원수납-수납금액': 0,
+  '처방전 발급 건수': 0,
+
+  대수: i + 1,
+
+  Model: 'i80s',
+  등록번호: '990273879',
+  발급시간: '10:48',
+  '증명서 종류': '진료비세부내역서',
+  발급건수: 1
+}));
+
 type MockType = {
-  [key: string]: WeekSunapCnt;
+  [key: string]: WeekSunapCnt | SunapCnt[];
 };
 
 export const STATISTICS_MOCK: MockType = {
-  get_week_sunap_cnt: WEEK_SUNAP_CNT
+  get_week_sunap_cnt: WEEK_SUNAP_CNT,
+  getOutSunapCnt: OUT_SUNAP_CNT
 };

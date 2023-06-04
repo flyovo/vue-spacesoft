@@ -22,3 +22,21 @@ export interface WeekSunapCnt {
   일건수: string;
   일금액: string;
 }
+
+export interface SunapCnt {
+  건물: string | number;
+  층: string | number;
+  위치: string;
+  용도: string | number;
+  '외래수납 대수': number;
+  외래수납건수: number;
+  외래수납불가: number;
+  외래수납금액: number;
+  '처방전 발급 건수': number;
+  '약국전송 건수': number;
+  중간수납건수: string | number;
+  중간수납금액: string | number;
+  퇴원수납건수: string | number;
+  퇴원수납금액: string | number;
+  '입퇴원 수납불가건수': string | number;
+}

@@ -1,5 +1,4 @@
 import store from '@/store';
-import { login, logout } from '@/api/user-api';
 import { getStatisticsData } from '@/api/statistics-api';
 import {
   VuexModule,
@@ -8,7 +7,7 @@ import {
   Mutation,
   getModule
 } from 'vuex-module-decorators';
-import { StatisticsStoreState, WeekSunapCnt } from './type';
+import { StatisticsStoreState } from './type';
 import { cloneDeep } from 'lodash';
 import { STATISTICS_MOCK } from './mock';
 
@@ -49,14 +48,10 @@ class StatisticsStore extends VuexModule implements StatisticsStoreState {
   }
 
   @Action({ rawError: true })
-  public getStatistics(payload: { type: string; date: Date }) {
+  public getStatisticsList(payload: { type: string; params: any }) {
     const data = cloneDeep(STATISTICS_MOCK[payload.type]);
-    // const data = getStatisticsData(payload.type);
-
-    // this.SET_CHANGE_VALUE({
-    //   key: `statistics_${payload.type}`,
-    //   value: data
-    // });
+    console.log(payload);
+    // const data = getStatisticsData(payload);
 
     return new Promise((resolve, reject) => {
       resolve(data); // Resolve the promise with the received data
