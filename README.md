@@ -48,6 +48,5 @@ npm run lint
   - Login           // 로그인 form
   - Layout          // 로그인 후 화면들에 대한 레이아웃
   - /HeaderContent  // 헤더 영역 (기기관리, 자동종료설정, 사용자계정관리)
-  - /Dashboard      // /home 화면에서 쓰이는 차트 호출 페이지
-  - /Content        // /home 화면을 제외한 화면의 컨텐츠 (raw-data, statistics)
+  - /Content        // layout의 컨텐츠 (home, raw-data, statistics)
 ```
