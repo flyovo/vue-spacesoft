@@ -80,7 +80,7 @@ export default defineComponent({
           params.pos_4 = userState.POS_4;
         }
 
-        const result = await StatisticsStoreModule.getStatisticsList({
+        const result = await StatisticsStoreModule.getStatistics({
           type: type,
           params
         });
