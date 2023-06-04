@@ -2,7 +2,8 @@ import {
   QsIssueCount,
   QsWaitAvgCount,
   QsWaitAvgTime,
-  ChartDataByMonth
+  ChartDataByMonth,
+  OpAndPos
 } from './type';
 
 const QS_ISSUE_COUNT: QsIssueCount[] = [
@@ -208,7 +209,8 @@ type MockType = {
     | QsIssueCount[]
     | QsWaitAvgCount[]
     | QsWaitAvgTime[]
-    | ChartDataByMonth[];
+    | ChartDataByMonth[]
+    | OpAndPos[];
 };
 
 // 수납기 월사용량
@@ -301,6 +303,41 @@ const PHY_MONTHLY_COUNT: ChartDataByMonth[] = [
   }
 ];
 
+// 유형별 키오스크 기기현황
+const OP_PROG_COUNT: OpAndPos[] = [
+  {
+    순번: 4,
+    '수납기(복합기)': 21,
+    제증명: 1,
+    도착확인: 0,
+    신체계측: 1
+  }
+];
+
+// 건물별 키오스크 기기현황
+const POS1_COUNT: OpAndPos[] = [
+  {
+    A동: 4,
+    B동: 23,
+    C동: 5,
+    R동: 2,
+    본관: 0
+  }
+];
+
+// 층별 키오스크 기기현황
+const POS2_COUNT: OpAndPos[] = [
+  {
+    B1층: 0,
+    '1층': 23,
+    '2층': 4,
+    '3층': 1,
+    '4층': 2,
+    '5층': 3,
+    '6층': 1
+  }
+];
+
 export const DASHBOARD_MOCK: MockType = {
   sunap_monthly_cnt: SUNAP_MONTHLY_COUNT,
   cert_monthly_cnt: CERT_MONTHLY_COUNT_CERT,
@@ -310,5 +347,9 @@ export const DASHBOARD_MOCK: MockType = {
 
   qs_issue_cnt: QS_ISSUE_COUNT,
   qs_wait_avg_cnt: QS_WAIT_AVG_COUNT,
-  qs_wait_avg_time: QS_WAIT_AVG_TIME
+  qs_wait_avg_time: QS_WAIT_AVG_TIME,
+
+  op_prog_cnt: OP_PROG_COUNT,
+  pos1_cnt: POS1_COUNT,
+  pos2_cnt: POS2_COUNT
 };

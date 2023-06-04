@@ -10,6 +10,10 @@ import request from '@/utils/request';
   qs_issue_cnt : 일일 발권건수
   qs_wait_avg_cnt : 평균 대기인수
   qs_wait_avg_time : 평균 대기시간
+
+  op_prog_cnt: 유형별 키오스크 기기현황
+  pos1_cnt: 건물별 키오스크 기기현황
+  pos2_cnt: 층별 키오스크 기기현황
 */
 export const getDashboardData = (data: any) =>
   request({

@@ -42,3 +42,7 @@ export interface ChartDataByMonth {
   '-10': number;
   '-11': number;
 }
+
+export interface OpAndPos {
+  [key: string]: number;
+}
