@@ -1,11 +1,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
-import { rawDataSourceData, rawDataColumns } from './constants';
+import { rawDataColumns } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
 import { labelByNavType } from '@/components/Layout/constants';
+import { RawDataStoreModule } from '@/store/modules/raw-data/store';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'RawData',
@@ -16,6 +18,7 @@ export default defineComponent({
     ButtonGroup
   },
   setup() {
+    const route = useRoute();
     const state = reactive({
       pageSizeOptions: [15, 30, 50],
       selectedDate: [
@@ -38,14 +41,46 @@ export default defineComponent({
       ]
     });
 
-    const dataSource = rawDataSourceData;
+    const dataSource = ref([]);
     const columns = rawDataColumns;
 
     const selectedDuration = ref('all');
     const selectedType = ref('all');
 
     const current = ref(1);
-    const total = ref(dataSource.length);
+    const total = ref(dataSource.value.length);
+
+    const paginationConfig = ref({
+      showSizeChanger: false, // hide the page size selector
+      size: 'small',
+      current: current.value,
+      total: dataSource.value.length,
+      pageSizeOptions: state.pageSizeOptions
+    });
+
+    // Fetch the data and update the reactive properties
+    const fetchData = async (type: string) => {
+      try {
+        const result = await RawDataStoreModule.getRawDataList({
+          type: type,
+          date: new Date()
+        });
+
+        dataSource.value = result;
+        total.value = dataSource.value.length;
+        paginationConfig.value.total = dataSource.value.length;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch the data on component mount
+    onMounted(() => {
+      const type = route.query.type
+        ?.toString()
+        .replace(/^[a-z]/, (char) => char.toUpperCase());
+      fetchData(`get${type}`);
+    });
 
     return {
       ...toRefs(state),
@@ -59,35 +94,30 @@ export default defineComponent({
 
       total,
       current,
-      pageSize: state.pageSizeOptions[0]
+      pageSize: state.pageSizeOptions[0],
+
+      paginationConfig
     };
   },
   data() {
     return {
-      selectIndex: 0,
-      paginationConfig: {
-        showSizeChanger: false, // hide the page size selector
-        size: 'small',
-        current: this.current,
-        total: this.dataSource.length,
-        pageSizeOptions: this.pageSizeOptions
-      }
+      selectIndex: 0
     };
   },
   watch: {
     selectIndex(newValue: number) {
       this.pageSize = this.pageSizeOptions[newValue];
-      this.paginationConfig.current = () => 1;
+      this.paginationConfig.current = 1;
     }
   },
   methods: {
     handleTypeButtonClick(button: any) {
       this.selectedType = button.value;
       this.paginationConfig.total = this.dataSource.length;
-      this.paginationConfig.current = () => 1;
+      this.paginationConfig.current = 1;
     },
     handlePaginationChange(pageNumber: number, _pageSize: number) {
-      this.paginationConfig.current = () => pageNumber;
+      this.paginationConfig.current = pageNumber;
     }
   }
 });
@@ -177,7 +207,7 @@ export default defineComponent({
     class="ant-table-striped-raw-data"
     :columns="columns"
     :dataSource="dataSource"
-    :rowClassName="(record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
+    :rowClassName="(_record:any, index:number) => (index % 2 === 1 ? 'table-striped' : null)"
     size="middle"
     :pagination="{ ...paginationConfig, pageSize: pageSize }"
     bordered>
