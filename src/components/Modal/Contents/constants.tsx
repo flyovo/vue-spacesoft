@@ -31,8 +31,8 @@ export const Column: ColumnType<Setting>[] = [
   },
   {
     title: '기관명',
-    key: 'name',
-    dataIndex: 'name',
+    key: 'loc_name',
+    dataIndex: 'loc_name',
     align: 'center'
   }
 ];

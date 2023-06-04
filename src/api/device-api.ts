@@ -19,7 +19,14 @@ export const getDevice = (data: any) =>
 */
 export const updateDevice = (data: any) =>
   request({
-    url: `/dev/${data.type}`,
+    url: `/dev/setSitePos`,
+    method: 'post',
+    params: data
+  });
+
+export const deleteDevice = (data: any) =>
+  request({
+    url: `/dev/delSitePos`,
     method: 'post',
     params: data
   });

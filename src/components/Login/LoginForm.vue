@@ -38,6 +38,7 @@ export default defineComponent({
       //   return Promise.resolve();
       // }
     };
+
     let validatePW = async (rule: RuleObject, value: string) => {
       if (value === '') {
         // return Promise.reject('Please input the ID');
@@ -53,28 +54,9 @@ export default defineComponent({
       user_pwd: [{ validator: validatePW, trigger: 'change' }]
     };
 
-    const handleFinish = (values: FormState) => {
-      UserStoreModule.Login(values).then(async (resolve: any) => {
-        if (resolve === 200) {
-          if (rememberId.value) {
-            sessionStorage.setItem('spacesoft-rememberId', values.user_id);
-          }
-
-          router.push(`/home`);
-        }
-      });
-    };
-    const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
-      console.log(errors);
-    };
-
     const resetForm = () => {
       formRef.value.resetFields();
     };
-
-    // const handleChange = () => {
-    //   console.log('handleChange');
-    // };
 
     onMounted(() => {
       if (sessionStorage.getItem('spacesoft-rememberId')) {
@@ -90,15 +72,28 @@ export default defineComponent({
       formRef,
       rules,
       rememberId,
-      handleFinishFailed,
-      handleFinish,
       resetForm
-      // handleChange
     };
   },
   mounted() {
     if (sessionStorage.getItem('spacesoft-userState')) {
       router.push(`/home`);
+    }
+  },
+  methods: {
+    handleFinish(values: FormState) {
+      UserStoreModule.Login(values).then(async (resolve: any) => {
+        if (resolve === 200) {
+          if (this.rememberId) {
+            sessionStorage.setItem('spacesoft-rememberId', values.user_id);
+          }
+
+          router.push(`/home`);
+        }
+      });
+    },
+    handleFinishFailed(errors: ValidateErrorEntity<FormState>) {
+      console.log(errors);
     }
   }
 });

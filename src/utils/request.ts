@@ -48,14 +48,14 @@ service.interceptors.request.use(
     return config;
   },
   (error) => {
-    loading.close();
+    // loading.close();
     Promise.reject(error);
   }
 );
 
 service.interceptors.response.use(
   (response) => {
-    loading.close();
+    // loading.close();
 
     if (response.data.token) {
       console.log(response.data.data);
@@ -94,7 +94,7 @@ service.interceptors.response.use(
   },
   (error) => {
     MessageService.notiError(error.message || 'empty error message');
-    loading.close();
+    // loading.close();
     return Promise.reject(error);
   }
 );

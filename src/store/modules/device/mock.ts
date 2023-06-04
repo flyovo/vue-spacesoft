@@ -1,4 +1,5 @@
 import { Device } from '@/views/HeaderContent/types';
+import { DevPosList } from './type';
 
 export const DEVICE_DATA_SOURCE: Device[] = Array.from(
   new Array(100),
@@ -23,10 +24,45 @@ export const DEVICE_DATA_SOURCE: Device[] = Array.from(
   })
 );
 
+// 사이트 관리 리스트
+const SITE_POS_LIST: DevPosList[] = [
+  {
+    idx: 1,
+    type: 'pos_1',
+    loc_name: 'A동',
+    updatedate: '2022-06-10T07:07:22.000Z'
+  },
+  {
+    idx: 2,
+    type: 'pos_4',
+    loc_name: '1층',
+    updatedate: '2022-06-10T07:06:32.000Z'
+  },
+  {
+    idx: 3,
+    type: 'pos_1',
+    loc_name: 'A동',
+    updatedate: '2022-06-10T07:07:22.000Z'
+  },
+  {
+    idx: 4,
+    type: 'pos_4',
+    loc_name: '1층',
+    updatedate: '2022-06-10T07:06:32.000Z'
+  },
+  {
+    idx: 5,
+    type: 'dev_model',
+    loc_name: '1층',
+    updatedate: '2022-06-10T07:06:32.000Z'
+  }
+];
+
 type MockType = {
-  [key: string]: Device[];
+  [key: string]: Device[] | DevPosList[];
 };
 
 export const DEVICE_MOCK: MockType = {
-  list: DEVICE_DATA_SOURCE
+  list: DEVICE_DATA_SOURCE,
+  site_post_list: SITE_POS_LIST
 };

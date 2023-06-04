@@ -1,6 +1,5 @@
 import store from '@/store';
-import { login, logout } from '@/api/user-api';
-import { getDevice, updateDevice } from '@/api/device-api';
+import { getDevice, updateDevice, deleteDevice } from '@/api/device-api';
 import {
   VuexModule,
   Module,
@@ -8,7 +7,7 @@ import {
   Mutation,
   getModule
 } from 'vuex-module-decorators';
-import { DeviceStoreState } from './type';
+import { DevPosType, DeviceStoreState } from './type';
 import { cloneDeep } from 'lodash';
 import { DEVICE_MOCK } from './mock';
 import { Device } from '@/views/HeaderContent/types';
@@ -33,15 +32,62 @@ class DeviceStore extends VuexModule implements DeviceStoreState {
   @Action({ rawError: true })
   public getDevice(payload: { type: string; date: Date }) {
     const data = cloneDeep(DEVICE_MOCK[payload.type]);
-    // const data = getDeviceData(payload.type);
 
-    // this.SET_CHANGE_VALUE({
-    //   key: `device_${payload.type}`,
-    //   value: data
-    // });
+    // API 호출
+    // const data = getDevice(payload.type);
 
     return new Promise((resolve, reject) => {
       resolve(data); // Resolve the promise with the received data
+    });
+  }
+
+  @Action({ rawError: true })
+  public async UpdateSitePos({
+    bAdd,
+    type,
+    value
+  }: {
+    bAdd: boolean;
+    type: DevPosType;
+    value: { idx: number | string | undefined; name: string };
+  }) {
+    const body = {
+      bAdd,
+      type,
+      value
+    };
+
+    // API 호출
+    // const { data, resultCd } = await updateDevice(body);
+
+    // if (resultCd === 200) {
+    return new Promise((resolve) => {
+      resolve(200);
+    });
+    // }
+  }
+
+  @Action({ rawError: true })
+  public async DeleteSitePos({
+    check,
+    value
+  }: {
+    check: boolean;
+    value: { idx: number | string | undefined; name: string; type: DevPosType };
+  }) {
+    const body = {
+      check,
+      value
+    };
+
+    // API 호출
+    // const { data, resultCd } = await deleteDevice(body);
+
+    // 442 예외처리 필요
+
+    return new Promise((resolve) => {
+      // resolve(data.status); //442 전달하는지..?
+      resolve(check ? 442 : 200); // 테스트용으로 수정 필요
     });
   }
 }
