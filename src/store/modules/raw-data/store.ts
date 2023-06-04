@@ -7,7 +7,7 @@ import {
   Mutation,
   getModule
 } from 'vuex-module-decorators';
-import { RawDataStoreState, RawDataSunap } from './type';
+import { RawDataStoreState } from './type';
 import { cloneDeep } from 'lodash';
 import { RAWDATA_MOCK } from './mock';
 
@@ -29,9 +29,10 @@ class RawDataStore extends VuexModule implements RawDataStoreState {
   }
 
   @Action({ rawError: true })
-  public getRawDataList(payload: { type: string; date: Date }) {
+  public getRawDataList(payload: { type: string; params: any }) {
     const data = cloneDeep(RAWDATA_MOCK[payload.type]);
-    // const data = getRawData(payload.type);
+    console.log(payload);
+    // const data = getRawData(payload);
 
     return new Promise((resolve, reject) => {
       resolve(data); // Resolve the promise with the received data

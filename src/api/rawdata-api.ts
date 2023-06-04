@@ -10,5 +10,5 @@ export const getRawData = (data: any) =>
   request({
     url: `/rawData/${data.type}`,
     method: 'get',
-    params: data
+    params: data.params
   });

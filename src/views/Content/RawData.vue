@@ -8,6 +8,7 @@ import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
 import { labelByNavType } from '@/components/Layout/constants';
 import { RawDataStoreModule } from '@/store/modules/raw-data/store';
 import { useRoute } from 'vue-router';
+import { UserStoreModule } from '@/store/modules/user/store';
 
 export default defineComponent({
   name: 'RawData',
@@ -19,6 +20,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const userState = UserStoreModule.userState;
+
     const state = reactive({
       pageSizeOptions: [15, 30, 50],
       selectedDate: [
@@ -63,7 +66,18 @@ export default defineComponent({
       try {
         const result = await RawDataStoreModule.getRawDataList({
           type: type,
-          date: new Date()
+          params: {
+            site: userState.site,
+            pos_1: userState.POS_1,
+            pos_2: '',
+            pos_3: '',
+            pos_4: userState.POS_4,
+            option: '',
+            dateTerm: '',
+            startDate: '',
+            endDate: '',
+            Auth: userState.AUTHORITY
+          }
         });
 
         dataSource.value = result;
@@ -95,7 +109,6 @@ export default defineComponent({
       total,
       current,
       pageSize: state.pageSizeOptions[0],
-
       paginationConfig
     };
   },
