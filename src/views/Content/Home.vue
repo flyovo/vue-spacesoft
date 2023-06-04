@@ -9,15 +9,15 @@ import {
   DoughnutChart
 } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
-import SolutionByOverall from '@/views/Dashboard/SolutionByOverall.vue';
-import SolutionByOthers from '@/views/Dashboard/SolutionByOthers.vue';
-import DailyAvgCnt from '@/views/Dashboard/DailyAvgCnt.vue';
-import DailyAvgWaitTime from '@/views/Dashboard/DailyAvgWaitTime.vue';
-import DailyAvgWaitCnt from '@/views/Dashboard/DailyAvgWaitCnt.vue';
-import Outpatient from '@/views/Dashboard/Outpatient.vue';
-import KioskByType from '@/views/Dashboard/KioskByType.vue';
-import KioskByFloor from '@/views/Dashboard/KioskByFloor.vue';
-import KioskByArea from '@/views/Dashboard/KioskByArea.vue';
+import SolutionByOverall from '@/views/Content/Dashboard/SolutionByOverall.vue';
+import SolutionByOthers from '@/views/Content/Dashboard/SolutionByOthers.vue';
+import DailyAvgCnt from '@/views/Content/Dashboard/DailyAvgCnt.vue';
+import DailyAvgWaitTime from '@/views/Content/Dashboard/DailyAvgWaitTime.vue';
+import DailyAvgWaitCnt from '@/views/Content/Dashboard/DailyAvgWaitCnt.vue';
+import Outpatient from '@/views/Content/Dashboard/Outpatient.vue';
+import KioskByType from '@/views/Content/Dashboard/KioskByType.vue';
+import KioskByFloor from '@/views/Content/Dashboard/KioskByFloor.vue';
+import KioskByArea from '@/views/Content/Dashboard/KioskByArea.vue';
 
 export default defineComponent({
   name: 'Home',
@@ -129,5 +129,5 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@import './style.scss';
+@import './Dashboard/style.scss';
 </style>
