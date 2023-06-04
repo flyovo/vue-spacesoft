@@ -1,5 +1,20 @@
 <template>
-  <DoughnutChart :chartData="chartData" :options="chartOptions" />
+  <DoughnutChart :chartData="chartData" :options="chartOptions" :height="250" />
+  <div class="custom-legend">
+    <div v-for="(label, index) in labels" :key="index">
+      <div class="label">
+        <div>
+          <span
+            class="tile"
+            :style="{
+              backgroundColor: dataColorSet[index % dataColorSet.length]
+            }"></span>
+          {{ label }}
+        </div>
+        <div>{{ data[index] }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,27 +34,29 @@ export default defineComponent({
   components: { DoughnutChart },
   setup(props) {
     const color = props.color.toString();
-    const chartData = ref([]);
+    const chartData = ref({ labels: [] as string[], datasets: [] as any[] });
+    const labels = ref([]);
+    const data = ref([]);
+    const dataColorSet = ref(
+      chroma.scale([color, '#f7faff']).mode('lab').colors(5)
+    );
 
     watchEffect(async () => {
       const resolvedDataSource = await props.dataSource;
-      const data = resolvedDataSource.map((data: { value: string }) => {
+
+      labels.value = resolvedDataSource.map(
+        (data: { label: string }) => data.label
+      );
+      data.value = resolvedDataSource.map((data: { value: string }) => {
         return Number(data.value);
       });
 
       chartData.value = {
-        labels: resolvedDataSource.map((data: { label: string }) => data.label),
+        labels: labels.value,
         datasets: [
           {
             data,
-            // backgroundColor: props.dataSource.map(
-            //   (data: string | any[], index: number) =>
-            //     index === data.length - 1 ? '#e8edf0' : color
-            // ),
-            backgroundColor: chroma
-              .scale([color, '#f7faff'])
-              .mode('lab')
-              .colors(5),
+            backgroundColor: dataColorSet,
             borderWidth: 0,
             borderSkipped: 'end'
           }
@@ -50,13 +67,13 @@ export default defineComponent({
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: true,
-      height: '100%',
+      height: 20,
       layout: {
         padding: {
-          left: 25,
-          top: 25,
-          right: 25,
-          bottom: 25
+          left: 20,
+          top: 0,
+          right: 20,
+          bottom: 0
         }
       },
       rotation: -90,
@@ -64,13 +81,38 @@ export default defineComponent({
       plugins: {
         legend: {
           position: 'bottom',
-          align: 'start',
-          fullSize: true
+          display: false
         }
+        // legend: {
+        //   position: 'bottom',
+        //   align: 'start',
+        //   fullSize: true
+        // }
       }
     };
 
-    return { chartData, chartOptions };
+    return { chartData, chartOptions, labels, data, dataColorSet };
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.custom-legend {
+  padding: 0 20px;
+  font-size: 12px;
+  padding-bottom: 10px;
+
+  .label {
+    display: flex;
+    justify-content: space-between;
+
+    .tile {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}
+</style>

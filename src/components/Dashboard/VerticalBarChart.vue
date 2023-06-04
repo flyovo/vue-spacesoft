@@ -1,4 +1,18 @@
 <template>
+  <div class="custom-legend">
+    <div v-for="(label, index) in dataSource.labels" :key="index">
+      <div class="label">
+        <div>
+          <span
+            class="tile"
+            :style="{
+              backgroundColor: dataColorSet[index]
+            }"></span>
+          {{ label }}
+        </div>
+      </div>
+    </div>
+  </div>
   <BarChart :chartData="chartData" :options="chartOptions" />
 </template>
 
@@ -17,9 +31,17 @@ export default defineComponent({
   components: { BarChart },
   setup(props) {
     const chartData = ref({
-      labels: ['수납기', '제증명', '순번발권', '도착확인', '신체계측'],
-      datasets: []
+      labels: [
+        '수납기',
+        '제증명',
+        '순번발권',
+        '도착확인',
+        '신체계측'
+      ] as string[],
+      datasets: [] as { label: any; data: any; backgroundColor: string }[]
     });
+
+    const dataColorSet = ref(['#ff8db0', '#78bcee', '#f8df7c']);
 
     // Wait for the dataSource Promise to resolve
     watchEffect(async () => {
@@ -31,17 +53,17 @@ export default defineComponent({
 
       chartData.value.datasets = [
         {
-          label: resolvedDataSource.label && resolvedDataSource.label[0],
+          label: resolvedDataSource.labels && resolvedDataSource.labels[0],
           data: twoMonthAgo,
           backgroundColor: '#ff8db0'
         },
         {
-          label: resolvedDataSource?.label && resolvedDataSource?.label[1],
+          label: resolvedDataSource?.labels && resolvedDataSource?.labels[1],
           data: lastMonth,
           backgroundColor: '#78bcee'
         },
         {
-          label: resolvedDataSource?.label && resolvedDataSource?.label[2],
+          label: resolvedDataSource?.labels && resolvedDataSource?.labels[2],
           data: thisMonth,
           backgroundColor: '#f8df7c'
         }
@@ -54,14 +76,37 @@ export default defineComponent({
       height: '100%',
       plugins: {
         legend: {
-          position: 'top',
-          align: 'start',
-          fullSize: true
+          display: false
+          // position: 'top',
+          // align: 'start',
+          // fullSize: true
         }
       }
     };
 
-    return { chartData, chartOptions };
+    return { chartData, chartOptions, dataColorSet };
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.custom-legend {
+  display: flex;
+  padding: 10px 20px;
+  font-size: 12px;
+  gap: 20px;
+
+  .label {
+    display: flex;
+    justify-content: space-between;
+
+    .tile {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}
+</style>

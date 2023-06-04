@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { LineChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
 import dayjs from 'dayjs';
+import { ChartDataByMonth } from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'SolutionByOthers',
@@ -15,9 +16,9 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const dataSource = ref({ labels: [], data: [], title: String });
+    const dataSource = ref({ labels: [], data: [], title: '' });
 
-    const labelByType = {
+    const labelByType: { [key: string]: string } = {
       sunap_monthly_cnt: '수납기',
       cert_monthly_cnt: '제증명',
       qs_monthly_cnt: '순번발권',
@@ -28,13 +29,13 @@ export default defineComponent({
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       try {
-        const result = await DashboardStoreModule.getDashboard({
+        const result = (await DashboardStoreModule.getDashboard({
           type: type,
           date: new Date()
-        });
+        })) as ChartDataByMonth[];
 
-        const labels: [] = [];
-        const data: [] = [];
+        const labels = [];
+        const data = [];
 
         for (const key in result[0]) {
           labels.push(

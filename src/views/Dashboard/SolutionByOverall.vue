@@ -1,9 +1,10 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { VerticalBarChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
 import dayjs from 'dayjs';
+import { ChartDataByMonth } from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'SolutionByOverall',
@@ -15,7 +16,10 @@ export default defineComponent({
 
     const totalMonthCount = 3;
 
-    const overall_data = ref([]);
+    const overall_data = ref({
+      labels: [] as string[],
+      data: { twoMonthAgo: [], lastMonth: [], thisMonth: [] }
+    });
     const sunap_monthly_cnt = ref([]);
     const cert_monthly_cnt = ref([]);
     const qs_monthly_cnt = ref([]);
@@ -24,10 +28,10 @@ export default defineComponent({
 
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
-      return await DashboardStoreModule.getDashboard({
+      return (await DashboardStoreModule.getDashboard({
         type: type,
         date: new Date()
-      });
+      })) as ChartDataByMonth[];
     };
 
     // Fetch the data on component mount
@@ -47,7 +51,7 @@ export default defineComponent({
         phy_monthly_cnt.value = values[4][0];
 
         overall_data.value = {
-          label: Array.from(Array(totalMonthCount), (_, index) =>
+          labels: Array.from(Array(totalMonthCount), (_, index) =>
             dayjs(new Date())
               .subtract(totalMonthCount - 1 - index, 'month')
               .format('YY년 MM월')

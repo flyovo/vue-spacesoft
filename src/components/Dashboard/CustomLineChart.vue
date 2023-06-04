@@ -1,4 +1,18 @@
 <template>
+  <div class="custom-legend">
+    <div v-for="(label, index) in dataSource.title" :key="index">
+      <div class="label">
+        <div>
+          <span
+            class="tile"
+            :style="{
+              backgroundColor: dataColorSet[index].backgroundColor
+            }"></span>
+          {{ label }}
+        </div>
+      </div>
+    </div>
+  </div>
   <LineChart :chartData="chartData" :options="chartOptions" />
 </template>
 
@@ -19,14 +33,13 @@ export default defineComponent({
       dafault: { labels: [], data: [], title: [] }
     }
   },
-  data() {},
   setup(props) {
-    const chartData = ref({ labels: [], datasets: [] });
-    const dataColors = [
+    const chartData = ref({ labels: [] as string[], datasets: [] });
+    const dataColorSet = ref([
       { backgroundColor: '#34638b', borderColor: '#34638b' },
       { backgroundColor: '#338fd2', borderColor: '#338fd2' },
       { backgroundColor: '#abd9f3', borderColor: '#abd9f3' }
-    ];
+    ]);
 
     watchEffect(async () => {
       chartData.value = {
@@ -37,7 +50,7 @@ export default defineComponent({
             data: data,
             borderWidth: 1,
             pointRadius: 4,
-            ...dataColors[index]
+            ...dataColorSet.value[index]
           };
         })
       };
@@ -56,13 +69,14 @@ export default defineComponent({
       },
       plugins: {
         legend: {
-          position: 'top',
-          align: 'start',
-          labels: {
-            usePointStyle: true,
-            pointStyleWidth: 10,
-            maxHeight: 10
-          }
+          display: false
+          // position: 'top',
+          // align: 'start',
+          // labels: {
+          //   usePointStyle: true,
+          //   pointStyleWidth: 10,
+          //   maxHeight: 10
+          // }
         }
       },
       scales: {
@@ -77,9 +91,29 @@ export default defineComponent({
       }
     };
 
-    return { chartData, chartOptions };
+    return { chartData, chartOptions, dataColorSet };
   }
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.custom-legend {
+  display: flex;
+  padding: 10px 20px;
+  font-size: 12px;
+  gap: 20px;
+
+  .label {
+    display: flex;
+    justify-content: space-between;
+
+    .tile {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}
+</style>

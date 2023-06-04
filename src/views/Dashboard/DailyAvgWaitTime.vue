@@ -29,10 +29,10 @@ export default defineComponent({
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       try {
-        const result = await DashboardStoreModule.getDashboard({
+        const result = (await DashboardStoreModule.getDashboard({
           type: type,
           date: new Date()
-        });
+        })) as QsWaitAvgTime[];
 
         const dataResult = result?.map(
           (data: QsWaitAvgTime | QsWaitAvgCount) => {

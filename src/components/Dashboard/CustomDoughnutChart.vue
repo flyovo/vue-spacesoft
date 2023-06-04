@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
+import chroma from 'chroma-js';
 
 Chart.register(...registerables);
 
@@ -13,25 +14,23 @@ export default defineComponent({
   name: 'CustomDoughnutChart',
   components: { DoughnutChart },
   props: {
-    title: { type: String, required: false, default: '' },
-    labels: { type: [], required: false, default: [] }
+    dataSource: {
+      title: String,
+      type: Object,
+      required: true,
+      dafault: { labels: [] as string[], data: [] }
+    }
   },
   setup(props) {
-    const chartData = {
-      labels: props.labels,
-      datasets: [
-        {
-          data: [30, 40, 60, 70, 5],
-          backgroundColor: [
-            '#b2b6c6',
-            '#fbb600',
-            '#f9565b',
-            '#44b968',
-            '#47afff'
-          ]
-        }
-      ]
-    };
+    const chartData = ref({
+      labels: [] as string[],
+      datasets: [] as {
+        label: string;
+        data: any;
+        backgroundColor: any;
+        borderColor: any;
+      }[]
+    });
 
     const chartOptions = {
       height: '100%',
@@ -49,7 +48,7 @@ export default defineComponent({
         },
         title: {
           display: true,
-          text: props.title
+          text: props.dataSource?.title
         },
         datalabels: {
           display: true,
@@ -60,7 +59,13 @@ export default defineComponent({
             size: 13, // Label font size
             weight: 300 // Label font weight
           },
-          formatter: (val, ctx) => {
+          formatter: (
+            val: any,
+            ctx: {
+              chart: { data: { labels: { [x: string]: any } } };
+              dataIndex: string | number;
+            }
+          ) => {
             const label = ctx.chart.data.labels[ctx.dataIndex];
             return `${label}`;
           }
@@ -71,12 +76,32 @@ export default defineComponent({
       elements: {
         center: {
           text: '90%',
-          color: '#FF6384', // Default is #000000
-          fontStyle: 'Arial', // Default is Arial
-          sidePadding: 20 // Defualt is 20 (as a percentage)
+          color: '#FF6384',
+          fontStyle: 'Arial',
+          sidePadding: 0 // Defualt is 20 (as a percentage)
         }
       }
     };
+
+    const backgroundColorSet = [
+      '#b2b6c6',
+      '#fbb600',
+      '#f9565b',
+      '#44b968',
+      '#47afff'
+    ];
+
+    watchEffect(async () => {
+      chartData.value = {
+        labels: props.dataSource?.labels,
+        datasets: [
+          {
+            data: props.dataSource?.data,
+            backgroundColor: backgroundColorSet
+          }
+        ]
+      };
+    });
 
     return { chartData, chartOptions };
   }

@@ -36,7 +36,16 @@ export default defineComponent({
       return '#b8bdce';
     };
 
-    const chartData = ref({ labels: [], datasets: [] });
+    const chartData = ref({
+      labels: [] as string[],
+      datasets: [] as {
+        label: string;
+        data: any;
+        backgroundColor: any;
+        borderColor: any;
+      }[]
+    });
+
     const chartOptions = ref({
       indexAxis: 'y',
       responsive: true,
