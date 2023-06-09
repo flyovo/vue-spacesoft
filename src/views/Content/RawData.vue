@@ -62,15 +62,20 @@ export default defineComponent({
     });
 
     // Fetch the data and update the reactive properties
-    const fetchData = async (type: string) => {
+    const fetchData = async () => {
+      // 동적으로 받아서 사용할 수 있도록 수정 필요
+      const type = route.query.type
+        ?.toString()
+        .replace(/^[a-z]/, (char) => char.toUpperCase());
+
       try {
         const params = {
           site: userState.site,
           pos_1: userState.POS_1,
           pos_2: '',
           pos_3: '',
-          option: '',
-          dateTerm: '',
+          option: selectedType.value,
+          dateTerm: selectedDuration.value,
           startDate: '',
           endDate: '',
           Auth: userState.AUTHORITY
@@ -81,7 +86,7 @@ export default defineComponent({
         }
 
         const result = await RawDataStoreModule.getRawDataList({
-          type: type,
+          type: `get${type}`,
           params
         });
 
@@ -95,10 +100,7 @@ export default defineComponent({
 
     // Fetch the data on component mount
     onMounted(() => {
-      const type = route.query.type
-        ?.toString()
-        .replace(/^[a-z]/, (char) => char.toUpperCase());
-      fetchData(`get${type}`);
+      fetchData();
     });
 
     return {
@@ -114,7 +116,9 @@ export default defineComponent({
       total,
       current,
       pageSize: state.pageSizeOptions[0],
-      paginationConfig
+      paginationConfig,
+
+      fetchData
     };
   },
   data() {
@@ -188,9 +192,9 @@ export default defineComponent({
     </div>
 
     <div class="content-position-title">
-      <span class="pos1"
-        >{{ `${$route.query.pos1} ${$route.query.pos2}` }}&nbsp;</span
-      >
+      <span class="pos1">
+        {{ `${$route.query.pos1} ${$route.query.pos2}` }}&nbsp;
+      </span>
       <span class="pos2">{{ $route.query.pos4 }}</span>
     </div>
   </div>
@@ -213,7 +217,10 @@ export default defineComponent({
               v-model="selectIndex" />
           </a-col>
           <a-col>
-            <ButtonGroup :columns="columns" :dataSource="dataSource" />
+            <ButtonGroup
+              :columns="columns"
+              :dataSource="dataSource"
+              :onSubmit="fetchData" />
           </a-col>
         </a-row>
       </a-col>
@@ -251,7 +258,10 @@ export default defineComponent({
         v-model="selectIndex" />
     </a-col>
     <a-col>
-      <ButtonGroup :columns="columns" :dataSource="dataSource" />
+      <ButtonGroup
+        :columns="columns"
+        :dataSource="dataSource"
+        :onSubmit="fetchData" />
     </a-col>
   </a-row>
 </template>

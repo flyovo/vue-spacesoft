@@ -16,6 +16,10 @@ export default defineComponent({
       type: Array as () => IColumn[],
       required: true
     },
+    onSubmit: {
+      type: Function,
+      required: true
+    },
     fileName: {
       type: String,
       default: 'data.xlsx'
@@ -43,7 +47,9 @@ export default defineComponent({
 <template>
   <a-row :gutter="[8, 0]" justify="center" align="middle">
     <a-col>
-      <a-button class="button-search button-text">데이터 조회</a-button>
+      <a-button class="button-search button-text" @click="onSubmit">
+        데이터 조회
+      </a-button>
     </a-col>
     <a-col>
       <a-button class="button-excel button-text" @click="downloadExcel">
