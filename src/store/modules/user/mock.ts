@@ -4,7 +4,7 @@ export const USER_INFO: UserState = {
   AUTHORITY: 'A',
   USER_ID: 'USER_ID',
   USER_NM: '사용자 A',
-  site: '',
+  site: '사이트',
   POS_1: '본관',
   POS_4: '원무과'
 };
