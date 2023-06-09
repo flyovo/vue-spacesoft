@@ -3,10 +3,10 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { HalfDoughnutChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
-import {
+import type {
   QsWaitAvgTime,
   QsWaitAvgCount
-} from '../../store/modules/dashboard/type';
+} from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'DailyAvgWaitCnt',
@@ -31,7 +31,7 @@ export default defineComponent({
       try {
         const result = await DashboardStoreModule.getDashboard({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         });
 
         const dataResult = result?.map(
@@ -52,7 +52,7 @@ export default defineComponent({
 
     // Fetch the data on component mount
     onMounted(() => {
-      fetchData('qs_wait_avg_cnt');
+      fetchData('qswaitavgcnt');
     });
 
     return {

@@ -30,15 +30,15 @@ class UserStore extends VuexModule implements UserStoreState {
 
   @Action({ rawError: true })
   public getUser(payload: { type: string; date: Date }) {
-    const data = cloneDeep(USER_MOCK[payload.type]);
-    // const data = getUserData(payload.type);
-
-    // this.SET_CHANGE_VALUE({
-    //   key: `user_${payload.type}`,
-    //   value: data
-    // });
-
     return new Promise((resolve, reject) => {
+      const data = cloneDeep(USER_MOCK[payload.type]);
+      // const data = getUserData(payload);
+
+      // this.SET_CHANGE_VALUE({
+      //   key: `user_${payload.type}`,
+      //   value: data
+      // });
+
       resolve(data); // Resolve the promise with the received data
     });
   }

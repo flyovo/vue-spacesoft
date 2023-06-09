@@ -3,7 +3,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { DoughnutChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
-import { OpAndPos } from '@/store/modules/dashboard/type';
+import type { OpAndPos } from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'KioskByType',
@@ -19,7 +19,7 @@ export default defineComponent({
       try {
         const result = (await DashboardStoreModule.getDashboard({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         })) as OpAndPos[];
 
         const labels: string[] = [];
@@ -41,7 +41,7 @@ export default defineComponent({
 
     // Fetch the data on component mount
     onMounted(() => {
-      fetchData('op_prog_cnt');
+      fetchData('opProgCnt');
     });
 
     return {

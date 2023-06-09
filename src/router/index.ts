@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login.vue';
+import Login from '@/views/Login.vue';
 import {
   DeviceManagement,
   AutoShutdownSettings,
   ManagingAccounts
-} from '../views/HeaderContent';
-import { RawData, Statistics, Home } from '../views/Content';
-import Layout from '../views/Layout.vue';
+} from '@/views/HeaderContent';
+import { RawData, Statistics, Home } from '@/views/Content';
+import Layout from '@/views/Layout.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

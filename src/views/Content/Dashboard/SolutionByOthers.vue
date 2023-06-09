@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { LineChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
 import dayjs from 'dayjs';
-import { ChartDataByMonth } from '@/store/modules/dashboard/type';
+import type { ChartDataByMonth } from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'SolutionByOthers',
@@ -31,7 +31,7 @@ export default defineComponent({
       try {
         const result = (await DashboardStoreModule.getDashboard({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         })) as ChartDataByMonth[];
 
         const labels = [];

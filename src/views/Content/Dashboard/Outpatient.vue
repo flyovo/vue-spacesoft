@@ -22,7 +22,7 @@ export default defineComponent({
       try {
         return await DashboardStoreModule.getDashboard({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         });
       } catch (error) {
         console.error(error);
@@ -32,9 +32,9 @@ export default defineComponent({
     // Fetch the data on component mount
     onMounted(() => {
       Promise.all([
-        fetchData('sunap_monthly_cnt'),
-        fetchData('cert_monthly_cnt'),
-        fetchData('qs_monthly_cnt')
+        fetchData('SunapMonthlyCnt'),
+        fetchData('certMonthlyCnt'),
+        fetchData('qsMonthlyCnt')
       ]).then((values) => {
         for (const key in values[0][0]) {
           labels.push(

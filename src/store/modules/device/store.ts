@@ -30,13 +30,13 @@ class DeviceStore extends VuexModule implements DeviceStoreState {
   }
 
   @Action({ rawError: true })
-  public getDevice(payload: { type: string; date: Date }) {
-    const data = cloneDeep(DEVICE_MOCK[payload.type]);
-
-    // API 호출
-    // const data = getDevice(payload.type);
-
+  public getDevice(payload: { type: string; params: { date: Date } }) {
     return new Promise((resolve, reject) => {
+      const data = cloneDeep(DEVICE_MOCK[payload.type]);
+
+      // API 호출
+      // const data = getDevice(payload);
+
       resolve(data); // Resolve the promise with the received data
     });
   }

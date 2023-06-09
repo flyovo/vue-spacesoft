@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { VerticalBarChart } from '@/components/Dashboard';
 import { DashboardStoreModule } from '@/store/modules/dashboard/store';
 import dayjs from 'dayjs';
-import { ChartDataByMonth } from '@/store/modules/dashboard/type';
+import type { ChartDataByMonth } from '@/store/modules/dashboard/type';
 
 export default defineComponent({
   name: 'SolutionByOverall',
@@ -30,18 +30,18 @@ export default defineComponent({
     const fetchData = async (type: string) => {
       return (await DashboardStoreModule.getDashboard({
         type: type,
-        date: new Date()
+        params: { date: new Date() }
       })) as ChartDataByMonth[];
     };
 
     // Fetch the data on component mount
     onMounted(() => {
       Promise.all([
-        fetchData('sunap_monthly_cnt'),
-        fetchData('cert_monthly_cnt'),
-        fetchData('qs_monthly_cnt'),
-        fetchData('arrive_monthly_cnt'),
-        fetchData('phy_monthly_cnt')
+        fetchData('SunapMonthlyCnt'),
+        fetchData('certMonthlyCnt'),
+        fetchData('qsMonthlyCnt'),
+        fetchData('arriveMonthlyCnt'),
+        fetchData('phyMonthlyCnt')
       ]).then((values) => {
         const thisMonth = totalMonthCount - totalMonthCount;
         sunap_monthly_cnt.value = values[0][0];

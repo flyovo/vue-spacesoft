@@ -4,7 +4,7 @@ import {
   RuleObject,
   ValidateErrorEntity
 } from 'ant-design-vue/es/form/interface';
-import Logo from '../Logo/index.vue';
+import Logo from '@/components/Logo/index.vue';
 import { useStore } from 'vuex';
 import { UserStoreModule } from '@/store/modules/user/store';
 import router from '@/router';

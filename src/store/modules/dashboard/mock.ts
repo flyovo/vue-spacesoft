@@ -339,17 +339,17 @@ const POS2_COUNT: OpAndPos[] = [
 ];
 
 export const DASHBOARD_MOCK: MockType = {
-  sunap_monthly_cnt: SUNAP_MONTHLY_COUNT,
-  cert_monthly_cnt: CERT_MONTHLY_COUNT_CERT,
-  qs_monthly_cnt: QS_MONTHLY_COUNT,
-  arrive_monthly_cnt: ARRIVE_MONTHLY_COUNT,
-  phy_monthly_cnt: PHY_MONTHLY_COUNT,
+  SunapMonthlyCnt: SUNAP_MONTHLY_COUNT,
+  certMonthlyCnt: CERT_MONTHLY_COUNT_CERT,
+  qsMonthlyCnt: QS_MONTHLY_COUNT,
+  arriveMonthlyCnt: ARRIVE_MONTHLY_COUNT,
+  phyMonthlyCnt: PHY_MONTHLY_COUNT,
 
-  qs_issue_cnt: QS_ISSUE_COUNT,
-  qs_wait_avg_cnt: QS_WAIT_AVG_COUNT,
-  qs_wait_avg_time: QS_WAIT_AVG_TIME,
+  qsissuecnt: QS_ISSUE_COUNT,
+  qswaitavgcnt: QS_WAIT_AVG_COUNT,
+  qswaitavgtime: QS_WAIT_AVG_TIME,
 
-  op_prog_cnt: OP_PROG_COUNT,
-  pos1_cnt: POS1_COUNT,
-  pos2_cnt: POS2_COUNT
+  opProgCnt: OP_PROG_COUNT,
+  pos1Cnt: POS1_COUNT,
+  pos2Cnt: POS2_COUNT
 };

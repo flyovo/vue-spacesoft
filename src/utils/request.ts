@@ -77,7 +77,7 @@ service.interceptors.response.use(
       );
     }
 
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('spacesoft-userState');
     if (token === '' || !token) {
       MessageService.notiError('토큰 불일치 또는 만료');
       // sessionStorage.removeItem('userId')

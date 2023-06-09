@@ -4,6 +4,5 @@ import request from '@/utils/request';
 export const getWisdomData = (data: any) =>
   request({
     url: `wisdom/${data.type}`,
-    method: 'get',
-    data
+    method: 'get'
   });

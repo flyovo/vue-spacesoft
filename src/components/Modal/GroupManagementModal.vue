@@ -22,7 +22,7 @@ export default defineComponent({
       try {
         const result = (await DeviceStoreModule.getDevice({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         })) as DevPosList[];
 
         dataSource.value = result;

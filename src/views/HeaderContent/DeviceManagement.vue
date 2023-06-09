@@ -33,7 +33,7 @@ export default defineComponent({
       try {
         const result = await DeviceStoreModule.getDevice({
           type: type,
-          date: new Date()
+          params: { date: new Date() }
         });
 
         deviceDataSource.value = result;

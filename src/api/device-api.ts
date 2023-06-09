@@ -8,7 +8,7 @@ export const getDevice = (data: any) =>
   request({
     url: `/dev/${data.type}`,
     method: 'get',
-    params: data
+    params: data.params
   });
 
 /*
