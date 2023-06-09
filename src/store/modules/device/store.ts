@@ -51,17 +51,17 @@ class DeviceStore extends VuexModule implements DeviceStoreState {
     type: DevPosType;
     value: { idx: number | string | undefined; name: string };
   }) {
-    const body = {
-      bAdd,
-      type,
-      value
-    };
-
-    // API 호출
-    // const { data, resultCd } = await updateDevice(body);
-
-    // if (resultCd === 200) {
     return new Promise((resolve) => {
+      const body = {
+        bAdd,
+        type,
+        value
+      };
+
+      // API 호출
+      // const { data, resultCd } = await updateDevice(body);
+
+      // if (resultCd === 200) {
       resolve(200);
     });
     // }
@@ -75,17 +75,17 @@ class DeviceStore extends VuexModule implements DeviceStoreState {
     check: boolean;
     value: { idx: number | string | undefined; name: string; type: DevPosType };
   }) {
-    const body = {
-      check,
-      value
-    };
-
-    // API 호출
-    // const { data, resultCd } = await deleteDevice(body);
-
-    // 442 예외처리 필요
-
     return new Promise((resolve) => {
+      const body = {
+        check,
+        value
+      };
+
+      // API 호출
+      // const { data, resultCd } = await deleteDevice(body);
+
+      // 442 예외처리 필요
+
       // resolve(data.status); //442 전달하는지..?
       resolve(check ? 442 : 200); // 테스트용으로 수정 필요
     });

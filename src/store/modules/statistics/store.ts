@@ -49,11 +49,11 @@ class StatisticsStore extends VuexModule implements StatisticsStoreState {
 
   @Action({ rawError: true })
   public getStatistics(payload: { type: string; params: any }) {
-    const data = cloneDeep(STATISTICS_MOCK[payload.type]);
-    console.log(payload);
-    // const data = getStatisticsData(payload);
-
     return new Promise((resolve, reject) => {
+      const data = cloneDeep(STATISTICS_MOCK[payload.type]);
+      // const data = getStatisticsData(payload);
+      console.log(payload);
+
       resolve(data); // Resolve the promise with the received data
     });
   }
