@@ -19,7 +19,7 @@ const service = axios.create({
   withCredentials: true,
   baseURL: `http://${import.meta.env.VITE_APP_SERVER_API}:${
     import.meta.env.VITE_APP_SERVER_PORT
-  }/api`,
+  }`,
   timeout: 10000
 });
 
