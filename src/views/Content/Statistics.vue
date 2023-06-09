@@ -1,5 +1,12 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, onMounted } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  ref,
+  toRefs,
+  onMounted,
+  computed
+} from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
 import { statisticsColumns } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
@@ -9,6 +16,8 @@ import { labelByNavType } from '@/components/Layout/constants';
 import { useRoute } from 'vue-router';
 import { UserStoreModule } from '@/store/modules/user/store';
 import { StatisticsStoreModule } from '@/store/modules/statistics/store';
+import { termByType } from '@/utils/format';
+import dayjs from 'dayjs';
 
 export default defineComponent({
   name: 'Statistics',
@@ -25,17 +34,17 @@ export default defineComponent({
     const state = reactive({
       pageSizeOptions: [15, 30, 50],
       selectedDate: [
-        new Date(),
-        new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000)
+        new Date(new Date().getTime() - 9 * 24 * 60 * 60 * 1000),
+        new Date()
       ],
       durationButtons: [
         { value: 'all', label: '전체 날짜' },
-        { value: 'thisMonth', label: '당월' },
-        { value: 'oneMonth', label: '1 개월' },
-        { value: 'twoMonth', label: '2 개월' },
-        { value: 'threeMonth', label: '3 개월' },
+        { value: 'monthly', label: '당월' },
+        { value: 'monthly-1', label: '1 개월' },
+        { value: 'monthly-2', label: '2 개월' },
+        { value: 'monthly-3', label: '3 개월' },
         { value: 'yearly', label: '연간 조회' },
-        { value: 'custom', label: '기간 조회' }
+        { value: 'term', label: '기간 조회' }
       ],
       typeButtons: [
         { value: 'all', label: '수납 전체' },
@@ -49,6 +58,11 @@ export default defineComponent({
 
     const selectedDuration = ref('all');
     const selectedType = ref('all');
+
+    const term = ref({
+      startDate: '',
+      endDate: ''
+    });
 
     const current = ref(1);
     const total = ref(dataSource.value.length);
@@ -68,6 +82,11 @@ export default defineComponent({
         char.toUpperCase()
       );
 
+      let dateTerm = /-/.test(selectedDuration.value)
+        ? selectedDuration.value.slice(0, -2)
+        : selectedDuration.value;
+      term.value = termByType(selectedDuration.value, state.selectedDate);
+
       try {
         const params = {
           site: userState.site,
@@ -75,9 +94,9 @@ export default defineComponent({
           pos_2: '',
           pos_3: '',
           option: selectedType.value,
-          dateTerm: selectedDuration.value,
-          startDate: '',
-          endDate: '',
+          dateTerm,
+          startDate: term.value.startDate,
+          endDate: term.value.endDate,
           Auth: userState.AUTHORITY
         };
 
@@ -103,12 +122,20 @@ export default defineComponent({
       fetchData();
     });
 
+    const formattedDates = computed(() => {
+      const startDate = dayjs(term.value.startDate).format('YYYY년 MM월 DD일');
+      const endDate = dayjs(term.value.endDate).format('YYYY년 MM월 DD일');
+      return `${startDate} ~ ${endDate}`;
+    });
+
     return {
       ...toRefs(state),
       labelByNavType,
 
       selectedDuration,
       selectedType,
+
+      formattedDates,
 
       dataSource,
       columns,
@@ -178,7 +205,7 @@ export default defineComponent({
           range
           v-model="selectedDate"
           lang="ko"
-          :disabled="selectedDuration !== 'custom'" />
+          :disabled="selectedDuration !== 'term'" />
       </div>
 
       <div class="button-group" :style="{ marginBottom: '18px' }">
@@ -212,7 +239,7 @@ export default defineComponent({
       <a-col>
         <span :style="{ color: '#6b7082' }">
           <CalendarTwoTone twoToneColor="#6b7082" />
-          2022년 07월 29일 ~ 2023 03월 31일
+          {{ formattedDates }}
         </span>
       </a-col>
       <a-col>
