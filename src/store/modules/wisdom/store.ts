@@ -32,8 +32,8 @@ class WisdomStore extends VuexModule implements WisdomStoreState {
   @Action({ rawError: true })
   public getWisdom(payload: { type: string; date: Date }) {
     return new Promise((resolve, reject) => {
-      const data = cloneDeep(WISDOM_MOCK[payload.type]);
-      // const data = getWisdomData(payload);
+      const data = getWisdomData(payload);
+      // const data = cloneDeep(WISDOM_MOCK[payload.type]);
 
       // this.SET_CHANGE_VALUE({
       //   key: `wisdom_${payload.type}`,
