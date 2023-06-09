@@ -78,6 +78,6 @@ type MockType = {
 };
 
 export const STATISTICS_MOCK: MockType = {
-  get_week_sunap_cnt: WEEK_SUNAP_CNT,
+  getWeekSunapCnt: WEEK_SUNAP_CNT,
   getOutSunapCnt: OUT_SUNAP_CNT
 };
