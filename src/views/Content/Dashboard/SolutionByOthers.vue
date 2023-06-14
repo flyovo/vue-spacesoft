@@ -19,18 +19,18 @@ export default defineComponent({
     const dataSource = ref({ labels: [], data: [], title: '' });
 
     const labelByType: { [key: string]: string } = {
-      sunap_monthly_cnt: '수납기',
-      cert_monthly_cnt: '제증명',
-      qs_monthly_cnt: '순번발권',
-      arrive_monthly_cnt: '도착확인',
-      phy_monthly_cnt: '신체계측'
+      SunapMonthlyCnt: '수납기',
+      certMonthlyCnt: '제증명',
+      qsMonthlyCnt: '순번발권',
+      arriveMonthlyCnt: '도착확인',
+      phyMonthlyCnt: '신체계측'
     };
 
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       try {
         const result = (await DashboardStoreModule.getDashboard({
-          type: type,
+          type,
           params: { date: new Date() }
         })) as ChartDataByMonth[];
 
@@ -53,9 +53,9 @@ export default defineComponent({
     };
 
     // Fetch the data on component mount
-    onMounted(() => {
-      fetchData(props.type);
-    });
+    // onMounted(() => {
+    //   fetchData(props.type);
+    // });
 
     watchEffect(async () => {
       fetchData(props.type);

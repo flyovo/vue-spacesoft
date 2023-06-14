@@ -40,20 +40,20 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const selectedDuration = ref('all');
+    const selectedType = ref('all');
 
     // Fetch the data on component mount
     onMounted(() => {});
 
     return {
-      selectedDuration,
-      durationButtons: [
+      selectedType,
+      typeButtons: [
         { value: 'all', label: '전체 날짜' },
-        { value: 'sunap_monthly_cnt', label: '수납기' },
-        { value: 'cert_monthly_cnt', label: '제증명' },
-        { value: 'qs_monthly_cnt', label: '순번발권' },
-        { value: 'arrive_monthly_cnt', label: '도착확인' },
-        { value: 'phy_monthly_cnt', label: '신체계측' }
+        { value: 'SunapMonthlyCnt', label: '수납기' },
+        { value: 'certMonthlyCnt', label: '제증명' },
+        { value: 'qsMonthlyCnt', label: '순번발권' },
+        { value: 'arriveMonthlyCnt', label: '도착확인' },
+        { value: 'phyMonthlyCnt', label: '신체계측' }
       ],
       date: new Date()
     };
@@ -67,19 +67,17 @@ export default defineComponent({
     <a-row :gutter="[0, 10]">
       <a-col :span="24" class="dashboard-box">
         <div class="dashboard-box-title">
-          <a-radio-group v-model:value="selectedDuration" button-style="solid">
+          <a-radio-group v-model:value="selectedType" button-style="solid">
             <a-radio-button
-              v-for="(button, index) in durationButtons"
+              v-for="(button, index) in typeButtons"
               :key="index"
               :value="button.value">
               {{ button.label }}
             </a-radio-button>
           </a-radio-group>
         </div>
-        <SolutionByOverall
-          class="row-first"
-          v-if="selectedDuration === 'all'" />
-        <SolutionByOthers class="row-first" v-else :type="selectedDuration" />
+        <SolutionByOverall class="row-first" v-if="selectedType === 'all'" />
+        <SolutionByOthers class="row-first" v-else :type="selectedType" />
       </a-col>
     </a-row>
 
