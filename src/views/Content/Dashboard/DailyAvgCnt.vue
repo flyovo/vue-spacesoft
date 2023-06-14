@@ -20,8 +20,8 @@ export default defineComponent({
     const fetchData = async (type: string) => {
       try {
         const result = await StatisticsStoreModule.getStatistics({
-          type: type,
-          date: new Date()
+          type,
+          params: { date: new Date() }
         });
 
         const data = [];

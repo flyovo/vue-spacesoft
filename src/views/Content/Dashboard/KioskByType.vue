@@ -18,7 +18,7 @@ export default defineComponent({
     const fetchData = async (type: string) => {
       try {
         const result = (await DashboardStoreModule.getDashboard({
-          type: type,
+          type,
           params: { date: new Date() }
         })) as OpAndPos[];
 

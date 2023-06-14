@@ -29,7 +29,7 @@ export default defineComponent({
     // Fetch the data and update the reactive properties
     const fetchData = async (type: string) => {
       return (await DashboardStoreModule.getDashboard({
-        type: type,
+        type,
         params: { date: new Date() }
       })) as ChartDataByMonth[];
     };

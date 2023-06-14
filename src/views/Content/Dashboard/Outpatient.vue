@@ -21,7 +21,7 @@ export default defineComponent({
     const fetchData = async (type: string) => {
       try {
         return await DashboardStoreModule.getDashboard({
-          type: type,
+          type,
           params: { date: new Date() }
         });
       } catch (error) {

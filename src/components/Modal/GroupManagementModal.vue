@@ -21,7 +21,7 @@ export default defineComponent({
     const fetchData = async (type: string) => {
       try {
         const result = (await DeviceStoreModule.getDevice({
-          type: type,
+          type,
           params: { date: new Date() }
         })) as DevPosList[];
 
