@@ -79,6 +79,7 @@ export default defineComponent({
       },
       rotation: -90,
       circumference: 180,
+      cutout: '80%',
       plugins: {
         legend: {
           position: 'bottom',
