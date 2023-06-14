@@ -20,8 +20,9 @@
 import { defineComponent, ref, watchEffect } from 'vue';
 import { BarChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'VerticalBarChart',
@@ -38,7 +39,11 @@ export default defineComponent({
         '도착확인',
         '신체계측'
       ] as string[],
-      datasets: [] as { label: any; data: any; backgroundColor: string }[]
+      datasets: [] as {
+        label: any;
+        data: any;
+        backgroundColor: string;
+      }[]
     });
 
     const dataColorSet = ref(['#ff8db0', '#78bcee', '#f8df7c']);
@@ -74,12 +79,26 @@ export default defineComponent({
       responsive: true,
       maintainAspectRatio: true,
       height: '100%',
+      barPercentage: 0.6,
+      categoryPercentage: 0.6,
       plugins: {
         legend: {
           display: false
-          // position: 'top',
-          // align: 'start',
-          // fullSize: true
+        },
+        datalabels: {
+          display: true,
+          color: 'black',
+          anchor: 'end',
+          align: 'top',
+          formatter: function (value: string) {
+            return value;
+          }
+        }
+      },
+      scales: {
+        x: {
+          display: false,
+          gridLines: { display: false }
         }
       }
     };
