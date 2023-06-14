@@ -38,7 +38,7 @@ export default defineComponent({
 
     // Fetch the data on component mount
     onMounted(() => {
-      fetchData('get_week_sunap_cnt');
+      fetchData('getWeekSunapCnt');
     });
 
     return {
