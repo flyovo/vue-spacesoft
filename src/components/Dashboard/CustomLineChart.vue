@@ -20,8 +20,9 @@
 import { defineComponent, ref, watchEffect } from 'vue';
 import { LineChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'CustomLineChart',
@@ -70,13 +71,9 @@ export default defineComponent({
       plugins: {
         legend: {
           display: false
-          // position: 'top',
-          // align: 'start',
-          // labels: {
-          //   usePointStyle: true,
-          //   pointStyleWidth: 10,
-          //   maxHeight: 10
-          // }
+        },
+        datalabels: {
+          display: false
         }
       },
       scales: {

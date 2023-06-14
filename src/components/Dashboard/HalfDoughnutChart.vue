@@ -22,8 +22,9 @@ import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
 import chroma from 'chroma-js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'HalfDoughnutChart',
@@ -82,12 +83,10 @@ export default defineComponent({
         legend: {
           position: 'bottom',
           display: false
+        },
+        datalabels: {
+          display: false
         }
-        // legend: {
-        //   position: 'bottom',
-        //   align: 'start',
-        //   fullSize: true
-        // }
       }
     };
 

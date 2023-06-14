@@ -86,7 +86,6 @@ export default defineComponent({
           display: false
         },
         datalabels: {
-          display: true,
           color: 'black',
           anchor: 'end',
           align: 'top',

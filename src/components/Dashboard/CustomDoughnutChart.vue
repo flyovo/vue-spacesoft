@@ -7,8 +7,9 @@ import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
 import chroma from 'chroma-js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'CustomDoughnutChart',
@@ -51,13 +52,12 @@ export default defineComponent({
           text: props.dataSource?.title
         },
         datalabels: {
-          display: true,
           color: '#fff',
-          anchor: 'center', // Label anchor position
-          align: 'center', // Label text alignment
+          anchor: 'center',
+          align: 'center',
           font: {
-            size: 13, // Label font size
-            weight: 300 // Label font weight
+            size: 13,
+            weight: 350
           },
           formatter: (
             val: any,
