@@ -19,10 +19,6 @@
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
 import { BarChart } from 'vue-chart-3';
-import { Chart, registerables } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'VerticalBarChart',

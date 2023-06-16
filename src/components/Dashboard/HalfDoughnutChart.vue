@@ -1,5 +1,9 @@
 <template>
-  <DoughnutChart :chartData="chartData" :options="chartOptions" :height="250" />
+  <DoughnutChart
+    :chartData="chartData"
+    :options="chartOptions"
+    :plugins="chartPlugins"
+    :height="250" />
   <div class="custom-legend">
     <div v-for="(label, index) in labels" :key="index">
       <div class="label">
@@ -20,11 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
-import { Chart, registerables } from 'chart.js';
 import chroma from 'chroma-js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'HalfDoughnutChart',
@@ -91,7 +91,42 @@ export default defineComponent({
       }
     };
 
-    return { chartData, chartOptions, labels, data, dataColorSet };
+    const doughnutLabel = {
+      id: 'halfDoughnutLabel',
+      afterDatasetsDraw: function (chart) {
+        var width = chart.width,
+          height = chart.height,
+          ctx = chart.ctx;
+
+        ctx.restore();
+
+        const fontSize = Number((height / 150).toFixed(2));
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const textSub = `${data.value.reduce(
+          (a: number, b: number) => a + b,
+          0
+        )}대`;
+        const textSubX = width / 2;
+        const textSubY = height / 1.85 + 30;
+
+        ctx.font = fontSize / 2 + 'em sans-serif';
+        ctx.fillText(textSub, textSubX, textSubY);
+
+        ctx.save();
+      }
+    };
+    const chartPlugins = [doughnutLabel];
+
+    return {
+      chartData,
+      chartOptions,
+      chartPlugins,
+      labels,
+      data,
+      dataColorSet
+    };
   }
 });
 </script>

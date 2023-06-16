@@ -1,15 +1,13 @@
 <template>
-  <DoughnutChart :chartData="chartData" :options="chartOptions" />
+  <DoughnutChart
+    :chartData="chartData"
+    :options="chartOptions"
+    :plugins="chartPlugins" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
-import { Chart, registerables } from 'chart.js';
-import chroma from 'chroma-js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-Chart.register(...registerables, ChartDataLabels);
 
 export default defineComponent({
   name: 'CustomDoughnutChart',
@@ -35,6 +33,8 @@ export default defineComponent({
 
     const chartOptions = {
       height: '100%',
+      responsive: true,
+      maintainAspectRatio: true,
       layout: {
         padding: {
           left: 80,
@@ -70,18 +70,43 @@ export default defineComponent({
             return `${label}`;
           }
         }
-      },
-      responsive: true,
-      maintainAspectRatio: true,
-      elements: {
-        center: {
-          text: '90%',
-          color: '#FF6384',
-          fontStyle: 'Arial',
-          sidePadding: 0 // Defualt is 20 (as a percentage)
-        }
       }
     };
+
+    const doughnutLabel = {
+      id: 'doughnutLabel',
+      afterDatasetsDraw: function (chart) {
+        var width = chart.width,
+          height = chart.height,
+          ctx = chart.ctx;
+
+        ctx.restore();
+
+        const fontSize = Number((height / 150).toFixed(2));
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const textTitle = `${props.dataSource?.data.reduce(
+          (a: number, b: number) => a + b,
+          0
+        )}대`;
+        const textTitleX = width / 2;
+        const textTitleY = height / 1.85;
+
+        const textSub = '운영중';
+        const textSubX = width / 2;
+        const textSubY = height / 1.85 + 30;
+
+        ctx.font = fontSize + 'em sans-serif';
+        ctx.fillText(textTitle, textTitleX, textTitleY);
+
+        ctx.font = fontSize / 2 + 'em sans-serif';
+        ctx.fillText(textSub, textSubX, textSubY);
+
+        ctx.save();
+      }
+    };
+    const chartPlugins = [doughnutLabel];
 
     const backgroundColorSet = [
       '#b2b6c6',
@@ -103,7 +128,7 @@ export default defineComponent({
       };
     });
 
-    return { chartData, chartOptions };
+    return { chartData, chartOptions, chartPlugins };
   }
 });
 </script>
