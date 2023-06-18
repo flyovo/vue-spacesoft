@@ -5,7 +5,8 @@ import {
   ref,
   toRefs,
   onMounted,
-  computed
+  computed,
+  watch
 } from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
 import { statisticsColumns } from './constants';
@@ -121,6 +122,14 @@ export default defineComponent({
     onMounted(() => {
       fetchData();
     });
+
+    watch(
+      () => route.query,
+      (to, from) => {
+        selectedDuration.value = 'all';
+        selectedType.value = 'all';
+      }
+    );
 
     const formattedDates = computed(() => {
       const startDate = dayjs(term.value.startDate).format('YYYY년 MM월 DD일');
