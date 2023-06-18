@@ -188,9 +188,15 @@ export default defineComponent({
       labelByNavType[$route.query.type?.toString()]
     }}</a-breadcrumb-item>
     <a-breadcrumb-item>Raw 데이터</a-breadcrumb-item>
-    <a-breadcrumb-item>{{ $route.query.pos1 }}</a-breadcrumb-item>
-    <a-breadcrumb-item>{{ $route.query.pos2 }}</a-breadcrumb-item>
-    <a-breadcrumb-item>{{ $route.query.pos4 }}</a-breadcrumb-item>
+    <a-breadcrumb-item v-if="$route.query.pos1">
+      {{ $route.query.pos1 }}
+    </a-breadcrumb-item>
+    <a-breadcrumb-item v-if="$route.query.pos2">
+      {{ $route.query.pos2 }}
+    </a-breadcrumb-item>
+    <a-breadcrumb-item v-if="$route.query.pos4">
+      {{ $route.query.pos4 }}
+    </a-breadcrumb-item>
   </a-breadcrumb>
 
   <div class="content-header">
@@ -229,7 +235,8 @@ export default defineComponent({
 
     <div class="content-position-title">
       <span class="pos1">
-        {{ `${$route.query.pos1} ${$route.query.pos2}` }}&nbsp;
+        {{ $route.query.pos1 }}
+        {{ $route.query.pos2 && $route.query.pos2 }} &nbsp;
       </span>
       <span class="pos2">{{ $route.query.pos4 }}</span>
     </div>

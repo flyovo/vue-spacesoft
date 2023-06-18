@@ -109,26 +109,27 @@ export default defineComponent({
               type: menu.key
             }
           }"
-          :style="{
-            color: '#6c7780',
-            fontSize: '14px'
-          }"
           >통계
         </router-link>
       </a-menu-item>
       <a-sub-menu
         v-for="child in menu.children"
-        :key="`${menu.key}-${child.key}`"
-        :style="{
-          color: '#6c7780',
-          fontSize: '14px'
-        }">
+        :key="`${menu.key}-${child.key}`">
         <template #title>
           <component
             v-if="child.icon"
             :is="child.icon"
             :style="{ marginRight: '10px' }" />
-          {{ child.label }}
+          <router-link
+            :to="{
+              path: 'raw-data',
+              query: {
+                type: menu.key,
+                pos1: child.key
+              }
+            }"
+            >{{ child.label }}
+          </router-link>
         </template>
         <a-sub-menu
           v-for="child1 in child.children"
@@ -142,7 +143,17 @@ export default defineComponent({
               v-if="child1.icon"
               :is="child1.icon"
               :style="{ marginRight: '10px' }" />
-            {{ child1.label }}
+            <router-link
+              :to="{
+                path: 'raw-data',
+                query: {
+                  type: menu.key,
+                  pos1: child.key,
+                  pos2: child1.key
+                }
+              }"
+              >{{ child1.label }}
+            </router-link>
           </template>
           <a-menu-item
             v-for="child2 in child1.children"
@@ -170,4 +181,9 @@ export default defineComponent({
   </template>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+a {
+  color: #6c7780;
+  font-size: 14px;
+}
+</style>
