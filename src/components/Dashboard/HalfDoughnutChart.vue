@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from 'vue';
+import { defineComponent, PropType, ref, watchEffect } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import chroma from 'chroma-js';
 
@@ -30,7 +30,11 @@ export default defineComponent({
   name: 'HalfDoughnutChart',
   props: {
     color: { type: String, required: false, default: '#78bcee' },
-    dataSource: { type: Object, required: true, default: () => [] }
+    dataSource: { type: Object, required: true, default: () => [] },
+    imagePath: {
+      type: String as PropType<string>,
+      required: true
+    }
   },
   components: { DoughnutChart },
   setup(props) {
@@ -72,13 +76,13 @@ export default defineComponent({
       layout: {
         padding: {
           left: 20,
-          top: 0,
+          top: 10,
           right: 20,
-          bottom: 0
+          bottom: 10
         }
       },
-      rotation: -90,
-      circumference: 180,
+      rotation: 235,
+      circumference: 250,
       cutout: '80%',
       plugins: {
         legend: {
@@ -98,8 +102,6 @@ export default defineComponent({
           height = chart.height,
           ctx = chart.ctx;
 
-        ctx.restore();
-
         const fontSize = Number((height / 150).toFixed(2));
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -108,12 +110,29 @@ export default defineComponent({
           (a: number, b: number) => a + b,
           0
         )}대`;
-        const textSubX = width / 2;
-        const textSubY = height / 1.85 + 30;
+        const positionX = width / 2;
+        const positionY = height / 1.85;
 
-        ctx.font = fontSize / 2 + 'em sans-serif';
-        ctx.fillText(textSub, textSubX, textSubY);
+        ctx.font = fontSize + 'em sans-serif';
+        ctx.fillText(textSub, positionX, positionY + 30);
 
+        const image = new Image();
+        const imageWidth = 70; // Set the desired width
+        const imageHeight = 90;
+
+        image.onload = function () {
+          // Image loaded, draw it on the canvas
+          ctx.drawImage(
+            image,
+            positionX - imageWidth / 2,
+            positionY - imageHeight / 2 - 20,
+            imageWidth,
+            imageHeight
+          );
+        };
+        image.src = props.imagePath;
+
+        ctx.restore();
         ctx.save();
       }
     };

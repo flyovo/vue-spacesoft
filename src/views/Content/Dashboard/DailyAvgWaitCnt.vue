@@ -7,6 +7,7 @@ import type {
   QsWaitAvgTime,
   QsWaitAvgCount
 } from '@/store/modules/dashboard/type';
+import IconAccount from '@/assets/images/account.png';
 
 export default defineComponent({
   name: 'DailyAvgWaitCnt',
@@ -57,7 +58,8 @@ export default defineComponent({
 
     return {
       date: new Date(),
-      qs_wait_avg_cnt
+      qs_wait_avg_cnt,
+      IconAccount
     };
   },
   methods: {}
@@ -70,7 +72,8 @@ export default defineComponent({
     <HalfDoughnutChart
       :color="'#f1da80'"
       class="row-middle"
-      :dataSource="qs_wait_avg_cnt" />
+      :dataSource="qs_wait_avg_cnt"
+      :imagePath="IconAccount" />
   </div>
 </template>
 
