@@ -31,9 +31,8 @@ class RawDataStore extends VuexModule implements RawDataStoreState {
   @Action({ rawError: true })
   public getRawDataList(payload: { type: string; params: any }) {
     return new Promise((resolve, reject) => {
-      // const data = getRawData(payload);
-      const data = cloneDeep(RAWDATA_MOCK[payload.type]);
-      console.log(payload);
+      const data = getRawData(payload);
+      // const data = cloneDeep(RAWDATA_MOCK[payload.type]);
 
       resolve(data); // Resolve the promise with the received data
     });

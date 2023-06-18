@@ -34,13 +34,8 @@ class DashboardStore extends VuexModule implements DashboardStoreState {
   @Action({ rawError: true })
   public getDashboard(payload: { type: string; params: { date: Date } }) {
     return new Promise((resolve, reject) => {
-      // const data = getDashboardData(payload);
-      const data = cloneDeep(DASHBOARD_MOCK[payload.type]);
-
-      // this.SET_CHANGE_VALUE({
-      //   key: `dashboard_${payload.type}`,
-      //   value: data
-      // });
+      const data = getDashboardData(payload);
+      // const data = cloneDeep(DASHBOARD_MOCK[payload.type]);
 
       resolve(data); // Resolve the promise with the received data
     });
