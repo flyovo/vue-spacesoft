@@ -128,6 +128,7 @@ export default defineComponent({
       (to, from) => {
         selectedDuration.value = 'all';
         selectedType.value = 'all';
+        fetchData();
       }
     );
 
