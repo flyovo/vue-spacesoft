@@ -45,7 +45,7 @@ class UserStore extends VuexModule implements UserStoreState {
 
     return new Promise(async (resolve) => {
       // 로그인 API 연동 시 주석 해제
-      const { data, resultCd } = await login({ user_id, user_pwd });
+      const data = await login({ user_id, user_pwd });
 
       // 로그인 API 연동 시 주석
       // const data = cloneDeep(USER_MOCK.user);
@@ -60,16 +60,6 @@ class UserStore extends VuexModule implements UserStoreState {
         }
       });
 
-      sessionStorage.setItem(
-        'spacesoft-userState',
-        JSON.stringify({
-          authority: data.AUTHORITY,
-          user_name: data.USER_NM,
-          site: data.site,
-          pos_1: data.POS_1,
-          pos_4: data.POS_4
-        })
-      );
       // 로그인 API 연동 시 주석 해제
       // if (resultCd === 200) {
       resolve(200);

@@ -59,29 +59,23 @@ service.interceptors.response.use(
   (response) => {
     // loading.close();
 
-    if (response.data.token) {
-      console.log(response.data.data);
-      sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('spacesoft-userId', response.data.data.user_id);
-      sessionStorage.setItem(
-        'spacesoft-userAuth',
-        response.data.data.authority
-      );
+    if (response.data.USER_ID) {
       sessionStorage.setItem(
         'spacesoft-userState',
         JSON.stringify({
-          site: response.data.data.site,
-          organ: response.data.data.organ,
-          pos_4: response.data.data.pos_4
+          authority: response.data.AUTHORITY,
+          user_name: response.data.USER_NM,
+          site: response.data.site,
+          organ: response.data.organ,
+          pos_4: response.data.pos_4
         })
       );
+      return response.data;
     }
 
     const token = sessionStorage.getItem('spacesoft-userState');
     if (token === '' || !token) {
       MessageService.notiError('토큰 불일치 또는 만료');
-      // sessionStorage.removeItem('userId')
-      // sessionStorage.removeItem('token')
       router.push(`/login`);
     }
 
