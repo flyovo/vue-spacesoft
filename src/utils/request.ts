@@ -66,7 +66,6 @@ service.interceptors.response.use(
           authority: response.data.AUTHORITY,
           user_name: response.data.USER_NM,
           site: response.data.site,
-          organ: response.data.organ,
           pos_4: response.data.pos_4
         })
       );
