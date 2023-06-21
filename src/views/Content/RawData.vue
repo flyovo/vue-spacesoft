@@ -9,7 +9,7 @@ import {
   watch
 } from 'vue';
 import { CalendarTwoTone } from '@ant-design/icons-vue';
-import { rawDataColumns } from './constants';
+import { rawDataColumns, statisticsColumns } from './constants';
 import VueDatepickerUi from 'vue-datepicker-ui';
 import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 import { PageSizeChanger, ButtonGroup } from '@/components/Pagination';
@@ -19,6 +19,8 @@ import { useRoute } from 'vue-router';
 import { UserStoreModule } from '@/store/modules/user/store';
 import { termByType } from '@/utils/format';
 import dayjs from 'dayjs';
+
+type buttons = { [key: string]: { value: string; label: string }[] };
 
 export default defineComponent({
   name: 'RawData',
@@ -47,15 +49,18 @@ export default defineComponent({
         { value: 'yearly', label: '연간 조회' },
         { value: 'term', label: '기간 조회' }
       ],
-      typeButtons: [
-        { value: 'all', label: '수납 전체' },
-        { value: 'outpatient', label: '외래 수납' },
-        { value: 'interim', label: '중간금/퇴원 수납' }
-      ]
+      typeButtons: {
+        sunap: [
+          { value: 'all', label: '수납 전체' },
+          { value: 'outpatient', label: '외래 수납' },
+          { value: 'interim', label: '중간금/퇴원 수납' }
+        ],
+        cert: [{ value: 'all', label: '전체' }]
+      } as buttons
     });
 
     const dataSource = ref([]);
-    const columns = rawDataColumns;
+    const columns = ref(rawDataColumns);
 
     const selectedDuration = ref('all');
     const selectedType = ref('all');
@@ -128,6 +133,8 @@ export default defineComponent({
       (to, from) => {
         selectedDuration.value = 'all';
         selectedType.value = 'all';
+        columns.value =
+          route.query.type === 'sunap' ? rawDataColumns : statisticsColumns;
         fetchData();
       }
     );
@@ -167,6 +174,12 @@ export default defineComponent({
     selectIndex(newValue: number) {
       this.pageSize = this.pageSizeOptions[newValue];
       this.paginationConfig.current = 1;
+    }
+  },
+  computed: {
+    computedTypeButtons() {
+      const type = this.$route.query.type?.toString() ?? 'sunap';
+      return this.typeButtons[type] || [];
     }
   },
   methods: {
@@ -224,7 +237,7 @@ export default defineComponent({
         <a-typography>수납 타입 선택</a-typography>
         <a-radio-group v-model:value="selectedType" button-style="solid">
           <a-radio-button
-            v-for="(button, index) in typeButtons"
+            v-for="(button, index) in computedTypeButtons"
             :key="index"
             :value="button.value"
             @click="handleTypeButtonClick(button)">
